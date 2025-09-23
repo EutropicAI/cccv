@@ -2,8 +2,7 @@ import cv2
 
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.model import SRBaseModel
-
-from .util import (
+from tests.util import (
     ASSETS_PATH,
     CCCV_DEVICE,
     CCCV_FP16,
@@ -14,14 +13,14 @@ from .util import (
 )
 
 
-class Test_SRCNN:
-    def test_official(self) -> None:
+class Test_EDSR:
+    def test_official_M(self) -> None:
         img1 = load_image()
 
         for k in [
-            ConfigType.SRCNN_2x,
-            ConfigType.SRCNN_3x,
-            ConfigType.SRCNN_4x,
+            ConfigType.EDSR_Mx2_f64b16_DIV2K_official_2x,
+            ConfigType.EDSR_Mx3_f64b16_DIV2K_official_3x,
+            ConfigType.EDSR_Mx4_f64b16_DIV2K_official_4x,
         ]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)

@@ -2,8 +2,7 @@ import cv2
 
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.model import SRBaseModel
-
-from .util import (
+from tests.util import (
     ASSETS_PATH,
     CCCV_DEVICE,
     CCCV_TILE,

@@ -4,8 +4,7 @@ import pytest
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.config import RealCUGANConfig
 from cccv.model import SRBaseModel
-
-from .util import (
+from tests.util import (
     ASSETS_PATH,
     CCCV_DEVICE,
     CCCV_FP16,

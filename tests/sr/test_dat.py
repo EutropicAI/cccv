@@ -3,10 +3,10 @@ import pytest
 
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.model import SRBaseModel
-
-from .util import (
+from tests.util import (
     ASSETS_PATH,
     CCCV_DEVICE,
+    CCCV_TILE,
     CI_ENV,
     calculate_image_similarity,
     compare_image_size,
@@ -14,18 +14,18 @@ from .util import (
 )
 
 
-class Test_HAT:
+class Test_DAT:
     def test_official_light(self) -> None:
         img1 = load_image()
 
         for k in [
-            ConfigType.HAT_S_2x,
-            ConfigType.HAT_S_3x,
-            ConfigType.HAT_S_4x,
+            ConfigType.DAT_light_2x,
+            ConfigType.DAT_light_3x,
+            ConfigType.DAT_light_4x,
         ]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False)
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False, tile=CCCV_TILE)
             print(model.device)
 
             img2 = model.inference_image(img1)
@@ -39,24 +39,19 @@ class Test_HAT:
         img1 = load_image()
 
         for k in [
-            ConfigType.HAT_S_2x,
-            ConfigType.HAT_S_3x,
-            ConfigType.HAT_S_4x,
-            ConfigType.HAT_2x,
-            ConfigType.HAT_3x,
-            ConfigType.HAT_4x,
-            ConfigType.HAT_ImageNet_pretrain_2x,
-            ConfigType.HAT_ImageNet_pretrain_3x,
-            ConfigType.HAT_ImageNet_pretrain_4x,
-            ConfigType.HAT_L_ImageNet_pretrain_2x,
-            ConfigType.HAT_L_ImageNet_pretrain_3x,
-            ConfigType.HAT_L_ImageNet_pretrain_4x,
-            ConfigType.HAT_Real_GAN_sharper_4x,
-            ConfigType.HAT_Real_GAN_4x,
+            ConfigType.DAT_S_2x,
+            ConfigType.DAT_S_3x,
+            ConfigType.DAT_S_4x,
+            ConfigType.DAT_2x,
+            ConfigType.DAT_3x,
+            ConfigType.DAT_4x,
+            ConfigType.DAT_2_2x,
+            ConfigType.DAT_2_3x,
+            ConfigType.DAT_2_4x,
         ]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False)
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False, tile=CCCV_TILE)
             print(model.device)
 
             img2 = model.inference_image(img1)
@@ -69,10 +64,10 @@ class Test_HAT:
     def test_custom(self) -> None:
         img1 = load_image()
 
-        for k in [ConfigType.HAT_Real_GAN_sharper_4x]:
+        for k in [ConfigType.DAT_APISR_GAN_generator_4x]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False)
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False, tile=CCCV_TILE)
             print(model.device)
 
             img2 = model.inference_image(img1)

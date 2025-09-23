@@ -1,7 +1,6 @@
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.model import VSRBaseModel
-
-from .util import CCCV_DEVICE, CCCV_FP16, CCCV_TILE
+from tests.util import CCCV_DEVICE, CCCV_FP16, CCCV_TILE
 
 
 class Test_SpyNet:
