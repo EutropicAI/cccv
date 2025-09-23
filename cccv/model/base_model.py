@@ -121,11 +121,18 @@ class CCBaseModel(BaseModelInterface):
     def transform_state_dict(self, state_dict: Any) -> Any:
         """
         Hook: Subclasses can override this method to perform any key/value processing on the state_dict.
-        By default, it returns the state_dict unchanged.
 
         :param state_dict: The original state dict
         :return: The transformed state dict
         """
+        if "params_ema" in state_dict:
+            state_dict = state_dict["params_ema"]
+        elif "params" in state_dict:
+            state_dict = state_dict["params"]
+        elif "model_state_dict" in state_dict:
+            # For APISR's model
+            state_dict = state_dict["model_state_dict"]
+
         return state_dict
 
     def load_model(self) -> Any:
@@ -136,14 +143,6 @@ class CCBaseModel(BaseModelInterface):
         """
         cfg: BaseConfig = self.config
         state_dict = self.get_state_dict()
-
-        if "params_ema" in state_dict:
-            state_dict = state_dict["params_ema"]
-        elif "params" in state_dict:
-            state_dict = state_dict["params"]
-        elif "model_state_dict" in state_dict:
-            # For APISR's model
-            state_dict = state_dict["model_state_dict"]
 
         net = ARCH_REGISTRY.get(cfg.arch)
         cfg_dict = cfg.model_dump()
