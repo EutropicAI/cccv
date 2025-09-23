@@ -6,39 +6,36 @@ sys.path.append("..")
 import vapoursynth as vs
 from vapoursynth import core
 
-from cccv import AutoModel, BaseModelInterface, ConfigType
+from cccv import AutoModel, CCBaseModel, ConfigType
 
-# --- sisr, use fp16 to inference (vs.RGBH)
+example = 0
 
-model: BaseModelInterface = AutoModel.from_pretrained(
-    pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x, tile=None
-)
+if example == 0:
+    # --- sisr, use fp16 to inference (vs.RGBH)
 
-clip = core.bs.VideoSource(source="s.mp4")
-clip = core.resize.Bicubic(clip=clip, matrix_in_s="709", format=vs.RGBH)
-clip = model.inference_video(clip)
-clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)
-clip.set_output()
+    model: CCBaseModel = AutoModel.from_pretrained(
+        pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x, tile=None
+    )
 
-# ---  use fp32 to inference (vs.RGBS)
+    clip = core.bs.VideoSource(source="s.mp4")
+    clip = core.resize.Bicubic(clip=clip, matrix_in_s="709", format=vs.RGBH)
+    clip = model.inference_video(clip)
+    clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)
+    clip.set_output()
 
-# model: BaseModelInterface = AutoModel.from_pretrained(
-#     pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
-#     fp16=False,
-#     tile=None
-# )
-#
-# clip = core.bs.VideoSource(source="s.mp4")
-# clip = core.resize.Bicubic(clip=clip, matrix_in_s="709", format=vs.RGBS)
+elif example == 1:
+    # ---  use fp32 to inference (vs.RGBS)
 
-# --- vsr
+    model: CCBaseModel = AutoModel.from_pretrained(
+        pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x, fp16=False, tile=None
+    )
 
-# model: BaseModelInterface = AutoModel.from_pretrained(
-#     pretrained_model_name=ConfigType.AnimeSR_v2_4x
-# )
-#
-# clip = core.bs.VideoSource(source="s.mp4")
-# clip = core.resize.Bicubic(clip=clip, matrix_in_s="709", format=vs.RGBH)
-# clip = model.inference_video(clip)
-# clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)
-# clip.set_output()
+    clip = core.bs.VideoSource(source="s.mp4")
+    clip = core.resize.Bicubic(clip=clip, matrix_in_s="709", format=vs.RGBS)
+    clip = model.inference_video(clip)
+    clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)
+    clip.set_output()
+
+
+else:
+    raise NotImplementedError

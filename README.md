@@ -47,9 +47,9 @@ a simple example to use the VSR (Video Super-Resolution) model to process a vide
 import vapoursynth as vs
 from vapoursynth import core
 
-from cccv import AutoModel, BaseModelInterface, ConfigType
+from cccv import AutoModel, VSRBaseModel, ConfigType
 
-model: BaseModelInterface = AutoModel.from_pretrained(
+model: VSRBaseModel = AutoModel.from_pretrained(
     pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
     tile=None
 )
