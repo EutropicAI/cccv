@@ -1,10 +1,10 @@
-# ccrestoration
+# cccv
 
-[![codecov](https://codecov.io/gh/EutropicAI/ccrestoration/graph/badge.svg?token=VK0BHDUXAI)](https://codecov.io/gh/EutropicAI/ccrestoration)
-[![CI-test](https://github.com/EutropicAI/ccrestoration/actions/workflows/CI-test.yml/badge.svg)](https://github.com/EutropicAI/ccrestoration/actions/workflows/CI-test.yml)
-[![Release-pypi](https://github.com/EutropicAI/ccrestoration/actions/workflows/Release.yml/badge.svg)](https://github.com/EutropicAI/ccrestoration/actions/workflows/Release.yml)
-[![PyPI version](https://badge.fury.io/py/ccrestoration.svg)](https://badge.fury.io/py/ccrestoration)
-![GitHub](https://img.shields.io/github/license/EutropicAI/ccrestoration)
+[![codecov](https://codecov.io/gh/EutropicAI/cccv/graph/badge.svg?token=VK0BHDUXAI)](https://codecov.io/gh/EutropicAI/cccv)
+[![CI-test](https://github.com/EutropicAI/cccv/actions/workflows/CI-test.yml/badge.svg)](https://github.com/EutropicAI/cccv/actions/workflows/CI-test.yml)
+[![Release-pypi](https://github.com/EutropicAI/cccv/actions/workflows/Release.yml/badge.svg)](https://github.com/EutropicAI/cccv/actions/workflows/Release.yml)
+[![PyPI version](https://badge.fury.io/py/cccv.svg)](https://badge.fury.io/py/cccv)
+![GitHub](https://img.shields.io/github/license/EutropicAI/cccv)
 
 an inference lib for image/video restoration with VapourSynth support, compatible with [many community models](https://openmodeldb.info/)
 
@@ -13,7 +13,7 @@ an inference lib for image/video restoration with VapourSynth support, compatibl
 Make sure you have Python >= 3.9 and PyTorch >= 1.13 installed
 
 ```bash
-pip install ccrestoration
+pip install cccv
 ```
 
 - Install VapourSynth (optional)
@@ -28,7 +28,7 @@ a simple example to use the SISR (Single Image Super-Resolution) model to proces
 import cv2
 import numpy as np
 
-from ccrestoration import AutoModel, ConfigType, SRBaseModel
+from cccv import AutoModel, ConfigType, SRBaseModel
 
 model: SRBaseModel = AutoModel.from_pretrained(
     pretrained_model_name=ConfigType.RealESRGAN_APISR_RRDB_GAN_generator_2x,
@@ -47,7 +47,7 @@ a simple example to use the VSR (Video Super-Resolution) model to process a vide
 import vapoursynth as vs
 from vapoursynth import core
 
-from ccrestoration import AutoModel, BaseModelInterface, ConfigType
+from cccv import AutoModel, BaseModelInterface, ConfigType
 
 model: BaseModelInterface = AutoModel.from_pretrained(
     pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
@@ -61,15 +61,15 @@ clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)
 clip.set_output()
 ```
 
-See more examples in the [example](./example) directory, ccrestoration can register custom configurations and models to extend the functionality
+See more examples in the [example](./example) directory, cccv can register custom configurations and models to extend the functionality
 
 ### Current Support
 
 It still in development, the following models are supported:
 
-- [Architecture](./ccrestoration/type/arch.py)
-- [Model](./ccrestoration/type/model.py)
-- [Weight(Config)](./ccrestoration/type/config.py)
+- [Architecture](./cccv/type/arch.py)
+- [Model](./cccv/type/model.py)
+- [Weight(Config)](./cccv/type/config.py)
 
 ### Notice
 

@@ -4,8 +4,8 @@ import cv2
 import pytest
 import torch
 
-from ccrestoration import AutoConfig, AutoModel, BaseConfig, ConfigType
-from ccrestoration.model import SRBaseModel
+from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
+from cccv.model import SRBaseModel
 
 from .util import ASSETS_PATH, calculate_image_similarity, compare_image_size, get_device, load_image, torch_2_4
 

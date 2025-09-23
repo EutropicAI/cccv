@@ -6,7 +6,7 @@ sys.path.append("..")
 import vapoursynth as vs
 from vapoursynth import core
 
-from ccrestoration import AutoModel, BaseModelInterface, ConfigType
+from cccv import AutoModel, BaseModelInterface, ConfigType
 
 # --- sisr, use fp16 to inference (vs.RGBH)
 

@@ -3,8 +3,8 @@ import sys
 import cv2
 import torch
 
-from ccrestoration import AutoConfig, AutoModel, BaseConfig, ConfigType
-from ccrestoration.model import VSRBaseModel
+from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
+from cccv.model import VSRBaseModel
 
 from .util import ASSETS_PATH, calculate_image_similarity, compare_image_size, get_device, load_image
 

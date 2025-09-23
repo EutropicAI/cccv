@@ -1,6 +1,6 @@
 import pytest
 
-from ccrestoration import BaseModelInterface
+from cccv import BaseModelInterface
 
 
 def test_base_class() -> None:

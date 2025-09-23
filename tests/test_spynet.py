@@ -1,5 +1,5 @@
-from ccrestoration import AutoConfig, AutoModel, BaseConfig, ConfigType
-from ccrestoration.model import VSRBaseModel
+from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
+from cccv.model import VSRBaseModel
 
 from .util import get_device
 

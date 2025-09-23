@@ -1,18 +1,18 @@
 from typing import Any
 
-from ccrestoration import AutoConfig, AutoModel, SRBaseModel
-from ccrestoration.arch import RRDBNet
-from ccrestoration.config import RealESRGANConfig
+from cccv import AutoConfig, AutoModel, SRBaseModel
+from cccv.arch import RRDBNet
+from cccv.config import RealESRGANConfig
 
 # define your own config name and model name
 cfg_name = "TESTCONFIG.pth"
 model_name = "TESTMODEL"
 
 # this should be your own config, not RealESRGANConfig
-# extend from ccrestoration.BaseConfig then implement your own config parameters
+# extend from cccv.BaseConfig then implement your own config parameters
 cfg = RealESRGANConfig(
     name=cfg_name,
-    url="https://github.com/EutropicAI/ccrestoration/releases/download/model_zoo/RealESRGAN_RealESRGAN_x4plus_anime_6B_4x.pth",
+    url="https://github.com/EutropicAI/cccv/releases/download/model_zoo/RealESRGAN_RealESRGAN_x4plus_anime_6B_4x.pth",
     arch="RRDB",
     model=model_name,
     scale=4,
@@ -23,7 +23,7 @@ AutoConfig.register(cfg)
 
 
 # this should be your own model
-# extend from ccrestoration.SRBaseModel or ccrestoration.VSRBaseModel then implement your own model
+# extend from cccv.SRBaseModel or cccv.VSRBaseModel then implement your own model
 # self.one_frame_out: bool = False  for this kind of vsr model: f1, f2, f3, f4 -> f1', f2', f3', f4'
 # self.one_frame_out: bool = True  for this kind of vsr model: f-2, f-1, f0, f1, f2 -> f0'
 # override self.one_frame_out in self.load_model() if you want

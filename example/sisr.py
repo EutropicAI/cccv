@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-from ccrestoration import ArchType, AutoConfig, AutoModel, BaseConfig, ConfigType, SRBaseModel
-from ccrestoration.config import RealESRGANConfig
+from cccv import ArchType, AutoConfig, AutoModel, BaseConfig, ConfigType, SRBaseModel
+from cccv.config import RealESRGANConfig
 
 example = 4
 
@@ -21,7 +21,7 @@ elif example == 3:
     # use your own configuration
     config = RealESRGANConfig(
         name="114514.pth",
-        url="https://github.com/EutropicAI/ccrestoration/releases/download/model_zoo/RealESRGAN_APISR_RRDB_GAN_generator_2x.pth",
+        url="https://github.com/EutropicAI/cccv/releases/download/model_zoo/RealESRGAN_APISR_RRDB_GAN_generator_2x.pth",
         hash="3b0d2b3a3c0461ac17d00f4f32240666fb832b738ea5a48449b1acf07fbb07e5",
         arch=ArchType.RRDB,
         scale=2,

@@ -33,7 +33,7 @@ repos:
     rev: v1.18.2
     hooks:
       - id: mypy
-        args: [ccrestoration, tests]
+        args: [cccv, tests]
         pass_filenames: false
         additional_dependencies:
           - types-requests

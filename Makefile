@@ -2,7 +2,7 @@
 
 .PHONY: test
 test:
-	uv run --no-sync pytest --cov=ccrestoration --cov-report=xml --cov-report=html
+	uv run --no-sync pytest --cov=cccv --cov-report=xml --cov-report=html
 
 .PHONY: lint
 lint:

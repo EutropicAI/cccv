@@ -39,14 +39,14 @@ dependencies = [
 ]
 description = "cccv for low-level vision"
 license = "MIT"
-name = "ccrestoration"
+name = "cccv"
 readme = "README.md"
 requires-python = ">=3.9, <4"
 version = "0.0.2"
 
 [project.urls]
-Homepage = "https://github.com/EutropicAI/ccrestoration"
-Repository = "https://github.com/EutropicAI/ccrestoration"
+Homepage = "https://github.com/EutropicAI/cccv"
+Repository = "https://github.com/EutropicAI/cccv"
 
 [tool.coverage.report]
 exclude_also = [
@@ -59,19 +59,19 @@ exclude_also = [
 
 [tool.coverage.run]
 omit = [
-  "ccrestoration/arch/*",
-  "ccrestoration/vs/*",
-  "ccrestoration/util/device.py"
+  "cccv/arch/*",
+  "cccv/vs/*",
+  "cccv/util/device.py"
 ]
 
 [tool.hatch.build.sources]
-"ccrestoration" = "ccrestoration"
+"cccv" = "cccv"
 
 [tool.hatch.build.targets.sdist]
-include = ["ccrestoration"]
+include = ["cccv"]
 
 [tool.hatch.build.targets.wheel]
-include = ["ccrestoration"]
+include = ["cccv"]
 
 [tool.mypy]
 disable_error_code = "attr-defined"
@@ -84,7 +84,7 @@ warn_return_any = false
 
 [tool.ruff]
 exclude = [
-  "ccrestoration/arch/"
+  "cccv/arch/"
 ]
 line-length = 120
 

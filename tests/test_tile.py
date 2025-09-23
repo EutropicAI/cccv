@@ -4,8 +4,8 @@ import torch.nn.functional as F
 from torch import nn
 from torchvision import transforms
 
-from ccrestoration import AutoModel, ConfigType
-from ccrestoration.model import SRBaseModel, tile_sr
+from cccv import AutoModel, ConfigType
+from cccv.model import SRBaseModel, tile_sr
 
 from .util import ASSETS_PATH, calculate_image_similarity, compare_image_size, get_device, load_image
 

@@ -3,8 +3,8 @@ import pytest
 import torch
 from torchvision import transforms
 
-from ccrestoration.util.color import rgb_to_yuv, yuv_to_rgb
-from ccrestoration.util.device import DEFAULT_DEVICE
+from cccv.util.color import rgb_to_yuv, yuv_to_rgb
+from cccv.util.device import DEFAULT_DEVICE
 
 from .util import calculate_image_similarity, load_image
 

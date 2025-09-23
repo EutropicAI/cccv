@@ -7,7 +7,7 @@ import numpy as np
 import torch
 from skimage.metrics import structural_similarity
 
-from ccrestoration.util.device import DEFAULT_DEVICE
+from cccv.util.device import DEFAULT_DEVICE
 
 print(f"PyTorch version: {torch.__version__}")
 torch_2_4: bool = torch.__version__.startswith("2.4")

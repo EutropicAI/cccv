@@ -1,4 +1,4 @@
-from ccrestoration import AutoModel, BaseModelInterface, ConfigType
+from cccv import AutoModel, BaseModelInterface, ConfigType
 
 # --- sisr, use fp16 to inference
 
