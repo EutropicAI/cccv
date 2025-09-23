@@ -1,15 +1,18 @@
 import sys
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Any, Optional, Tuple
 
 import torch
 
+from cccv.cache_models import load_file_from_url
+from cccv.config import BaseConfig
+from cccv.type import BaseModelInterface
 from cccv.util.device import DEFAULT_DEVICE
 
 
-class BaseModelInterface(ABC):
+class CCBaseModel(BaseModelInterface):
     """
-    Base model interface
+    CCCV Base model
 
     :param config: config of the model
     :param device: inference device
@@ -78,18 +81,36 @@ class BaseModelInterface(ABC):
                 print(f"Error: {e}, compile is not supported on this model.")
 
     def get_state_dict(self) -> Any:
-        raise NotImplementedError
+        """
+        Load the state dict of the model from config
+
+        :return: The state dict of the model
+        """
+        cfg: BaseConfig = self.config
+
+        if cfg.path is not None:
+            state_dict_path = str(cfg.path)
+        else:
+            try:
+                state_dict_path = load_file_from_url(
+                    config=cfg, force_download=False, model_dir=self.model_dir, gh_proxy=self.gh_proxy
+                )
+            except Exception as e:
+                print(f"Error: {e}, try force download the model...")
+                state_dict_path = load_file_from_url(
+                    config=cfg, force_download=True, model_dir=self.model_dir, gh_proxy=self.gh_proxy
+                )
+
+        return torch.load(state_dict_path, map_location=self.device, weights_only=True)
 
     def load_model(self) -> Any:
         raise NotImplementedError
 
     @abstractmethod
-    @torch.inference_mode()  # type: ignore
-    def inference(self, img: torch.Tensor) -> torch.Tensor:
+    def inference(self, *args: Any, **kwargs: Any) -> Any:
         raise NotImplementedError
 
-    @torch.inference_mode()  # type: ignore
-    def inference_video(self, clip: Any) -> Any:
+    def inference_video(self, clip: Any, *args: Any, **kwargs: Any) -> Any:
         """
         Inference the video with the model, the clip should be a vapoursynth clip
 
@@ -98,5 +119,5 @@ class BaseModelInterface(ABC):
         """
         raise NotImplementedError
 
-    def __call__(self, img: torch.Tensor) -> torch.Tensor:
-        return self.inference(img)
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        return self.inference(*args, **kwargs)

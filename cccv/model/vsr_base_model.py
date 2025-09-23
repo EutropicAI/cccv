@@ -12,11 +12,11 @@ from cccv.model.tile import tile_vsr
 
 class VSRBaseModel(SRBaseModel):
     @torch.inference_mode()  # type: ignore
-    def inference_image(self, img: np.ndarray) -> np.ndarray:
+    def inference_image(self, img: np.ndarray, *args: Any, **kwargs: Any) -> np.ndarray:
         raise NotImplementedError("VSR model has no inference_image method")
 
     @torch.inference_mode()  # type: ignore
-    def inference(self, img: torch.Tensor) -> torch.Tensor:
+    def inference(self, img: torch.Tensor, *args: Any, **kwargs: Any) -> torch.Tensor:
         cfg: BaseConfig = self.config
 
         if self.tile is None:
@@ -34,7 +34,7 @@ class VSRBaseModel(SRBaseModel):
         )
 
     @torch.inference_mode()  # type: ignore
-    def inference_image_list(self, img_list: List[np.ndarray]) -> List[np.ndarray]:
+    def inference_image_list(self, img_list: List[np.ndarray], *args: Any, **kwargs: Any) -> List[np.ndarray]:
         """
         Inference the image list with the VSR model
 
@@ -74,7 +74,7 @@ class VSRBaseModel(SRBaseModel):
             raise ValueError(f"Unexpected output shape: {out.shape}")
 
     @torch.inference_mode()  # type: ignore
-    def inference_video(self, clip: Any) -> Any:
+    def inference_video(self, clip: Any, *args: Any, **kwargs: Any) -> Any:
         """
         Inference the video with the model, the clip should be a vapoursynth clip
 

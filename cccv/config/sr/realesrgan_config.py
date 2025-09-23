@@ -77,6 +77,7 @@ RealESRGANConfigs = [
         arch=ArchType.SRVGG,
         scale=2,
     ),
+    # APISR
     RealESRGANConfig(
         name=ConfigType.RealESRGAN_APISR_RRDB_GAN_generator_2x,
         hash="3b0d2b3a3c0461ac17d00f4f32240666fb832b738ea5a48449b1acf07fbb07e5",

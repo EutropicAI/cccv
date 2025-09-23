@@ -5,38 +5,14 @@ import numpy as np
 import torch
 from torchvision import transforms
 
-from cccv.cache_models import load_file_from_url
 from cccv.config import BaseConfig
+from cccv.model.base_model import CCBaseModel
 from cccv.model.tile import tile_sr
-from cccv.type import BaseModelInterface
 
 
-class SRBaseModel(BaseModelInterface):
-    def get_state_dict(self) -> Any:
-        """
-        Load the state dict of the model from config
-
-        :return: The state dict of the model
-        """
-        cfg: BaseConfig = self.config
-
-        if cfg.path is not None:
-            state_dict_path = str(cfg.path)
-        else:
-            try:
-                state_dict_path = load_file_from_url(
-                    config=cfg, force_download=False, model_dir=self.model_dir, gh_proxy=self.gh_proxy
-                )
-            except Exception as e:
-                print(f"Error: {e}, try force download the model...")
-                state_dict_path = load_file_from_url(
-                    config=cfg, force_download=True, model_dir=self.model_dir, gh_proxy=self.gh_proxy
-                )
-
-        return torch.load(state_dict_path, map_location=self.device, weights_only=True)
-
+class SRBaseModel(CCBaseModel):
     @torch.inference_mode()  # type: ignore
-    def inference(self, img: torch.Tensor) -> torch.Tensor:
+    def inference(self, img: torch.Tensor, *args: Any, **kwargs: Any) -> torch.Tensor:
         cfg: BaseConfig = self.config
 
         if self.tile is None:
@@ -53,7 +29,7 @@ class SRBaseModel(BaseModelInterface):
         )
 
     @torch.inference_mode()  # type: ignore
-    def inference_image(self, img: np.ndarray) -> np.ndarray:
+    def inference_image(self, img: np.ndarray, *args: Any, **kwargs: Any) -> np.ndarray:
         """
         Inference the image(BGR) with the model
 
@@ -74,7 +50,7 @@ class SRBaseModel(BaseModelInterface):
         return img
 
     @torch.inference_mode()  # type: ignore
-    def inference_video(self, clip: Any) -> Any:
+    def inference_video(self, clip: Any, *args: Any, **kwargs: Any) -> Any:
         """
         Inference the video with the model, the clip should be a vapoursynth clip
 
