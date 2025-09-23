@@ -43,7 +43,7 @@ def calculate_image_similarity(image1: np.ndarray, image2: np.ndarray, similarit
     grayscale_image1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
     grayscale_image2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
     # Calculate the Structural Similarity Index (SSIM) between the two images
-    (score, diff) = structural_similarity(grayscale_image1, grayscale_image2, full=True)
+    (score, _) = structural_similarity(grayscale_image1, grayscale_image2, full=True)
     print("SSIM: {}".format(score))
     return score > similarity
 

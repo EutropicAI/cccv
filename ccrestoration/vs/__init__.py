@@ -33,6 +33,5 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-
 from ccrestoration.vs.sr import inference_sr  # noqa
 from ccrestoration.vs.vsr import inference_vsr  # noqa
