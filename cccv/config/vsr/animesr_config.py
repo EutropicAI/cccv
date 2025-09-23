@@ -6,9 +6,9 @@ from cccv.type import ArchType, ConfigType, ModelType
 
 class AnimeSRConfig(BaseConfig):
     arch: Union[ArchType, str] = ArchType.MSRSWVSR
-    model: Union[ModelType, str] = ModelType.AnimeSR
+    model: Union[ModelType, str] = ModelType.VSRBaseModel
     scale: int = 4
-    length: int = 3
+    num_frame: int = 3
     num_feat: int = 64
     num_block: Tuple[int, int, int] = (5, 3, 2)
 

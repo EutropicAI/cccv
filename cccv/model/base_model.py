@@ -56,6 +56,9 @@ class CCBaseModel(BaseModelInterface):
         self.model_dir: Optional[str] = model_dir
         self.gh_proxy: Optional[str] = gh_proxy
 
+        # post-hook: edit parameters here if needed
+        self.post_init_hook()
+
         if device is None:
             self.device = DEFAULT_DEVICE
 
@@ -81,6 +84,14 @@ class CCBaseModel(BaseModelInterface):
                 self.model = torch.compile(self.model, backend=self.compile_backend)
             except Exception as e:
                 print(f"Error: {e}, compile is not supported on this model.")
+
+    def post_init_hook(self) -> None:
+        """
+        Hook: Subclasses can override this method to perform any post-initialization processing.
+        e.g. edit config parameters like `one_frame_out` for vsr model.
+        By default, it does nothing.
+        """
+        pass
 
     def get_state_dict(self) -> Any:
         """

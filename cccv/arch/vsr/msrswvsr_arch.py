@@ -17,17 +17,17 @@ class MSRSWVSR(nn.Module):
     The implementation refers to paper: Efficient Video Super-Resolution through Recurrent Latent Space Propagation
     """
 
-    def __init__(self, num_feat=64, num_block=(5, 3, 2), netscale=4):
+    def __init__(self, num_feat=64, num_block=(5, 3, 2), scale=4):
         super(MSRSWVSR, self).__init__()
         self.num_feat = num_feat
 
         # 3(img channel) * 3(prev cur nxt 3 imgs) + 3(hr img channel) * netscale * netscale + num_feat
         self.recurrent_cell = RightAlignMSConvResidualBlocks(
-            3 * 3 + 3 * netscale * netscale + num_feat, num_feat, num_feat + 3 * netscale * netscale, num_block
+            3 * 3 + 3 * scale * scale + num_feat, num_feat, num_feat + 3 * scale * scale, num_block
         )
         self.lrelu = nn.LeakyReLU(negative_slope=0.1)
-        self.pixel_shuffle = nn.PixelShuffle(netscale)
-        self.netscale = netscale
+        self.pixel_shuffle = nn.PixelShuffle(scale)
+        self.netscale = scale
 
     def cell(self, x, fb, state):
         res = x[:, 3:6]

@@ -19,4 +19,3 @@ from cccv.model.sr.realcugan_model import RealCUGANModel  # noqa
 # Video Super-Resolution
 
 from cccv.model.vsr.edvr_model import EDVRModel  # noqa
-from cccv.model.vsr.animesr_model import AnimeSRModel  # noqa
