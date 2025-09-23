@@ -15,11 +15,10 @@ torch_2_4: bool = torch.__version__.startswith("2.4")
 ASSETS_PATH = Path(__file__).resolve().parent.parent.absolute() / "assets"
 TEST_IMG_PATH = ASSETS_PATH / "test.jpg"
 
-
-def get_device() -> torch.device:
-    if os.environ.get("GITHUB_ACTIONS") == "true":
-        return torch.device("cpu")
-    return DEFAULT_DEVICE
+CI_ENV = os.environ.get("GITHUB_ACTIONS") == "true"
+CCCV_FP16 = True if not CI_ENV else False
+CCCV_TILE = None if not CI_ENV else (64, 64)
+CCCV_DEVICE = DEFAULT_DEVICE if not CI_ENV else torch.device("cpu")
 
 
 def load_image() -> np.ndarray:

@@ -1,12 +1,17 @@
-import os
-
 import cv2
 import pytest
 
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.model import SRBaseModel
 
-from .util import ASSETS_PATH, calculate_image_similarity, compare_image_size, get_device, load_image
+from .util import (
+    ASSETS_PATH,
+    CCCV_DEVICE,
+    CI_ENV,
+    calculate_image_similarity,
+    compare_image_size,
+    load_image,
+)
 
 
 class Test_HAT:
@@ -20,7 +25,7 @@ class Test_HAT:
         ]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: SRBaseModel = AutoModel.from_config(config=cfg, fp16=False, device=get_device())
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False)
             print(model.device)
 
             img2 = model.inference_image(img1)
@@ -29,7 +34,7 @@ class Test_HAT:
             assert calculate_image_similarity(img1, img2)
             assert compare_image_size(img1, img2, cfg.scale)
 
-    @pytest.mark.skipif(os.environ.get("GITHUB_ACTIONS") == "true", reason="Skip on CI test")
+    @pytest.mark.skipif(CI_ENV, reason="Skip on CI test")
     def test_official(self) -> None:
         img1 = load_image()
 
@@ -51,7 +56,7 @@ class Test_HAT:
         ]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: SRBaseModel = AutoModel.from_config(config=cfg, fp16=False, device=get_device())
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False)
             print(model.device)
 
             img2 = model.inference_image(img1)
@@ -66,7 +71,7 @@ class Test_HAT:
         for k in [ConfigType.HAT_Real_GAN_sharper_4x]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: SRBaseModel = AutoModel.from_config(config=cfg, fp16=False, device=get_device())
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False)
             print(model.device)
 
             img2 = model.inference_image(img1)

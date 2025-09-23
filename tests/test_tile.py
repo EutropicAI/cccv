@@ -7,20 +7,20 @@ from torchvision import transforms
 from cccv import AutoModel, ConfigType
 from cccv.model import SRBaseModel, tile_sr
 
-from .util import ASSETS_PATH, calculate_image_similarity, compare_image_size, get_device, load_image
+from .util import ASSETS_PATH, CCCV_DEVICE, calculate_image_similarity, compare_image_size, load_image
 
 
 def test_tile_sr() -> None:
     img0 = load_image()
     img = cv2.cvtColor(img0, cv2.COLOR_BGR2RGB)
 
-    img = transforms.ToTensor()(img).unsqueeze(0).to(get_device())
+    img = transforms.ToTensor()(img).unsqueeze(0).to(CCCV_DEVICE)
 
     class MyModel(nn.Module):
         def forward(self, x: torch.Tensor) -> torch.Tensor:
             return F.interpolate(x, scale_factor=2, mode="bilinear")
 
-    model = MyModel().to(get_device())
+    model = MyModel().to(CCCV_DEVICE)
 
     img2 = tile_sr(model=model, scale=2, img=img)
 
@@ -39,7 +39,7 @@ def test_tile_sr() -> None:
 
 def test_auto_model() -> None:
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
-    model: SRBaseModel = AutoModel.from_pretrained(pretrained_model_name=k, fp16=False, device=get_device())
+    model: SRBaseModel = AutoModel.from_pretrained(pretrained_model_name=k, fp16=False, device=CCCV_DEVICE)
     assert model.tile == (128, 128)
     assert model.tile_pad == 8
     assert model.pad_img is None
@@ -47,5 +47,5 @@ def test_auto_model() -> None:
 
 def test_auto_model_no_tile() -> None:
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
-    model: SRBaseModel = AutoModel.from_pretrained(pretrained_model_name=k, fp16=False, device=get_device(), tile=None)
+    model: SRBaseModel = AutoModel.from_pretrained(pretrained_model_name=k, fp16=False, device=CCCV_DEVICE, tile=None)
     assert model.tile is None

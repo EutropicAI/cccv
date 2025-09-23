@@ -4,7 +4,15 @@ from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.config import RealCUGANConfig
 from cccv.model import SRBaseModel
 
-from .util import ASSETS_PATH, calculate_image_similarity, compare_image_size, get_device, load_image
+from .util import (
+    ASSETS_PATH,
+    CCCV_DEVICE,
+    CCCV_FP16,
+    CCCV_TILE,
+    calculate_image_similarity,
+    compare_image_size,
+    load_image,
+)
 
 
 class Test_RealCUGAN:
@@ -21,7 +29,7 @@ class Test_RealCUGAN:
         ]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: SRBaseModel = AutoModel.from_config(config=cfg, fp16=False, device=get_device())
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
             print(model.device)
 
             img2 = model.inference_image(img1)
@@ -48,7 +56,7 @@ class Test_RealCUGAN:
         ]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: SRBaseModel = AutoModel.from_config(config=cfg, fp16=False, device=get_device())
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
             print(model.device)
 
             img2 = model.inference_image(img1)
@@ -65,7 +73,7 @@ class Test_RealCUGAN:
             print(f"Testing alpha={alpha}")
             cfg: RealCUGANConfig = AutoConfig.from_pretrained(k)
             cfg.alpha = alpha
-            model: SRBaseModel = AutoModel.from_config(config=cfg, fp16=False, device=get_device())
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
             print(model.device)
 
             img2 = model.inference_image(img1)
@@ -81,7 +89,7 @@ class Test_RealCUGAN:
             print(f"Testing cache_mode={c}")
             cfg: RealCUGANConfig = AutoConfig.from_pretrained(k)
             cfg.cache_mode = c
-            model: SRBaseModel = AutoModel.from_config(config=cfg, fp16=False, device=get_device())
+            model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
             print(model.device)
 
             img2 = model.inference_image(img1)

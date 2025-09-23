@@ -7,15 +7,26 @@ import torch
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.model import SRBaseModel
 
-from .util import ASSETS_PATH, calculate_image_similarity, compare_image_size, get_device, load_image, torch_2_4
+from .util import (
+    ASSETS_PATH,
+    CCCV_DEVICE,
+    CCCV_FP16,
+    CCCV_TILE,
+    calculate_image_similarity,
+    compare_image_size,
+    load_image,
+    torch_2_4,
+)
 
 
 def test_inference() -> None:
-    tensor1 = torch.rand(1, 3, 256, 256).to(get_device())
+    tensor1 = torch.rand(1, 3, 256, 256).to(CCCV_DEVICE)
 
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
 
-    model: SRBaseModel = AutoModel.from_pretrained(pretrained_model_name=k, fp16=False, device=get_device())
+    model: SRBaseModel = AutoModel.from_pretrained(
+        pretrained_model_name=k, device=CCCV_DEVICE, fp16=False, tile=CCCV_TILE
+    )
 
     t2 = model(tensor1)
     t3 = model.inference(tensor1)
@@ -28,7 +39,7 @@ def test_sr_fp16() -> None:
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
 
     cfg: BaseConfig = AutoConfig.from_pretrained(k)
-    model: SRBaseModel = AutoModel.from_config(config=cfg, fp16=True, device=get_device(), tile=None)
+    model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
 
     img2 = model.inference_image(img1)
 
@@ -46,7 +57,7 @@ def test_sr_compile() -> None:
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
 
     model: SRBaseModel = AutoModel.from_pretrained(
-        pretrained_model_name=k, fp16=True, compile=True, device=get_device(), tile=None
+        pretrained_model_name=k, device=CCCV_DEVICE, fp16=CCCV_FP16, compile=True, tile=CCCV_TILE
     )
 
     img2 = model.inference_image(img1)
