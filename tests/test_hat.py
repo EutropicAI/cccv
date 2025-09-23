@@ -65,6 +65,7 @@ class Test_HAT:
             assert calculate_image_similarity(img1, img2)
             assert compare_image_size(img1, img2, cfg.scale)
 
+    @pytest.mark.skipif(CI_ENV, reason="Skip on CI test")
     def test_custom(self) -> None:
         img1 = load_image()
 

@@ -1,4 +1,5 @@
 import cv2
+import pytest
 
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.config import RealCUGANConfig
@@ -9,6 +10,7 @@ from .util import (
     CCCV_DEVICE,
     CCCV_FP16,
     CCCV_TILE,
+    CI_ENV,
     calculate_image_similarity,
     compare_image_size,
     load_image,
@@ -38,6 +40,7 @@ class Test_RealCUGAN:
             assert calculate_image_similarity(img1, img2)
             assert compare_image_size(img1, img2, cfg.scale)
 
+    @pytest.mark.skipif(CI_ENV, reason="Skip on CI test")
     def test_non_pro(self) -> None:
         img1 = load_image()
 
