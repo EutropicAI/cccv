@@ -3,6 +3,11 @@ from enum import Enum
 
 # Enum for model type, use original name
 class ModelType(str, Enum):
+    # ------------------------------------- Auxiliary Network ----------------------------------------------------------
+
+    SpyNet = "SpyNet"
+    EDVRFeatureExtractor = "EDVRFeatureExtractor"
+
     # ------------------------------------- Single Image Super-Resolution ----------------------------------------------
 
     RealESRGAN = "RealESRGAN"
@@ -13,11 +18,6 @@ class ModelType(str, Enum):
     DAT = "DAT"
     SRCNN = "SRCNN"
     HAT = "HAT"
-
-    # ------------------------------------- Auxiliary Network ----------------------------------------------------------
-
-    SpyNet = "SpyNet"
-    EDVRFeatureExtractor = "EDVRFeatureExtractor"
 
     # ------------------------------------- Video Super-Resolution -----------------------------------------------------
 

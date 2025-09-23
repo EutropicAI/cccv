@@ -1,9 +1,19 @@
 from enum import Enum
 
 
-# Enum for config type, {ModelType.model}_{config_name}_{scale}x.pth
+# Enum for config type
 # For the Auxiliary Network, {ModelType.model}_{config_name}.pth
+# For the Super-Resolution Models, {ModelType.model}_{config_name}_{scale}x.pth
 class ConfigType(str, Enum):
+    # ------------------------------------- Auxiliary Network ----------------------------------------------------------
+
+    # SpyNet
+    SpyNet_spynet_sintel_final = "SpyNet_spynet_sintel_final.pth"
+
+    # EDVR Feature Extractor
+    EDVRFeatureExtractor_REDS_pretrained_for_IconVSR = "EDVRFeatureExtractor_REDS_pretrained_for_IconVSR.pth"
+    EDVRFeatureExtractor_Vimeo90K_pretrained_for_IconVSR = "EDVRFeatureExtractor_Vimeo90K_pretrained_for_IconVSR.pth"
+
     # ------------------------------------- Single Image Super-Resolution ----------------------------------------------
 
     # RealESRGAN
@@ -92,15 +102,6 @@ class ConfigType(str, Enum):
     HAT_L_ImageNet_pretrain_2x = "HAT_L_ImageNet_pretrain_2x.pth"
     HAT_L_ImageNet_pretrain_3x = "HAT_L_ImageNet_pretrain_3x.pth"
     HAT_L_ImageNet_pretrain_4x = "HAT_L_ImageNet_pretrain_4x.pth"
-
-    # ------------------------------------- Auxiliary Network ----------------------------------------------------------
-
-    # SpyNet
-    SpyNet_spynet_sintel_final = "SpyNet_spynet_sintel_final.pth"
-
-    # EDVR Feature Extractor
-    EDVRFeatureExtractor_REDS_pretrained_for_IconVSR = "EDVRFeatureExtractor_REDS_pretrained_for_IconVSR.pth"
-    EDVRFeatureExtractor_Vimeo90K_pretrained_for_IconVSR = "EDVRFeatureExtractor_Vimeo90K_pretrained_for_IconVSR.pth"
 
     # ------------------------------------- Video Super-Resolution -----------------------------------------------------
 

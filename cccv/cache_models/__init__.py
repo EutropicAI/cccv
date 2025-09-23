@@ -57,7 +57,19 @@ def load_file_from_url(
 
     cached_file_path = os.path.abspath(os.path.join(model_dir, config.name))
 
-    _url: str = str(config.url)
+    if config.url is not None:
+        _url: str = str(config.url)
+    else:
+        CCCV_REMOTE_MODEL_ZOO = os.environ.get(
+            "CCCV_REMOTE_MODEL_ZOO", "https://github.com/EutropicAI/cccv/releases/download/model_zoo/"
+        )
+        print(
+            f"Fetch models from {CCCV_REMOTE_MODEL_ZOO}, override it by setting environment variable CCCV_REMOTE_MODEL_ZOO"
+        )
+        if not CCCV_REMOTE_MODEL_ZOO.endswith("/"):
+            CCCV_REMOTE_MODEL_ZOO += "/"
+        _url = CCCV_REMOTE_MODEL_ZOO + config.name
+
     _gh_proxy = gh_proxy
     if _gh_proxy is not None and _url.startswith("https://github.com"):
         if not _gh_proxy.endswith("/"):

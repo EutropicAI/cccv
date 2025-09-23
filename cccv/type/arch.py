@@ -3,6 +3,11 @@ from enum import Enum
 
 # Enum for the architecture type, use capital letters
 class ArchType(str, Enum):
+    # ------------------------------------- Auxiliary Network ----------------------------------------------------------
+
+    SPYNET = "SPYNET"
+    EDVRFEATUREEXTACTOR = "EDVRFEATUREEXTACTOR"
+
     # ------------------------------------- Single Image Super-Resolution ----------------------------------------------
 
     RRDB = "RRDB"
@@ -14,11 +19,6 @@ class ArchType(str, Enum):
     DAT = "DAT"
     SRCNN = "SRCNN"
     HAT = "HAT"
-
-    # ------------------------------------- Auxiliary Network ----------------------------------------------------------
-
-    SPYNET = "SPYNET"
-    EDVRFEATUREEXTACTOR = "EDVRFEATUREEXTACTOR"
 
     # ------------------------------------- Video Super-Resolution -----------------------------------------------------
 

@@ -95,7 +95,17 @@ quote-style = "double"
 skip-magic-trailing-comma = false
 
 [tool.ruff.lint]
-extend-ignore = ["B018", "B019", "RUF001", "PGH003", "PGH004", "RUF003", "E402", "RUF002", "B904"]
+extend-ignore = [
+  "B018",
+  "B019",
+  "RUF001",
+  "PGH003",
+  "PGH004",
+  "RUF003",
+  "E402",
+  "RUF002",
+  "B904"
+]
 extend-select = [
   "I",  # isort
   "B",  # flake8-bugbear
