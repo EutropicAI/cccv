@@ -6,7 +6,7 @@ from cccv.config.realesrgan_config import RealESRGANConfig  # noqa
 from cccv.config.realcugan_config import RealCUGANConfig  # noqa
 from cccv.config.edsr_config import EDSRConfig  # noqa
 from cccv.config.swinir_config import SwinIRConfig  # noqa
-from cccv.config.edvr_config import EDVRConfig, EDVRFeatureExtractorConfig  # noqa
+from cccv.config.edvr_config import EDVRConfig  # noqa
 from cccv.config.spynet_config import SpyNetConfig  # noqa
 from cccv.config.animesr_config import AnimeSRConfig  # noqa
 from cccv.config.scunet_config import SCUNetConfig  # noqa

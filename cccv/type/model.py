@@ -6,7 +6,6 @@ class ModelType(str, Enum):
     # ------------------------------------- Auxiliary Network ----------------------------------------------------------
 
     SpyNet = "SpyNet"
-    EDVRFeatureExtractor = "EDVRFeatureExtractor"
 
     # ------------------------------------- Single Image Super-Resolution ----------------------------------------------
 

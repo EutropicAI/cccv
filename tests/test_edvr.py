@@ -29,15 +29,3 @@ class Test_EDVR:
             assert len(img2) == 1
             assert calculate_image_similarity(img, img2[0])
             assert compare_image_size(img, img2[0], cfg.scale)
-
-
-class Test_EDVRFeatureExtractor:
-    def test_load(self) -> None:
-        for k in [
-            ConfigType.EDVRFeatureExtractor_REDS_pretrained_for_IconVSR,
-            ConfigType.EDVRFeatureExtractor_Vimeo90K_pretrained_for_IconVSR,
-        ]:
-            print(f"Testing {k}")
-            cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: VSRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False)
-            assert model is not None

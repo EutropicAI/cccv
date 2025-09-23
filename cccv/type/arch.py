@@ -6,7 +6,6 @@ class ArchType(str, Enum):
     # ------------------------------------- Auxiliary Network ----------------------------------------------------------
 
     SPYNET = "SPYNET"
-    EDVRFEATUREEXTACTOR = "EDVRFEATUREEXTACTOR"
 
     # ------------------------------------- Single Image Super-Resolution ----------------------------------------------
 

@@ -9,7 +9,7 @@ from cccv.model.realesrgan_model import RealESRGANModel  # noqa
 from cccv.model.realcugan_model import RealCUGANModel  # noqa
 from cccv.model.edsr_model import EDSRModel  # noqa
 from cccv.model.swinir_model import SwinIRModel  # noqa
-from cccv.model.edvr_model import EDVRModel, EDVRFeatureExtractorModel  # noqa
+from cccv.model.edvr_model import EDVRModel  # noqa
 from cccv.model.tile import tile_sr, tile_vsr  # noqa
 from cccv.model.spynet_model import SpyNetModel  # noqa
 from cccv.model.animesr_model import AnimeSRModel  # noqa

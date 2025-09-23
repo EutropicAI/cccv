@@ -160,7 +160,6 @@ class EDVR(nn.Module):
         return out
 
 
-@ARCH_REGISTRY.register(name=ArchType.EDVRFEATUREEXTACTOR)
 class EDVRFeatureExtractor(nn.Module):
     """EDVR feature extractor used in IconVSR.
 
