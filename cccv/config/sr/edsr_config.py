@@ -6,7 +6,7 @@ from cccv.type import ArchType, ConfigType, ModelType
 
 class EDSRConfig(BaseConfig):
     arch: Union[ArchType, str] = ArchType.EDSR
-    model: Union[ModelType, str] = ModelType.EDSR
+    model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 2
     num_in_ch: int = 3
     num_out_ch: int = 3

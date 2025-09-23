@@ -6,7 +6,7 @@ from cccv.type import ArchType, ConfigType, ModelType
 
 class SCUNetConfig(BaseConfig):
     arch: Union[ArchType, str] = ArchType.SCUNET
-    model: Union[ModelType, str] = ModelType.SCUNet
+    model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 1
     in_nc: int = 3
     config: List[int] = [4, 4, 4, 4, 4, 4, 4]  # noqa

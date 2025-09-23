@@ -7,7 +7,7 @@ from cccv.type import ArchType, ConfigType, ModelType
 
 
 class RealESRGANConfig(BaseConfig):
-    model: Union[ModelType, str] = ModelType.RealESRGAN
+    model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 2
     num_in_ch: int = 3
     num_out_ch: int = 3

@@ -135,9 +135,13 @@ class CCBaseModel(BaseModelInterface):
             state_dict = state_dict["model_state_dict"]
 
         net = ARCH_REGISTRY.get(cfg.arch)
+        cfg_dict = cfg.model_dump()
 
-        cfg_dict = cfg.model_dump(exclude_none=True)
-        net_kw = {k: v for k, v in cfg_dict.items() if k in signature(net).parameters}
+        try:
+            net_kw = {k: cfg_dict[k] for k in signature(net).parameters}
+        except (KeyError, TypeError) as e:
+            raise RuntimeError(f"Config missing or mismatch required param for {net.__name__}: {e}") from e
+
         # print(f"net_kw: {net_kw}")
         model = net(**net_kw)
 

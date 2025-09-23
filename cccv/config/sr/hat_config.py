@@ -9,7 +9,7 @@ from cccv.type import ArchType, ConfigType, ModelType
 
 class HATConfig(BaseConfig):
     arch: Union[ArchType, str] = ArchType.HAT
-    model: Union[ModelType, str] = ModelType.HAT
+    model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 2
     patch_size: int = 1
     in_chans: int = 3

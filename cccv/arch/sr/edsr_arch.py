@@ -20,7 +20,7 @@ class EDSR(nn.Module):
         num_feat (int): Channel number of intermediate features.
             Default: 64.
         num_block (int): Block number in the trunk network. Default: 16.
-        upscale (int): Upsampling factor. Support 2^n and 3.
+        scale (int): Upsampling factor. Support 2^n and 3.
             Default: 4.
         res_scale (float): Used to scale the residual in residual block.
             Default: 1.
@@ -35,7 +35,7 @@ class EDSR(nn.Module):
         num_out_ch=3,
         num_feat=64,
         num_block=16,
-        upscale=4,
+        scale=4,
         res_scale=1,
         img_range=255.0,
         rgb_mean=(0.4488, 0.4371, 0.4040),
@@ -48,7 +48,7 @@ class EDSR(nn.Module):
         self.conv_first = nn.Conv2d(num_in_ch, num_feat, 3, 1, 1)
         self.body = make_layer(ResidualBlockNoBN, num_block, num_feat=num_feat, res_scale=res_scale, pytorch_init=True)
         self.conv_after_body = nn.Conv2d(num_feat, num_feat, 3, 1, 1)
-        self.upsample = Upsample(upscale, num_feat)
+        self.upsample = Upsample(scale, num_feat)
         self.conv_last = nn.Conv2d(num_feat, num_out_ch, 3, 1, 1)
 
     def forward(self, x):

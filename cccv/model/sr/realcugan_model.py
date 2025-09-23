@@ -1,6 +1,5 @@
 from typing import Any
 
-from cccv.arch import UpCunet
 from cccv.config import RealCUGANConfig
 from cccv.model import MODEL_REGISTRY
 from cccv.model.sr_base_model import SRBaseModel
@@ -9,9 +8,8 @@ from cccv.type import ModelType
 
 @MODEL_REGISTRY.register(name=ModelType.RealCUGAN)
 class RealCUGANModel(SRBaseModel):
-    def load_model(self) -> Any:
+    def transform_state_dict(self, state_dict: Any) -> Any:
         cfg: RealCUGANConfig = self.config
-        state_dict = self.get_state_dict()
 
         if cfg.pro:
             del state_dict["pro"]
@@ -22,15 +20,4 @@ class RealCUGANModel(SRBaseModel):
             new_key = "unet." + key
             new_state_dict[new_key] = value
 
-        model = UpCunet(
-            in_channels=cfg.in_channels,
-            out_channels=cfg.out_channels,
-            scale=cfg.scale,
-            cache_mode=cfg.cache_mode,
-            alpha=cfg.alpha,
-            pro=cfg.pro,
-        )
-
-        model.load_state_dict(new_state_dict)
-        model.eval().to(self.device)
-        return model
+        return new_state_dict

@@ -58,7 +58,6 @@ class DAT(nn.Module):
         img_range=1.0,
         resi_connection="1conv",
         upsampler="pixelshuffle",
-        **kwargs,
     ):
         super().__init__()
 

@@ -9,7 +9,7 @@ from cccv.type import ArchType, ConfigType, ModelType
 
 class SwinIRConfig(BaseConfig):
     arch: Union[ArchType, str] = ArchType.SWINIR
-    model: Union[ModelType, str] = ModelType.SwinIR
+    model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 2
     img_size: Union[int, Tuple[int, ...]] = 64
     patch_size: Union[int, Tuple[int, ...]] = 1

@@ -18,17 +18,17 @@ class SRVGGNetCompact(nn.Module):
         num_out_ch (int): Channel number of outputs. Default: 3.
         num_feat (int): Channel number of intermediate features. Default: 64.
         num_conv (int): Number of convolution layers in the body network. Default: 16.
-        upscale (int): Upsampling factor. Default: 4.
+        scale (int): Upsampling factor. Default: 4.
         act_type (str): Activation type, options: 'relu', 'prelu', 'leakyrelu'. Default: prelu.
     """
 
-    def __init__(self, num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=16, upscale=4, act_type="prelu"):
+    def __init__(self, num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=16, scale=4, act_type="prelu"):
         super(SRVGGNetCompact, self).__init__()
         self.num_in_ch = num_in_ch
         self.num_out_ch = num_out_ch
         self.num_feat = num_feat
         self.num_conv = num_conv
-        self.upscale = upscale
+        self.upscale = scale
         self.act_type = act_type
 
         self.body = nn.ModuleList()
@@ -56,9 +56,9 @@ class SRVGGNetCompact(nn.Module):
             self.body.append(activation)
 
         # the last conv
-        self.body.append(nn.Conv2d(num_feat, num_out_ch * upscale * upscale, 3, 1, 1))
+        self.body.append(nn.Conv2d(num_feat, num_out_ch * self.upscale * self.upscale, 3, 1, 1))
         # upsample
-        self.upsampler = nn.PixelShuffle(upscale)
+        self.upsampler = nn.PixelShuffle(self.upscale)
 
     def forward(self, x):
         out = x

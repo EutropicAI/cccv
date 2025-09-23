@@ -14,12 +14,7 @@ from cccv.model.auxnet.spynet_model import SpyNetModel  # noqa
 
 # Single Image Super-Resolution
 
-from cccv.model.sr.realesrgan_model import RealESRGANModel  # noqa
 from cccv.model.sr.realcugan_model import RealCUGANModel  # noqa
-from cccv.model.sr.edsr_model import EDSRModel  # noqa
-from cccv.model.sr.swinir_model import SwinIRModel  # noqa
-from cccv.model.sr.scunet_model import SCUNetModel  # noqa
-from cccv.model.sr.hat_model import HATModel  # noqa
 
 # Video Super-Resolution
 

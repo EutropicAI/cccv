@@ -2,7 +2,7 @@ from typing import Any
 
 from cccv import AutoConfig, AutoModel
 from cccv.config import RealESRGANConfig
-from cccv.model import RealESRGANModel
+from cccv.model import SRBaseModel
 
 
 def test_auto_class_register() -> None:
@@ -21,7 +21,7 @@ def test_auto_class_register() -> None:
     AutoConfig.register(cfg)
 
     @AutoModel.register(name=model_name)
-    class TESTMODEL(RealESRGANModel):
+    class TESTMODEL(SRBaseModel):
         def get_cfg(self) -> Any:
             return self.config
 

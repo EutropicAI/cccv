@@ -40,7 +40,7 @@ class SwinIR(nn.Module):
         ape (bool): If True, add absolute position embedding to the patch embedding. Default: False
         patch_norm (bool): If True, add normalization after patch embedding. Default: True
         use_checkpoint (bool): Whether to use checkpointing to save memory. Default: False
-        upscale: Upscale factor. 2/3/4/8 for image SR, 1 for denoising and compress artifact reduction
+        scale: Upscale factor. 2/3/4/8 for image SR, 1 for denoising and compress artifact reduction
         img_range: Image range. 1. or 255.
         upsampler: The reconstruction reconstruction module. 'pixelshuffle'/'pixelshuffledirect'/'nearest+conv'/None
         resi_connection: The convolutional block before residual connection. '1conv'/'3conv'
@@ -65,11 +65,10 @@ class SwinIR(nn.Module):
         ape=False,
         patch_norm=True,
         use_checkpoint=False,
-        upscale=2,
+        scale=2,
         img_range=1.0,
         upsampler="",
         resi_connection="1conv",
-        **kwargs,
     ):
         super(SwinIR, self).__init__()
         num_in_ch = in_chans
@@ -81,7 +80,7 @@ class SwinIR(nn.Module):
             self.mean = torch.Tensor(rgb_mean).view(1, 3, 1, 1)
         else:
             self.mean = torch.zeros(1, 1, 1, 1)
-        self.upscale = upscale
+        self.upscale = scale
         self.upsampler = upsampler
         self.window_size = window_size
 
@@ -174,12 +173,12 @@ class SwinIR(nn.Module):
             self.conv_before_upsample = nn.Sequential(
                 nn.Conv2d(embed_dim, num_feat, 3, 1, 1), nn.LeakyReLU(inplace=True)
             )
-            self.upsample = Upsample(upscale, num_feat)
+            self.upsample = Upsample(self.upscale, num_feat)
             self.conv_last = nn.Conv2d(num_feat, num_out_ch, 3, 1, 1)
         elif self.upsampler == "pixelshuffledirect":
             # for lightweight SR (to save parameters)
             self.upsample = UpsampleOneStep(
-                upscale, embed_dim, num_out_ch, (patches_resolution[0], patches_resolution[1])
+                self.upscale, embed_dim, num_out_ch, (patches_resolution[0], patches_resolution[1])
             )
         elif self.upsampler == "nearest+conv":
             # for real-world SR (less artifacts)
