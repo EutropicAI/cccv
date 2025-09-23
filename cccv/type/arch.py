@@ -23,6 +23,4 @@ class ArchType(str, Enum):
     # ------------------------------------- Video Super-Resolution -----------------------------------------------------
 
     EDVR = "EDVR"
-    BASICVSR = "BASICVSR"
-    ICONVSR = "ICONVSR"
     MSRSWVSR = "MSRSWVSR"

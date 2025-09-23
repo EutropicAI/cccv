@@ -9,8 +9,6 @@ from cccv.arch.edsr_arch import EDSR  # noqa
 from cccv.arch.swinir_arch import SwinIR  # noqa
 from cccv.arch.edvr_arch import EDVR, EDVRFeatureExtractor  # noqa
 from cccv.arch.spynet_arch import SpyNet  # noqa
-from cccv.arch.basicvsr_arch import BasicVSR  # noqa
-from cccv.arch.iconvsr_arch import IconVSR  # noqa
 from cccv.arch.msrswvsr_arch import MSRSWVSR  # noqa
 from cccv.arch.scunet_arch import SCUNet  # noqa
 from cccv.arch.dat_arch import DAT  # noqa

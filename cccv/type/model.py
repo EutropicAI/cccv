@@ -22,6 +22,4 @@ class ModelType(str, Enum):
     # ------------------------------------- Video Super-Resolution -----------------------------------------------------
 
     EDVR = "EDVR"
-    BasicVSR = "BasicVSR"
-    IconVSR = "IconVSR"
     AnimeSR = "AnimeSR"

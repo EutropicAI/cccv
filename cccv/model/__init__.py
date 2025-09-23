@@ -12,8 +12,6 @@ from cccv.model.swinir_model import SwinIRModel  # noqa
 from cccv.model.edvr_model import EDVRModel, EDVRFeatureExtractorModel  # noqa
 from cccv.model.tile import tile_sr, tile_vsr  # noqa
 from cccv.model.spynet_model import SpyNetModel  # noqa
-from cccv.model.basicvsr_model import BasicVSRModel  # noqa
-from cccv.model.iconvsr_model import IconVSRModel  # noqa
 from cccv.model.animesr_model import AnimeSRModel  # noqa
 from cccv.model.scunet_model import SCUNetModel  # noqa
 from cccv.model.dat_model import DATModel  # noqa
