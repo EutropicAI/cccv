@@ -6,8 +6,9 @@ import torch
 from torchvision import transforms
 
 from cccv.cache_models import load_file_from_url
+from cccv.config import BaseConfig
 from cccv.model.tile import tile_sr
-from cccv.type import BaseConfig, BaseModelInterface
+from cccv.type import BaseModelInterface
 
 
 class SRBaseModel(BaseModelInterface):

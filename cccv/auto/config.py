@@ -1,7 +1,7 @@
 from typing import Any, Optional, Union
 
-from cccv.config import CONFIG_REGISTRY
-from cccv.type import BaseConfig, ConfigType
+from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.type import ConfigType
 
 
 class AutoConfig:

@@ -1,7 +1,7 @@
 from typing import Optional, Union
 
-from cccv.config import CONFIG_REGISTRY
-from cccv.type import ArchType, BaseConfig, ConfigType, ModelType
+from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.type import ArchType, ConfigType, ModelType
 
 
 class EDVRConfig(BaseConfig):

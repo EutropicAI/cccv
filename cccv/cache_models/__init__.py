@@ -7,7 +7,7 @@ from typing import Optional
 from tenacity import retry, stop_after_attempt, stop_after_delay, wait_random
 from torch.hub import download_url_to_file
 
-from cccv.type import BaseConfig
+from cccv.config import BaseConfig
 
 if getattr(sys, "frozen", False):
     # frozen

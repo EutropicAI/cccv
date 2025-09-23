@@ -5,9 +5,9 @@ import numpy as np
 import torch
 from torchvision import transforms
 
+from cccv.config import BaseConfig
 from cccv.model.sr_base_model import SRBaseModel
 from cccv.model.tile import tile_vsr
-from cccv.type import BaseConfig
 
 
 class VSRBaseModel(SRBaseModel):

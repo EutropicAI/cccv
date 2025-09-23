@@ -2,6 +2,8 @@ from cccv.util.registry import RegistryConfigInstance
 
 CONFIG_REGISTRY: RegistryConfigInstance = RegistryConfigInstance("CONFIG")
 
+from cccv.config.base_config import BaseConfig  # noqa
+
 # Auxiliary Network
 
 from cccv.config.auxnet.spynet_config import SpyNetConfig  # noqa

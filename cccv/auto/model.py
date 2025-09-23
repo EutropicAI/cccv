@@ -2,9 +2,9 @@ from typing import Any, Optional, Tuple, Union
 
 import torch
 
-from cccv.config import CONFIG_REGISTRY
+from cccv.config import CONFIG_REGISTRY, BaseConfig
 from cccv.model import MODEL_REGISTRY
-from cccv.type import BaseConfig, ConfigType
+from cccv.type import ConfigType
 
 
 class AutoModel:

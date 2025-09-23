@@ -1,7 +1,7 @@
 from typing import Union
 
-from cccv.config import CONFIG_REGISTRY
-from cccv.type import ArchType, BaseConfig, ConfigType, ModelType
+from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.type import ArchType, ConfigType, ModelType
 
 
 class SpyNetConfig(BaseConfig):

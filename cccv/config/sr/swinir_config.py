@@ -3,8 +3,8 @@ from typing import Any, List, Optional, Tuple, Union
 from pydantic import field_validator
 from torch import nn
 
-from cccv.config import CONFIG_REGISTRY
-from cccv.type import ArchType, BaseConfig, ConfigType, ModelType
+from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.type import ArchType, ConfigType, ModelType
 
 
 class SwinIRConfig(BaseConfig):
