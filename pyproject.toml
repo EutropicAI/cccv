@@ -37,7 +37,7 @@ dependencies = [
   "opencv-python",
   "tenacity"
 ]
-description = "cccv for low-level vision"
+description = "an inference lib for image/video restoration and video frame interpolation with VapourSynth support"
 license = "MIT"
 name = "cccv"
 readme = "README.md"

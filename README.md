@@ -2,11 +2,11 @@
 
 [![codecov](https://codecov.io/gh/EutropicAI/cccv/graph/badge.svg?token=VK0BHDUXAI)](https://codecov.io/gh/EutropicAI/cccv)
 [![CI-test](https://github.com/EutropicAI/cccv/actions/workflows/CI-test.yml/badge.svg)](https://github.com/EutropicAI/cccv/actions/workflows/CI-test.yml)
-[![Release-pypi](https://github.com/EutropicAI/cccv/actions/workflows/Release.yml/badge.svg)](https://github.com/EutropicAI/cccv/actions/workflows/Release.yml)
+[![Release](https://github.com/EutropicAI/cccv/actions/workflows/Release.yml/badge.svg)](https://github.com/EutropicAI/cccv/actions/workflows/Release.yml)
 [![PyPI version](https://badge.fury.io/py/cccv.svg)](https://badge.fury.io/py/cccv)
 ![GitHub](https://img.shields.io/github/license/EutropicAI/cccv)
 
-an inference lib for image/video restoration with VapourSynth support, compatible with [many community models](https://openmodeldb.info/)
+an inference lib for image/video restoration and video frame interpolation with VapourSynth support
 
 ### Install
 
