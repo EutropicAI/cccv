@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from torchvision import transforms
 
-from cccv.config import BaseConfig
+from cccv.config import SRBaseConfig
 from cccv.model import MODEL_REGISTRY
 from cccv.model.base_model import CCBaseModel
 from cccv.model.tile import tile_sr
@@ -16,7 +16,7 @@ from cccv.type import ModelType
 class SRBaseModel(CCBaseModel):
     @torch.inference_mode()  # type: ignore
     def inference(self, img: torch.Tensor, *args: Any, **kwargs: Any) -> torch.Tensor:
-        cfg: BaseConfig = self.config
+        cfg: SRBaseConfig = self.config
 
         if self.tile is None:
             return self.model(img)
@@ -60,7 +60,7 @@ class SRBaseModel(CCBaseModel):
         :param clip: vs.VideoNode
         :return:
         """
-        cfg: BaseConfig = self.config
+        cfg: SRBaseConfig = self.config
 
         from cccv.vs import inference_sr
 

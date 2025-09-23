@@ -2,11 +2,12 @@ from typing import Union
 
 from pydantic import field_validator
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY
+from cccv.config.base_config import SRBaseConfig
 from cccv.type import ArchType, ConfigType, ModelType
 
 
-class RealESRGANConfig(BaseConfig):
+class RealESRGANConfig(SRBaseConfig):
     model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 2
     num_in_ch: int = 3

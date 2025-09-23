@@ -1,10 +1,11 @@
 from typing import Union
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY
+from cccv.config.base_config import SRBaseConfig
 from cccv.type import ArchType, ConfigType, ModelType
 
 
-class EDSRConfig(BaseConfig):
+class EDSRConfig(SRBaseConfig):
     arch: Union[ArchType, str] = ArchType.EDSR
     model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 2

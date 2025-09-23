@@ -2,11 +2,12 @@ from typing import Union
 
 from pydantic import field_validator
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY
+from cccv.config.base_config import SRBaseConfig
 from cccv.type import ArchType, ConfigType, ModelType
 
 
-class RealCUGANConfig(BaseConfig):
+class RealCUGANConfig(SRBaseConfig):
     arch: Union[ArchType, str] = ArchType.UPCUNET
     model: Union[ModelType, str] = ModelType.RealCUGAN
     scale: int = 2

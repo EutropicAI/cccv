@@ -1,10 +1,11 @@
 from typing import List, Union
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY
+from cccv.config.base_config import SRBaseConfig
 from cccv.type import ArchType, ConfigType, ModelType
 
 
-class SCUNetConfig(BaseConfig):
+class SCUNetConfig(SRBaseConfig):
     arch: Union[ArchType, str] = ArchType.SCUNET
     model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 1

@@ -13,3 +13,11 @@ class BaseConfig(BaseModel):
     hash: Optional[str] = None
     arch: Union[ArchType, str]
     model: Union[ModelType, str]
+
+
+class SRBaseConfig(BaseConfig):
+    scale: int
+
+
+class VSRBaseConfig(SRBaseConfig):
+    num_frame: int

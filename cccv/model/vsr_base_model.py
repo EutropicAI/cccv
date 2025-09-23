@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from torchvision import transforms
 
-from cccv.config import BaseConfig
+from cccv.config import VSRBaseConfig
 from cccv.model import MODEL_REGISTRY
 from cccv.model.base_model import CCBaseModel
 from cccv.model.tile import tile_vsr
@@ -16,7 +16,7 @@ from cccv.type import ModelType
 class VSRBaseModel(CCBaseModel):
     @torch.inference_mode()  # type: ignore
     def inference(self, img: torch.Tensor, *args: Any, **kwargs: Any) -> torch.Tensor:
-        cfg: BaseConfig = self.config
+        cfg: VSRBaseConfig = self.config
 
         if self.tile is None:
             return self.model(img)
@@ -83,13 +83,13 @@ class VSRBaseModel(CCBaseModel):
 
         from cccv.vs import inference_vsr
 
-        cfg: BaseConfig = self.config
+        cfg: VSRBaseConfig = self.config
 
         return inference_vsr(
             inference=self.inference,
             clip=clip,
             scale=cfg.scale,
-            length=cfg.length,
+            length=cfg.num_frame,
             device=self.device,
             one_frame_out=self.one_frame_out,
         )

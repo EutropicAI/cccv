@@ -1,10 +1,11 @@
 from typing import Tuple, Union
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY
+from cccv.config.base_config import VSRBaseConfig
 from cccv.type import ArchType, ConfigType, ModelType
 
 
-class AnimeSRConfig(BaseConfig):
+class AnimeSRConfig(VSRBaseConfig):
     arch: Union[ArchType, str] = ArchType.MSRSWVSR
     model: Union[ModelType, str] = ModelType.VSRBaseModel
     scale: int = 4

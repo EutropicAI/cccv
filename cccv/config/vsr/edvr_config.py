@@ -1,10 +1,11 @@
 from typing import Optional, Union
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY
+from cccv.config.base_config import VSRBaseConfig
 from cccv.type import ArchType, ConfigType, ModelType
 
 
-class EDVRConfig(BaseConfig):
+class EDVRConfig(VSRBaseConfig):
     arch: Union[ArchType, str] = ArchType.EDVR
     model: Union[ModelType, str] = ModelType.EDVR
     scale: int = 4
