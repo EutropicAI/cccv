@@ -22,7 +22,7 @@ pip install cccv
 
 #### cv2
 
-a simple example to use the SISR (Single Image Super-Resolution) model to process an image (APISR)
+a simple example to use the SISR (Single Image Super-Resolution) model to process an image
 
 ```python
 import cv2
@@ -31,7 +31,7 @@ import numpy as np
 from cccv import AutoModel, ConfigType, SRBaseModel
 
 model: SRBaseModel = AutoModel.from_pretrained(
-    pretrained_model_name=ConfigType.RealESRGAN_APISR_RRDB_GAN_generator_2x,
+    pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
 )
 
 img = cv2.imdecode(np.fromfile("test.jpg", dtype=np.uint8), cv2.IMREAD_COLOR)
@@ -41,7 +41,7 @@ cv2.imwrite("test_out.jpg", img)
 
 #### VapourSynth
 
-a simple example to use the VSR (Video Super-Resolution) model to process a video (AnimeSR)
+a simple example to use the VapourSynth to process a video
 
 ```python
 import vapoursynth as vs
