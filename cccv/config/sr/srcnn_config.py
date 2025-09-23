@@ -6,7 +6,7 @@ from cccv.type import ArchType, ConfigType, ModelType
 
 class SRCNNConfig(BaseConfig):
     arch: ArchType = ArchType.SRCNN
-    model: Union[ModelType, str] = ModelType.SRCNN
+    model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 2
     num_channels: int = 1
 

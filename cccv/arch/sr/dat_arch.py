@@ -32,7 +32,7 @@ class DAT(nn.Module):
         act_layer (nn.Module): Activation layer. Default: nn.GELU
         norm_layer (nn.Module): Normalization layer. Default: nn.LayerNorm
         use_chk (bool): Whether to use checkpointing to save memory.
-        upscale: Upscale factor. 2/3/4 for image SR
+        scale: Upscale factor. 2/3/4 for image SR
         img_range: Image range. 1. or 255.
         resi_connection: The convolutional block before residual connection. '1conv'/'3conv'
     """
@@ -54,7 +54,7 @@ class DAT(nn.Module):
         act_layer=nn.GELU,
         norm_layer=nn.LayerNorm,
         use_chk=False,
-        upscale=2,
+        scale=2,
         img_range=1.0,
         resi_connection="1conv",
         upsampler="pixelshuffle",
@@ -71,7 +71,7 @@ class DAT(nn.Module):
             self.mean = torch.Tensor(rgb_mean).view(1, 3, 1, 1)
         else:
             self.mean = torch.zeros(1, 1, 1, 1)
-        self.upscale = upscale
+        self.upscale = scale
         self.upsampler = upsampler
 
         # ------------------------- 1, Shallow Feature Extraction ------------------------- #
@@ -130,11 +130,11 @@ class DAT(nn.Module):
             self.conv_before_upsample = nn.Sequential(
                 nn.Conv2d(embed_dim, num_feat, 3, 1, 1), nn.LeakyReLU(inplace=True)
             )
-            self.upsample = Upsample(upscale, num_feat)
+            self.upsample = Upsample(self.upscale, num_feat)
             self.conv_last = nn.Conv2d(num_feat, num_out_ch, 3, 1, 1)
         elif self.upsampler == "pixelshuffledirect":
             # for lightweight SR (to save parameters)
-            self.upsample = UpsampleOneStep(upscale, embed_dim, num_out_ch, (img_size, img_size))
+            self.upsample = UpsampleOneStep(self.upscale, embed_dim, num_out_ch, (img_size, img_size))
 
         self.apply(self._init_weights)
 

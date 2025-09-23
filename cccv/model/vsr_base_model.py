@@ -6,10 +6,13 @@ import torch
 from torchvision import transforms
 
 from cccv.config import BaseConfig
+from cccv.model import MODEL_REGISTRY
 from cccv.model.sr_base_model import SRBaseModel
 from cccv.model.tile import tile_vsr
+from cccv.type import ModelType
 
 
+@MODEL_REGISTRY.register(name=ModelType.VSRBaseModel)
 class VSRBaseModel(SRBaseModel):
     @torch.inference_mode()  # type: ignore
     def inference_image(self, img: np.ndarray, *args: Any, **kwargs: Any) -> np.ndarray:

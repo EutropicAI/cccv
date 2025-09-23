@@ -19,8 +19,6 @@ from cccv.model.sr.realcugan_model import RealCUGANModel  # noqa
 from cccv.model.sr.edsr_model import EDSRModel  # noqa
 from cccv.model.sr.swinir_model import SwinIRModel  # noqa
 from cccv.model.sr.scunet_model import SCUNetModel  # noqa
-from cccv.model.sr.dat_model import DATModel  # noqa
-from cccv.model.sr.srcnn_model import SRCNNModel  # noqa
 from cccv.model.sr.hat_model import HATModel  # noqa
 
 # Video Super-Resolution

@@ -6,10 +6,13 @@ import torch
 from torchvision import transforms
 
 from cccv.config import BaseConfig
+from cccv.model import MODEL_REGISTRY
 from cccv.model.base_model import CCBaseModel
 from cccv.model.tile import tile_sr
+from cccv.type import ModelType
 
 
+@MODEL_REGISTRY.register(name=ModelType.SRBaseModel)
 class SRBaseModel(CCBaseModel):
     @torch.inference_mode()  # type: ignore
     def inference(self, img: torch.Tensor, *args: Any, **kwargs: Any) -> torch.Tensor:

@@ -9,7 +9,7 @@ from cccv.type import ArchType, ConfigType, ModelType
 
 class DATConfig(BaseConfig):
     arch: Union[ArchType, str] = ArchType.DAT
-    model: Union[ModelType, str] = ModelType.DAT
+    model: Union[ModelType, str] = ModelType.SRBaseModel
     scale: int = 2
     in_chans: int = 3
     img_size: Union[int, Tuple[int, ...]] = 64

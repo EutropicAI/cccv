@@ -13,5 +13,3 @@ class BaseConfig(BaseModel):
     hash: Optional[str] = None
     arch: Union[ArchType, str]
     model: Union[ModelType, str]
-    scale: int = 2
-    length: int = 7

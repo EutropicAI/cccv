@@ -1,9 +1,11 @@
 import sys
 from abc import abstractmethod
+from inspect import signature
 from typing import Any, Optional, Tuple
 
 import torch
 
+from cccv.arch import ARCH_REGISTRY
 from cccv.cache_models import load_file_from_url
 from cccv.config import BaseConfig
 from cccv.type import BaseModelInterface
@@ -101,13 +103,53 @@ class CCBaseModel(BaseModelInterface):
                     config=cfg, force_download=True, model_dir=self.model_dir, gh_proxy=self.gh_proxy
                 )
 
-        return torch.load(state_dict_path, map_location=self.device, weights_only=True)
+        state_dict = torch.load(state_dict_path, map_location=self.device, weights_only=True)
+
+        return self.transform_state_dict(state_dict)
+
+    def transform_state_dict(self, state_dict: Any) -> Any:
+        """
+        Hook: Subclasses can override this method to perform any key/value processing on the state_dict.
+        By default, it returns the state_dict unchanged.
+
+        :param state_dict: The original state dict
+        :return: The transformed state dict
+        """
+        return state_dict
 
     def load_model(self) -> Any:
-        raise NotImplementedError
+        """
+        Auto load the model from config
+
+        :return: The initialized model with weights loaded
+        """
+        cfg: BaseConfig = self.config
+        state_dict = self.get_state_dict()
+
+        if "params_ema" in state_dict:
+            state_dict = state_dict["params_ema"]
+        elif "params" in state_dict:
+            state_dict = state_dict["params"]
+        elif "model_state_dict" in state_dict:
+            # For APISR's model
+            state_dict = state_dict["model_state_dict"]
+
+        net = ARCH_REGISTRY.get(cfg.arch)
+
+        cfg_dict = cfg.model_dump(exclude_none=True)
+        net_kw = {k: v for k, v in cfg_dict.items() if k in signature(net).parameters}
+        # print(f"net_kw: {net_kw}")
+        model = net(**net_kw)
+
+        model.load_state_dict(state_dict)
+        model.eval().to(self.device)
+        return model
 
     @abstractmethod
     def inference(self, *args: Any, **kwargs: Any) -> Any:
+        """
+        Inference the model with the inputs
+        """
         raise NotImplementedError
 
     def inference_video(self, clip: Any, *args: Any, **kwargs: Any) -> Any:
@@ -120,4 +162,7 @@ class CCBaseModel(BaseModelInterface):
         raise NotImplementedError
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        """
+        Call the model for inference
+        """
         return self.inference(*args, **kwargs)
