@@ -11,11 +11,9 @@ from cccv.type import ModelType
 
 @MODEL_REGISTRY.register(name=ModelType.VFIBaseModel)
 class VFIBaseModel(CCBaseModel):
-    @torch.inference_mode()  # type: ignore
     def inference(self, *args: Any, **kwargs: Any) -> torch.Tensor:
         raise NotImplementedError
 
-    @torch.inference_mode()  # type: ignore
     def inference_image_list(self, img_list: List[np.ndarray], *args: Any, **kwargs: Any) -> List[np.ndarray]:
         raise NotImplementedError
 
