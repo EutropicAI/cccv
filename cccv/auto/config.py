@@ -26,16 +26,16 @@ class AutoConfig:
             pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
 
         # 1. check if it's a registered config name
-        if any(pretrained_model_name_or_path == item for item in ConfigType):
+        if isinstance(pretrained_model_name_or_path, ConfigType):
+            pretrained_model_name_or_path = pretrained_model_name_or_path.value
+        if str(pretrained_model_name_or_path) in CONFIG_REGISTRY:
             return CONFIG_REGISTRY.get(str(pretrained_model_name_or_path))
 
         # 2. check if it's a real path
         dir_path = Path(str(pretrained_model_name_or_path))
 
         if not dir_path.exists() or not dir_path.is_dir():
-            raise ValueError(
-                f"[CCCV] model configuration '{pretrained_model_name_or_path}' is not a valid config name or path"
-            )
+            raise ValueError(f"[CCCV] model configuration '{dir_path}' is not a valid config name or path")
 
         # load config,json from the directory
         config_path = dir_path / "config.json"
