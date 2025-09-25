@@ -23,14 +23,13 @@ class DRBA(nn.Module):
         self.block3 = IFBlock(8 + 4 + 8 + 32, c=64)
         self.block4 = IFBlock(8 + 4 + 8 + 32, c=32)
         self.encode = Head()
+
         if support_cupy:
-            from ccvfi.arch.arch_utils.softsplat import softsplat as fwarp
-
-            self.fwarp = fwarp
+            from cccv.arch.vfi.vfi_utils.softsplat import softsplat as fwarp
         else:
-            from ccvfi.arch.arch_utils.softsplat_torch import softsplat as fwarp
+            from cccv.arch.vfi.vfi_utils.softsplat_torch import softsplat as fwarp
 
-            self.fwarp = fwarp
+        self.fwarp = fwarp
 
     def inference(self, x, timestep=0.5, scale_list=None, fastmode=True, ensemble=False, f0=None, f1=None):
         if scale_list is None:

@@ -1,11 +1,9 @@
 import cv2
 import pytest
 import torch
-from torchvision import transforms
-
-from cccv.util.color import rgb_to_yuv, yuv_to_rgb
-from cccv.util.device import DEFAULT_DEVICE
-from cccv.util.misc import (
+from ccvfi.util.color import rgb_to_yuv, yuv_to_rgb
+from ccvfi.util.device import DEFAULT_DEVICE
+from ccvfi.util.misc import (
     TMapper,
     check_scene,
     create_window_3d,
@@ -15,8 +13,9 @@ from cccv.util.misc import (
     resize,
     ssim_matlab,
 )
+from torchvision import transforms
 
-from .util import calculate_image_similarity, load_image
+from .util import calculate_image_similarity, load_images
 
 
 def test_device() -> None:
@@ -34,7 +33,7 @@ def test_color() -> None:
     with pytest.raises(ValueError):
         yuv_to_rgb(torch.zeros(1, 1))
 
-    img = load_image()
+    img = load_images()[0]
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     img = transforms.ToTensor()(img).unsqueeze(0).to("cpu")
@@ -47,7 +46,7 @@ def test_color() -> None:
 
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
-    assert calculate_image_similarity(img, load_image())
+    assert calculate_image_similarity(img, load_images()[0])
 
 
 def test_resize() -> None:
