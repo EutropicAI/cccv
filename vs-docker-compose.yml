@@ -1,0 +1,33 @@
+version: "3.8"
+
+name: vs
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  playground-cuda:
+    image: lychee0/vs-playground:cuda-dev
+    restart: always
+    ports:
+      - "1145:8888"
+      - "1022:22"
+    volumes:
+      - ./:/cccv
+    environment:
+      - JUPYTER_TOKEN=114514
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids:
+                - "0"
+              capabilities:
+                - gpu
+                - utility
+                - compute
+                - video
+    networks:
+      - backend

@@ -16,7 +16,7 @@ model: VFIBaseModel = AutoModel.from_pretrained(
 )
 
 core.num_threads = 1  # should be set to single thread now, TODO: fix it
-clip = core.bs.VideoSource(source="s.mp4")
+clip = core.bs.VideoSource(source="s.mkv")
 clip = core.resize.Bicubic(clip=clip, matrix_in_s="709", format=vs.RGBH)
 clip = model.inference_video(clip, scale=1.0, tar_fps=60, scdet=True, scdet_threshold=0.3)
 clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)

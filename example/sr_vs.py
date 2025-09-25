@@ -15,7 +15,7 @@ if example == 0:
 
     model: CCBaseModel = AutoModel.from_pretrained(ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x, tile=None)
 
-    clip = core.bs.VideoSource(source="s.mp4")
+    clip = core.bs.VideoSource(source="s.mkv")
     clip = core.resize.Bicubic(clip=clip, matrix_in_s="709", format=vs.RGBH)
     clip = model.inference_video(clip)
     clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)
@@ -28,7 +28,7 @@ elif example == 1:
         ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x, fp16=False, tile=None
     )
 
-    clip = core.bs.VideoSource(source="s.mp4")
+    clip = core.bs.VideoSource(source="s.mkv")
     clip = core.resize.Bicubic(clip=clip, matrix_in_s="709", format=vs.RGBS)
     clip = model.inference_video(clip)
     clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)

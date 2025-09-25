@@ -16,4 +16,9 @@ build:
 .PHONY: vs
 vs:
 	rm -f encoded.mkv
-	vspipe -c y4m example/vapoursynth.py - | ffmpeg -i - -vcodec libx265 -crf 16 encoded.mkv
+	vspipe -c y4m example/sr_vs.py - | ffmpeg -i - -vcodec libx264 encoded.mp4
+
+.PHONY: dev
+dev:
+	docker compose -f vs-docker-compose.yml down
+	docker compose -f vs-docker-compose.yml up -d
