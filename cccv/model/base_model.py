@@ -69,7 +69,7 @@ class CCBaseModel(BaseModelInterface):
             try:
                 self.model = self.model.half()
             except Exception as e:
-                print(f"Error: {e}, fp16 is not supported on this model.")
+                print(f"[CCCV] Warning: {e}. \nfp16 is not supported on this model, fallback to fp32.")
                 self.fp16 = False
                 self.model = self.load_model()
 
@@ -83,7 +83,7 @@ class CCBaseModel(BaseModelInterface):
                         self.compile_backend = "inductor"
                 self.model = torch.compile(self.model, backend=self.compile_backend)
             except Exception as e:
-                print(f"Error: {e}, compile is not supported on this model.")
+                print(f"[CCCV] Error: {e}, compile is not supported on this model.")
 
     def post_init_hook(self) -> None:
         """
@@ -109,7 +109,7 @@ class CCBaseModel(BaseModelInterface):
                     config=cfg, force_download=False, model_dir=self.model_dir, gh_proxy=self.gh_proxy
                 )
             except Exception as e:
-                print(f"Error: {e}, try force download the model...")
+                print(f"[CCCV] Error: {e}, try force download the model...")
                 state_dict_path = load_file_from_url(
                     config=cfg, force_download=True, model_dir=self.model_dir, gh_proxy=self.gh_proxy
                 )
@@ -150,9 +150,9 @@ class CCBaseModel(BaseModelInterface):
         try:
             net_kw = {k: cfg_dict[k] for k in signature(net).parameters}
         except (KeyError, TypeError) as e:
-            raise RuntimeError(f"Config missing or mismatch required param for {net.__name__}: {e}") from e
+            raise RuntimeError(f"[CCCV] Config missing or mismatch required param for {net.__name__}: {e}") from e
 
-        # print(f"net_kw: {net_kw}")
+        # print(f"[CCCV] net_kw: {net_kw}")
         model = net(**net_kw)
 
         model.load_state_dict(state_dict)

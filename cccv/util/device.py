@@ -10,7 +10,7 @@ def default_device() -> torch.device:
         try:
             return torch.device("mps" if torch.backends.mps.is_available() else "cpu")
         except Exception as e:
-            print(f"Err: {e}, MPS is not available, use CPU instead.")
+            print(f"[CCCV] Error: {e}, MPS is not available, use CPU instead.")
             return torch.device("cpu")
 
 

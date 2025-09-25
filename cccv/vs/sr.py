@@ -30,7 +30,7 @@ def inference_sr(
     """
 
     if clip.format.id not in [vs.RGBH, vs.RGBS]:
-        raise vs.Error("Only vs.RGBH and vs.RGBS formats are supported")
+        raise vs.Error("[CCCV] Only vs.RGBH and vs.RGBS formats are supported")
 
     if device.type == torch.device("cuda").type:
         return inference_sr_cuda(inference, clip, scale, device)

@@ -27,13 +27,13 @@ def inference_vsr(
     :return:
     """
     if clip.format.id not in [vs.RGBH, vs.RGBS]:
-        raise vs.Error("Only vs.RGBH and vs.RGBS formats are supported")
+        raise vs.Error("[CCCV] Only vs.RGBH and vs.RGBS formats are supported")
 
     if length > clip.num_frames:
-        raise ValueError("The length of the input frames should be less than the number of frames in the clip")
+        raise ValueError("[CCCV] The length of the input frames should be less than the number of frames in the clip")
 
     if length < 2:
-        raise ValueError("The length of the input frames should be greater than 1")
+        raise ValueError("[CCCV] The length of the input frames should be greater than 1")
 
     if not one_frame_out:
         return inference_vsr_multi_frame_out(inference, clip, scale, length, device)
@@ -121,7 +121,7 @@ def inference_vsr_one_frame_out(
     """
 
     if length % 2 == 0:
-        raise ValueError("The length of the input frames should be odd")
+        raise ValueError("[CCCV] The length of the input frames should be odd")
 
     lock = Lock()
 

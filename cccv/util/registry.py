@@ -41,7 +41,7 @@ class Registry(Iterable[Tuple[str, Any]]):
 
     def _do_register(self, name: str, obj: Any) -> None:
         if name in self._obj_map:
-            print("An object named '{}' was already registered in '{}' registry!".format(name, self._name))
+            print("[CCCV] An object named '{}' was already registered in '{}' registry!".format(name, self._name))
         else:
             self._obj_map[name] = obj
 
@@ -69,7 +69,7 @@ class Registry(Iterable[Tuple[str, Any]]):
     def get(self, name: str) -> Any:
         ret = self._obj_map.get(name)
         if ret is None:
-            raise KeyError("No object named '{}' found in '{}' registry!".format(name, self._name))
+            raise KeyError("[CCCV] No object named '{}' found in '{}' registry!".format(name, self._name))
         return ret
 
     def __contains__(self, name: str) -> bool:
