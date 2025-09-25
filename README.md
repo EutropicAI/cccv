@@ -59,7 +59,13 @@ clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)
 clip.set_output()
 ```
 
-See more examples in the [example](./example) directory, cccv can register custom configurations and models to extend the functionality
+See more examples in the [example](./example) directory, including:
+
+- SISR (Single Image Super-Resolution)
+- VSR (Video Super-Resolution)
+- VFI (Video Frame Interpolation)
+
+cccv can register custom configurations and models to extend the functionality
 
 ### Current Support
 
