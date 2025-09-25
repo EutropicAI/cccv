@@ -170,3 +170,5 @@ cython_debug/
 
 *.mp4
 *.mkv
+
+/cccv/cache_models/cccv_demo_remote_model

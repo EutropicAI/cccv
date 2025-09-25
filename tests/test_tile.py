@@ -6,8 +6,7 @@ from torchvision import transforms
 
 from cccv import AutoModel, ConfigType
 from cccv.model import SRBaseModel, tile_sr
-
-from .util import ASSETS_PATH, CCCV_DEVICE, calculate_image_similarity, compare_image_size, load_image
+from tests.util import ASSETS_PATH, CCCV_DEVICE, calculate_image_similarity, compare_image_size, load_image
 
 
 def test_tile_sr() -> None:

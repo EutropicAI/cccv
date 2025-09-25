@@ -1,8 +1,10 @@
+from pathlib import Path
 from typing import Any, Optional, Tuple, Union
 
 import torch
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.auto.config import AutoConfig
+from cccv.config import BaseConfig
 from cccv.model import MODEL_REGISTRY
 from cccv.type import ConfigType
 
@@ -10,7 +12,7 @@ from cccv.type import ConfigType
 class AutoModel:
     @staticmethod
     def from_pretrained(
-        pretrained_model_name_or_path: Union[ConfigType, str],
+        pretrained_model_name_or_path: Union[ConfigType, str, Path],
         *,
         device: Optional[torch.device] = None,
         fp16: bool = True,
@@ -44,7 +46,8 @@ class AutoModel:
             )
             pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
 
-        config = CONFIG_REGISTRY.get(pretrained_model_name_or_path)
+        config = AutoConfig.from_pretrained(pretrained_model_name_or_path, **kwargs)
+
         return AutoModel.from_config(
             config=config,
             device=device,

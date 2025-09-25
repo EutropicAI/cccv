@@ -15,8 +15,7 @@ from cccv.util.misc import (
     resize,
     ssim_matlab,
 )
-
-from .util import calculate_image_similarity, load_image
+from tests.util import calculate_image_similarity, load_image
 
 
 def test_device() -> None:
