@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from typing import Any, Union
 
-from cccv.config import CONFIG_REGISTRY
+from cccv.config import CONFIG_REGISTRY, BaseConfig
 from cccv.type import ConfigType
 
 
@@ -46,10 +46,11 @@ class AutoConfig:
         with open(config_path, "r", encoding="utf-8") as f:
             config_dict = json.load(f)
 
-        if "name" not in config_dict:
-            raise KeyError(
-                f"[CCCV] no key 'name' in config.json in {dir_path}, you should provide a valid config.json contain a key 'name'"
-            )
+        for k in ["arch", "model", "name"]:
+            if k not in config_dict:
+                raise KeyError(
+                    f"[CCCV] no key '{k}' in config.json in {dir_path}, you should provide a valid config.json contain a key '{k}'"
+                )
 
         # auto import all .py files in the directory to register the arch, model and config
         for py_file in dir_path.glob("*.py"):
@@ -59,6 +60,8 @@ class AutoConfig:
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
 
-        cfg = CONFIG_REGISTRY.get(config_dict["name"])
-        cfg.path = dir_path / cfg.name
+        config_dict["path"] = str(dir_path / config_dict["name"])
+
+        # convert config_dict to pydantic model
+        cfg = BaseConfig.model_validate(config_dict, strict=False)
         return cfg

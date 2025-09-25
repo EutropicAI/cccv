@@ -1,12 +1,14 @@
 from typing import Optional, Union
 
-from pydantic import BaseModel, FilePath, HttpUrl
+from pydantic import BaseModel, ConfigDict, FilePath, HttpUrl
 
 from cccv.type.arch import ArchType
 from cccv.type.model import ModelType
 
 
 class BaseConfig(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     name: str
     url: Optional[HttpUrl] = None
     path: Optional[FilePath] = None
