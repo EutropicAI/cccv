@@ -24,7 +24,7 @@ jobs:
       matrix:
         os-version: ["windows-latest", "ubuntu-latest", "macos-14"]
         python-version: ["3.9"]
-        pytorch-version: ["2.7.1", "2.1.2", "2.0.0", "1.13.0"]
+        pytorch-version: ["2.7.1", "2.1.2", "2.0.0"]
 
     runs-on: ${{ matrix.os-version }}
     steps:
@@ -57,11 +57,6 @@ jobs:
         if: matrix.pytorch-version == '2.0.0'
         run: |
           uv pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1
-
-      - name: Install PyTorch 1.13.0
-        if: matrix.pytorch-version == '1.13.0'
-        run: |
-          uv pip install torch==1.13.0 torchvision==0.14.0 torchaudio==0.13.0
 
       - name: Show environment
         run: |

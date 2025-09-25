@@ -10,7 +10,7 @@ an inference lib for image/video restoration and video frame interpolation with 
 
 ### Install
 
-Make sure you have Python >= 3.9 and PyTorch >= 1.13 installed
+Make sure you have Python >= 3.9 and PyTorch >= 2.0 installed
 
 ```bash
 pip install cccv
