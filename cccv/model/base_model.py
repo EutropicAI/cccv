@@ -69,7 +69,7 @@ class CCBaseModel(BaseModelInterface):
             try:
                 self.model = self.model.half()
             except Exception as e:
-                print(f"[CCCV] Error: {e}, fp16 is not supported on this model, fallback to fp32.")
+                print(f"[CCCV] Warning: {e}. \nfp16 is not supported on this model, fallback to fp32.")
                 self.fp16 = False
                 self.model = self.load_model()
 
