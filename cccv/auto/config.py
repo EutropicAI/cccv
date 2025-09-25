@@ -7,16 +7,22 @@ from cccv.type import ConfigType
 class AutoConfig:
     @staticmethod
     def from_pretrained(
-        pretrained_model_name: Union[ConfigType, str],
+        pretrained_model_name_or_path: Union[ConfigType, str],
         **kwargs: Any,
     ) -> Any:
         """
         Get a config instance of a pretrained model configuration.
 
-        :param pretrained_model_name: The name of the pretrained model configuration
+        :param pretrained_model_name_or_path: The name or path of the pretrained model configuration
         :return:
         """
-        return CONFIG_REGISTRY.get(pretrained_model_name)
+        if "pretrained_model_name" in kwargs:
+            print(
+                "[CCCV] warning: 'pretrained_model_name' is deprecated, please use 'pretrained_model_name_or_path' instead."
+            )
+            pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
+
+        return CONFIG_REGISTRY.get(pretrained_model_name_or_path)
 
     @staticmethod
     def register(config: Union[BaseConfig, Any], name: Optional[str] = None) -> None:

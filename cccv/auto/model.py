@@ -10,7 +10,8 @@ from cccv.type import ConfigType
 class AutoModel:
     @staticmethod
     def from_pretrained(
-        pretrained_model_name: Union[ConfigType, str],
+        pretrained_model_name_or_path: Union[ConfigType, str],
+        *,
         device: Optional[torch.device] = None,
         fp16: bool = True,
         compile: bool = False,
@@ -23,9 +24,9 @@ class AutoModel:
         **kwargs: Any,
     ) -> Any:
         """
-        Get a model instance from a pretrained model name.
+        Get a model instance from a pretrained model name or path.
 
-        :param pretrained_model_name: The name of the pretrained model. It should be registered in CONFIG_REGISTRY.
+        :param pretrained_model_name_or_path: The name or path of the pretrained model. It should be registered in CONFIG_REGISTRY.
         :param device: inference device
         :param fp16: use fp16 precision or not
         :param compile: use torch.compile or not
@@ -37,8 +38,13 @@ class AutoModel:
         :param gh_proxy: The proxy for downloading from github release. Example: https://github.abskoop.workers.dev/
         :return:
         """
+        if "pretrained_model_name" in kwargs:
+            print(
+                "[CCCV] warning: 'pretrained_model_name' is deprecated, please use 'pretrained_model_name_or_path' instead."
+            )
+            pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
 
-        config = CONFIG_REGISTRY.get(pretrained_model_name)
+        config = CONFIG_REGISTRY.get(pretrained_model_name_or_path)
         return AutoModel.from_config(
             config=config,
             device=device,
@@ -56,6 +62,7 @@ class AutoModel:
     @staticmethod
     def from_config(
         config: Union[BaseConfig, Any],
+        *,
         device: Optional[torch.device] = None,
         fp16: bool = True,
         compile: bool = False,
