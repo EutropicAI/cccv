@@ -1,6 +1,6 @@
 from typing import Any
 
-from cccv import ArchType, AutoConfig, AutoModel, SRBaseModel
+from cccv import CONFIG_REGISTRY, MODEL_REGISTRY, ArchType, AutoModel, SRBaseModel
 from cccv.config import RealESRGANConfig
 
 # define your own config name and model name
@@ -17,11 +17,11 @@ cfg = RealESRGANConfig(
     scale=2,
 )
 
-AutoConfig.register(cfg)
+CONFIG_REGISTRY.register(cfg)
 
 
 # extend from cccv.SRBaseModel then implement your own model
-@AutoModel.register(name=model_name)
+@MODEL_REGISTRY.register(name=model_name)
 class TESTMODEL(SRBaseModel):
     def load_model(self) -> Any:
         print("Override load_model function here")

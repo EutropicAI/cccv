@@ -1,6 +1,6 @@
-from typing import Any, Optional, Union
+from typing import Any, Union
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY
 from cccv.type import ConfigType
 
 
@@ -23,16 +23,3 @@ class AutoConfig:
             pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
 
         return CONFIG_REGISTRY.get(pretrained_model_name_or_path)
-
-    @staticmethod
-    def register(config: Union[BaseConfig, Any], name: Optional[str] = None) -> None:
-        """
-        Register the given config class instance under the name BaseConfig.name or the given name.
-        Can be used as a function call. See docstring of this class for usage.
-
-        :param config: The config class instance to register
-        :param name: The name to register the config class instance under. If None, use BaseConfig.name
-        :return:
-        """
-        # used as a function call
-        CONFIG_REGISTRY.register(obj=config, name=name)
