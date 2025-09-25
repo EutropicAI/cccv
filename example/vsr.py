@@ -7,7 +7,7 @@ from cccv.model import VSRBaseModel
 img = cv2.imdecode(np.fromfile("../assets/test.jpg", dtype=np.uint8), cv2.IMREAD_COLOR)
 imgList = [img, img, img]
 
-model: VSRBaseModel = AutoModel.from_pretrained(ConfigType.AnimeSR_v2_4x, fp16=False)
+model: VSRBaseModel = AutoModel.from_pretrained(ConfigType.AnimeSR_v2_4x)
 
 imgOutList = model.inference_image_list(imgList)
 

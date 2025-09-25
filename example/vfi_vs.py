@@ -10,10 +10,7 @@ from cccv import AutoModel, ConfigType, VFIBaseModel
 
 # --- IFNet, use fp16 to inference (vs.RGBH)
 
-model: VFIBaseModel = AutoModel.from_pretrained(
-    ConfigType.RIFE_IFNet_v426_heavy,
-    fp16=True,
-)
+model: VFIBaseModel = AutoModel.from_pretrained(ConfigType.RIFE_IFNet_v426_heavy, fp16=True, tile=None)
 
 core.num_threads = 1  # should be set to single thread now, TODO: fix it
 clip = core.bs.VideoSource(source="s.mkv")

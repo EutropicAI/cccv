@@ -8,7 +8,7 @@ from cccv.type import ArchType, ConfigType, ModelType
 class RIFEConfig(VFIBaseConfig):
     arch: Union[ArchType, str] = ArchType.IFNET
     model: Union[ModelType, str] = ModelType.RIFE
-    num_frame: int = 3
+    num_frame: int = 2
 
 
 RIFEConfigs = [
