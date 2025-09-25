@@ -2,13 +2,7 @@ import cv2
 
 from cccv import AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.model import VSRBaseModel
-from tests.util import (
-    ASSETS_PATH,
-    CCCV_DEVICE,
-    calculate_image_similarity,
-    compare_image_size,
-    load_image,
-)
+from tests.util import ASSETS_PATH, CCCV_DEVICE, CCCV_FP16, calculate_image_similarity, compare_image_size, load_image
 
 
 class Test_EDVR:
@@ -19,7 +13,7 @@ class Test_EDVR:
         for k in [ConfigType.EDVR_M_SR_REDS_official_4x, ConfigType.EDVR_M_woTSA_SR_REDS_official_4x]:
             print(f"Testing {k}")
             cfg: BaseConfig = AutoConfig.from_pretrained(k)
-            model: VSRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False)
+            model: VSRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16)
             print(model.device)
 
             img2 = model.inference_image_list(imgList)

@@ -92,17 +92,18 @@ class DRBAModel(VFIBaseModel):
         if len(img_list) != 3:
             raise ValueError("DRBA img_list must contain 3 images")
 
-        img_list_tensor = []
+        new_img_list = []
         for img in img_list:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            img_tensor = transforms.ToTensor()(img).unsqueeze(0).to(self.device)
-            if self.fp16:
-                img_tensor = img_tensor.half()
-            img_list_tensor.append(img_tensor)
+            img = transforms.ToTensor()(img).unsqueeze(0).to(self.device)
+            new_img_list.append(img)
 
-        inp = torch.stack(img_list_tensor, dim=1)
+        # b, n, c, h, w
+        img_tensor_stack = torch.stack(new_img_list, dim=1)
+        if self.fp16:
+            img_tensor_stack = img_tensor_stack.half()
 
-        results, _ = self.inference(inp, [-1, -0.5], [0], [0.5, 1], False, False, 1.0, None)
+        results, _ = self.inference(img_tensor_stack, [-1, -0.5], [0], [0.5, 1], False, False, 1.0, None)
 
         results_list = []
         for i in range(results.shape[1]):

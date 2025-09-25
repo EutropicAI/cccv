@@ -48,6 +48,8 @@ class VSRBaseModel(CCBaseModel):
 
         # b, n, c, h, w
         img_tensor_stack = torch.stack(new_img_list, dim=1)
+        if self.fp16:
+            img_tensor_stack = img_tensor_stack.half()
 
         out = self.inference(img_tensor_stack)
 

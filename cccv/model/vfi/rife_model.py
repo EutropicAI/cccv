@@ -64,17 +64,18 @@ class RIFEModel(VFIBaseModel):
         if len(img_list) != 2:
             raise ValueError("IFNet img_list must contain 2 images")
 
-        img_list_tensor = []
+        new_img_list = []
         for img in img_list:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            img_tensor = transforms.ToTensor()(img).unsqueeze(0).to(self.device)
-            if self.fp16:
-                img_tensor = img_tensor.half()
-            img_list_tensor.append(img_tensor)
+            img = transforms.ToTensor()(img).unsqueeze(0).to(self.device)
+            new_img_list.append(img)
 
-        inp = torch.stack(img_list_tensor, dim=1)
+        # b, n, c, h, w
+        img_tensor_stack = torch.stack(new_img_list, dim=1)
+        if self.fp16:
+            img_tensor_stack = img_tensor_stack.half()
 
-        out = self.inference(inp, timestep=0.5, scale=1.0)
+        out = self.inference(img_tensor_stack, timestep=0.5, scale=1.0)
 
         # Convert to numpy image list
         results_list = []
