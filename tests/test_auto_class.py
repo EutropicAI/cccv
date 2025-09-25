@@ -49,7 +49,7 @@ class Test_AutoConfig:
         cfg: BaseConfig = AutoConfig.from_pretrained(
             r"C:\Users\haiqu\Desktop\cccv\cccv\cache_models\cccv_demo_remote_model"
         )
-
+        print(cfg)
         img1 = load_image()
         model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
 

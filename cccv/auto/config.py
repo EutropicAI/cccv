@@ -63,5 +63,5 @@ class AutoConfig:
         config_dict["path"] = str(dir_path / config_dict["name"])
 
         # convert config_dict to pydantic model
-        cfg = BaseConfig.model_validate(config_dict, strict=False)
+        cfg = BaseConfig.model_validate(config_dict)
         return cfg
