@@ -33,8 +33,6 @@ def resize(img: Tensor, _scale: float) -> Tensor:
 def de_resize(img: Any, ori_h: int, ori_w: int) -> Tensor:
     return F.interpolate(img, size=(int(ori_h), int(ori_w)), mode="bilinear", align_corners=False)
 
-    # Flow distance calculator
-
 
 def distance_calculator(_x: Tensor) -> Tensor:
     dtype = _x.dtype
@@ -99,8 +97,8 @@ def ssim_matlab(
     (_, _, height, width) = img1.size()
     if window is None:
         real_size = min(window_size, height, width)
-        window = create_window_3d(real_size, channel=1).to(img1.device).to(img1.dtype)
         # Channel is set to 1 since we consider color images as volumetric images
+        window = create_window_3d(real_size, channel=1).to(img1.device).to(img1.dtype)
 
     img1 = img1.unsqueeze(1)
     img2 = img2.unsqueeze(1)
