@@ -104,8 +104,7 @@ extend-ignore = [
   "RUF003",
   "E402",
   "RUF002",
-  "B904",
-  "F401"
+  "B904"
 ]
 extend-select = [
   "I",  # isort
@@ -123,6 +122,9 @@ combine-as-imports = true
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401", "F403"]
 
 [tool.uv]
 default-groups = [
