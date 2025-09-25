@@ -14,7 +14,6 @@ class DRBAConfig(VFIBaseConfig):
 DRBAConfigs = [
     DRBAConfig(
         name=ConfigType.DRBA_IFNet,
-        url="https://github.com/EutropicAI/ccvfi/releases/download/model_zoo/DRBA_IFNet.pkl",
         hash="4cc518e172156ad6207b9c7a43364f518832d83a4325d484240493a9e2980537",
     )
 ]

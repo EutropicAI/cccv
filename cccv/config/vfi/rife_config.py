@@ -14,7 +14,6 @@ class RIFEConfig(VFIBaseConfig):
 RIFEConfigs = [
     RIFEConfig(
         name=ConfigType.RIFE_IFNet_v426_heavy,
-        url="https://github.com/EutropicAI/ccvfi/releases/download/model_zoo/RIFE_IFNet_v426_heavy.pkl",
         hash="4cc518e172156ad6207b9c7a43364f518832d83a4325d484240493a9e2980537",
     )
 ]

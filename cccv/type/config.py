@@ -112,7 +112,7 @@ class ConfigType(str, Enum):
     # ------------------------------------- Video Frame Interpolation --------------------------------------------------
 
     # RIFE
-    RIFE_IFNet_v426_heavy = "RIFE_IFNet_v426_heavy.pkl"
+    RIFE_IFNet_v426_heavy = "RIFE_IFNet_v426_heavy.pth"
 
     # DRBA
-    DRBA_IFNet = "DRBA_IFNet.pkl"
+    DRBA_IFNet = "DRBA_IFNet.pth"
