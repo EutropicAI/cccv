@@ -38,32 +38,31 @@ CCCV_DEVICE = DEFAULT_DEVICE if not CI_ENV else torch.device("cpu")
 
 
 # load normal test image
-def load_image() -> np.ndarray:
-    img = cv2.imdecode(np.fromfile(str(TEST_IMG_PATH), dtype=np.uint8), cv2.IMREAD_COLOR)
+def load_image(img_path: Path = TEST_IMG_PATH) -> np.ndarray:
+    img = cv2.imdecode(np.fromfile(str(img_path), dtype=np.uint8), cv2.IMREAD_COLOR)
     return img
 
 
 # load vfi test images
 def load_images() -> List[np.ndarray]:
-    img0 = cv2.imdecode(np.fromfile(str(TEST_IMG_PATH_0), dtype=np.uint8), cv2.IMREAD_COLOR)
-    img1 = cv2.imdecode(np.fromfile(str(TEST_IMG_PATH_1), dtype=np.uint8), cv2.IMREAD_COLOR)
-    img2 = cv2.imdecode(np.fromfile(str(TEST_IMG_PATH_2), dtype=np.uint8), cv2.IMREAD_COLOR)
-    return [img0, img1, img2]
+    return [load_image(k) for k in [TEST_IMG_PATH_0, TEST_IMG_PATH_1, TEST_IMG_PATH_2]]
 
 
 def load_eval_images() -> List[np.ndarray]:
-    img0 = cv2.imdecode(np.fromfile(str(EVAL_IMG_PATH_DRBA_0), dtype=np.uint8), cv2.IMREAD_COLOR)
-    img1 = cv2.imdecode(np.fromfile(str(EVAL_IMG_PATH_DRBA_1), dtype=np.uint8), cv2.IMREAD_COLOR)
-    img2 = cv2.imdecode(np.fromfile(str(EVAL_IMG_PATH_DRBA_2), dtype=np.uint8), cv2.IMREAD_COLOR)
-    img3 = cv2.imdecode(np.fromfile(str(EVAL_IMG_PATH_DRBA_3), dtype=np.uint8), cv2.IMREAD_COLOR)
-    img4 = cv2.imdecode(np.fromfile(str(EVAL_IMG_PATH_DRBA_4), dtype=np.uint8), cv2.IMREAD_COLOR)
-    return [img0, img1, img2, img3, img4]
+    return [
+        load_image(k)
+        for k in [
+            EVAL_IMG_PATH_DRBA_0,
+            EVAL_IMG_PATH_DRBA_1,
+            EVAL_IMG_PATH_DRBA_2,
+            EVAL_IMG_PATH_DRBA_3,
+            EVAL_IMG_PATH_DRBA_4,
+        ]
+    ]
 
 
 def load_eval_image() -> np.ndarray:
-    img = cv2.imdecode(np.fromfile(str(EVAL_IMG_PATH_RIFE), dtype=np.uint8), cv2.IMREAD_COLOR)
-    img = cv2.resize(img, (960, 540))
-    return img
+    return load_image(EVAL_IMG_PATH_RIFE)
 
 
 def calculate_image_similarity(image1: np.ndarray, image2: np.ndarray, similarity: float = 0.85) -> bool:
