@@ -104,7 +104,8 @@ extend-ignore = [
   "RUF003",
   "E402",
   "RUF002",
-  "B904"
+  "B904",
+  "F401"
 ]
 extend-select = [
   "I",  # isort
