@@ -30,9 +30,7 @@ import numpy as np
 
 from cccv import AutoModel, ConfigType, SRBaseModel
 
-model: SRBaseModel = AutoModel.from_pretrained(
-    pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
-)
+model: SRBaseModel = AutoModel.from_pretrained(ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x)
 
 img = cv2.imdecode(np.fromfile("test.jpg", dtype=np.uint8), cv2.IMREAD_COLOR)
 img = model.inference_image(img)
@@ -47,10 +45,10 @@ a simple example to use the VapourSynth to process a video
 import vapoursynth as vs
 from vapoursynth import core
 
-from cccv import AutoModel, VSRBaseModel, ConfigType
+from cccv import AutoModel, ConfigType, SRBaseModel
 
-model: VSRBaseModel = AutoModel.from_pretrained(
-    pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
+model: SRBaseModel = AutoModel.from_pretrained(
+    ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
     tile=None
 )
 
