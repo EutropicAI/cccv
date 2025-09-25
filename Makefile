@@ -20,5 +20,5 @@ vs:
 
 .PHONY: dev
 dev:
-	docker compose -f vs-docker-compose.yml down
-	docker compose -f vs-docker-compose.yml up -d
+	docker compose -f cccv-docker-compose.yml down
+	docker compose -f cccv-docker-compose.yml up -d

@@ -1,6 +1,6 @@
 version: "3.8"
 
-name: vs
+name: cccv
 
 networks:
   backend:
