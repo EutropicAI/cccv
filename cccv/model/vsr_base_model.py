@@ -89,7 +89,7 @@ class VSRBaseModel(CCBaseModel):
             inference=self.inference,
             clip=clip,
             scale=cfg.scale,
-            length=cfg.num_frame,
+            num_frame=cfg.num_frame,
             device=self.device,
             one_frame_out=self.one_frame_out,
         )

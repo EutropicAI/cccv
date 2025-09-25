@@ -34,4 +34,5 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from cccv.vs.sr import inference_sr
+from cccv.vs.vfi import inference_vfi
 from cccv.vs.vsr import inference_vsr

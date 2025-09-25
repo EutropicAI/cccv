@@ -50,7 +50,7 @@ class VFIBaseModel(CCBaseModel):
             clip=clip,
             scale=scale,
             tar_fps=tar_fps,
-            in_frame_count=cfg.num_frame,
+            num_frame=cfg.num_frame,
             scdet=scdet,
             scdet_threshold=scdet_threshold,
             device=self.device,

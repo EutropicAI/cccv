@@ -16,7 +16,7 @@ def inference_vfi(
     scale: float,
     tar_fps: float,
     device: torch.device,
-    in_frame_count: int = 2,
+    num_frame: int = 2,
     scdet: bool = True,
     scdet_threshold: float = 0.3,
 ) -> vs.VideoNode:
@@ -28,39 +28,41 @@ def inference_vfi(
     :param scale: The flow scale factor
     :param tar_fps: The fps of the interpolated video
     :param device: The device
-    :param in_frame_count: The input frame count of vfi method once infer
+    :param num_frame: The input frame count of vfi method once infer
     :param scdet: Enable SSIM scene change detection
     :param scdet_threshold: SSIM scene change detection threshold (greater is sensitive)
     :return:
     """
 
     if core.num_threads != 1:
-        raise ValueError("The number of threads must be 1 when enable frame interpolation")
+        raise ValueError("[CCCV] The number of threads must be 1 when enable frame interpolation")
 
     if clip.format.id not in [vs.RGBH, vs.RGBS]:
-        raise vs.Error("Only vs.RGBH and vs.RGBS formats are supported")
+        raise vs.Error("[CCCV] Only vs.RGBH and vs.RGBS formats are supported")
 
-    if clip.num_frames < in_frame_count:
-        raise ValueError(f"Clip do not have enough frames for vfi method require {in_frame_count} frames once infer")
+    if num_frame > clip.num_frames:
+        raise ValueError("[CCCV] Input frames should be less than the number of frames in the clip")
+    elif num_frame <= 1:
+        raise ValueError("[CCCV] Input frames should be greater than 1")
 
     src_fps = clip.fps.numerator / clip.fps.denominator
     if src_fps > tar_fps:
-        raise ValueError("The target fps should be greater than the clip fps")
+        raise ValueError("[CCCV] The target fps should be greater than the clip fps")
 
     if scale < 0 or not math.log2(scale).is_integer():
-        raise ValueError("The scale should be greater than 0 and is power of two")
+        raise ValueError("[CCCV] The scale should be greater than 0 and is power of two")
 
     vfi_methods = {
         2: inference_vsr_two_frame_in,
         3: inference_vsr_three_frame_in,
     }
 
-    if in_frame_count not in vfi_methods:
-        raise ValueError(f"The vfi method with {in_frame_count} frame input is not supported")
+    if num_frame not in vfi_methods:
+        raise ValueError(f"[CCCV] The vfi method with {num_frame} frame input is not supported")
 
     mapper = TMapper(src_fps, tar_fps)
 
-    return vfi_methods[in_frame_count](inference, clip, mapper, scale, scdet, scdet_threshold, device)
+    return vfi_methods[num_frame](inference, clip, mapper, scale, scdet, scdet_threshold, device)
 
 
 def inference_vsr_two_frame_in(
