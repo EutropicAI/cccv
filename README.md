@@ -30,9 +30,7 @@ import numpy as np
 
 from cccv import AutoModel, ConfigType, SRBaseModel
 
-model: SRBaseModel = AutoModel.from_pretrained(
-    pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
-)
+model: SRBaseModel = AutoModel.from_pretrained(ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x)
 
 img = cv2.imdecode(np.fromfile("test.jpg", dtype=np.uint8), cv2.IMREAD_COLOR)
 img = model.inference_image(img)
@@ -47,10 +45,10 @@ a simple example to use the VapourSynth to process a video
 import vapoursynth as vs
 from vapoursynth import core
 
-from cccv import AutoModel, VSRBaseModel, ConfigType
+from cccv import AutoModel, ConfigType, SRBaseModel
 
-model: VSRBaseModel = AutoModel.from_pretrained(
-    pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
+model: SRBaseModel = AutoModel.from_pretrained(
+    ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
     tile=None
 )
 
@@ -61,7 +59,13 @@ clip = core.resize.Bicubic(clip=clip, matrix_s="709", format=vs.YUV420P16)
 clip.set_output()
 ```
 
-See more examples in the [example](./example) directory, cccv can register custom configurations and models to extend the functionality
+See more examples in the [example](./example) directory, including:
+
+- SISR (Single Image Super-Resolution)
+- VSR (Video Super-Resolution)
+- VFI (Video Frame Interpolation)
+
+cccv can register custom configurations and models to extend the functionality
 
 ### Current Support
 

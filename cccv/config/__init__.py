@@ -3,7 +3,7 @@ from cccv.util.registry import RegistryConfigInstance
 
 CONFIG_REGISTRY: RegistryConfigInstance = RegistryConfigInstance("CONFIG")
 
-from cccv.config.base_config import BaseConfig, SRBaseConfig, VSRBaseConfig
+from cccv.config.base_config import BaseConfig, SRBaseConfig, VSRBaseConfig, VFIBaseConfig
 
 # Auxiliary Network
 
@@ -24,3 +24,7 @@ from cccv.config.sr.hat_config import HATConfig
 
 from cccv.config.vsr.edvr_config import EDVRConfig
 from cccv.config.vsr.animesr_config import AnimeSRConfig
+
+# Video Frame Interpolation
+from cccv.config.vfi.rife_config import RIFEConfig
+from cccv.config.vfi.drba_config import DRBAConfig

@@ -15,9 +15,17 @@ class BaseConfig(BaseModel):
     model: Union[ModelType, str]
 
 
+class AuxiliaryBaseConfig(BaseConfig):
+    pass
+
+
 class SRBaseConfig(BaseConfig):
     scale: int
 
 
 class VSRBaseConfig(SRBaseConfig):
+    num_frame: int
+
+
+class VFIBaseConfig(BaseConfig):
     num_frame: int

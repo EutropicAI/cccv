@@ -1,7 +1,6 @@
 from typing import Any
 
-from cccv import AutoConfig, AutoModel, SRBaseModel
-from cccv.arch import RRDBNet
+from cccv import ArchType, AutoConfig, AutoModel, SRBaseModel
 from cccv.config import RealESRGANConfig
 
 # define your own config name and model name
@@ -12,47 +11,22 @@ model_name = "TESTMODEL"
 # extend from cccv.BaseConfig then implement your own config parameters
 cfg = RealESRGANConfig(
     name=cfg_name,
-    url="https://github.com/EutropicAI/cccv/releases/download/model_zoo/RealESRGAN_RealESRGAN_x4plus_anime_6B_4x.pth",
-    arch="RRDB",
+    url="https://github.com/EutropicAI/cccv/releases/download/model_zoo/RealESRGAN_AnimeJaNai_HD_V3_Compact_2x.pth",
+    arch=ArchType.SRVGG,
     model=model_name,
-    scale=4,
-    num_block=6,
+    scale=2,
 )
 
 AutoConfig.register(cfg)
 
 
-# this should be your own model
-# extend from cccv.SRBaseModel or cccv.VSRBaseModel then implement your own model
-# self.one_frame_out: bool = False  for this kind of vsr model: f1, f2, f3, f4 -> f1', f2', f3', f4'
-# self.one_frame_out: bool = True  for this kind of vsr model: f-2, f-1, f0, f1, f2 -> f0'
-# override self.one_frame_out in self.load_model() if you want
+# extend from cccv.SRBaseModel then implement your own model
 @AutoModel.register(name=model_name)
 class TESTMODEL(SRBaseModel):
     def load_model(self) -> Any:
-        cfg: RealESRGANConfig = self.config
-        state_dict = self.get_state_dict()
-
-        if "params_ema" in state_dict:
-            state_dict = state_dict["params_ema"]
-        elif "params" in state_dict:
-            state_dict = state_dict["params"]
-        elif "model_state_dict" in state_dict:
-            # For APISR's model
-            state_dict = state_dict["model_state_dict"]
-
-        model = RRDBNet(
-            num_in_ch=cfg.num_in_ch,
-            num_out_ch=cfg.num_out_ch,
-            scale=cfg.scale,
-            num_feat=cfg.num_feat,
-            num_block=cfg.num_block,
-            num_grow_ch=cfg.num_grow_ch,
-        )
-
-        model.load_state_dict(state_dict)
-        model.eval().to(self.device)
-        return model
+        print("Override load_model function here")
+        print("We use default load_model function to load the model")
+        return super().load_model()
 
 
 model: TESTMODEL = AutoModel.from_pretrained(cfg_name)

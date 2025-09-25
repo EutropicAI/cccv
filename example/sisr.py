@@ -11,9 +11,7 @@ if example == 0:
     model: SRBaseModel = AutoModel.from_pretrained(ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x)
 elif example == 1:
     # edit the configuration
-    config: BaseConfig = AutoConfig.from_pretrained(
-        pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
-    )
+    config: BaseConfig = AutoConfig.from_pretrained(ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x)
     print(config)
     config.scale = 2
     model: SRBaseModel = AutoModel.from_config(config=config)
@@ -30,7 +28,7 @@ elif example == 3:
 elif example == 4:
     # use custom model dir and gh proxy
     model: SRBaseModel = AutoModel.from_pretrained(
-        pretrained_model_name=ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
+        ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x,
         model_dir="./",
         gh_proxy="https://github.abskoop.workers.dev/",
     )

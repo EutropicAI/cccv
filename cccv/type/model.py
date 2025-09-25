@@ -25,3 +25,9 @@ class ModelType(str, Enum):
 
     EDVR = "EDVR"
     AnimeSR = "AnimeSR"
+
+    # ------------------------------------- Video Frame Interpolation --------------------------------------------------
+    VFIBaseModel = "VFIBaseModel"
+
+    RIFE = "RIFE"
+    DRBA = "DRBA"

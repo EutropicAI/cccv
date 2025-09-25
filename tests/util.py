@@ -1,6 +1,7 @@
 import math
 import os
 from pathlib import Path
+from typing import List
 
 import cv2
 import numpy as np
@@ -13,7 +14,22 @@ print(f"PyTorch version: {torch.__version__}")
 torch_2_4: bool = torch.__version__.startswith("2.4")
 
 ASSETS_PATH = Path(__file__).resolve().parent.parent.absolute() / "assets"
+
+# normal test image
 TEST_IMG_PATH = ASSETS_PATH / "test.jpg"
+
+# vfi test image
+TEST_IMG_PATH_0 = ASSETS_PATH / "vfi" / "test_i0.jpg"
+TEST_IMG_PATH_1 = ASSETS_PATH / "vfi" / "test_i1.jpg"
+TEST_IMG_PATH_2 = ASSETS_PATH / "vfi" / "test_i2.jpg"
+
+EVAL_IMG_PATH_RIFE = ASSETS_PATH / "vfi" / "test_out_rife.jpg"
+
+EVAL_IMG_PATH_DRBA_0 = ASSETS_PATH / "vfi" / "test_out_drba_0.jpg"
+EVAL_IMG_PATH_DRBA_1 = ASSETS_PATH / "vfi" / "test_out_drba_1.jpg"
+EVAL_IMG_PATH_DRBA_2 = ASSETS_PATH / "vfi" / "test_out_drba_2.jpg"
+EVAL_IMG_PATH_DRBA_3 = ASSETS_PATH / "vfi" / "test_out_drba_3.jpg"
+EVAL_IMG_PATH_DRBA_4 = ASSETS_PATH / "vfi" / "test_out_drba_4.jpg"
 
 CI_ENV = os.environ.get("GITHUB_ACTIONS") == "true"
 CCCV_FP16 = True if not CI_ENV else False
@@ -21,9 +37,32 @@ CCCV_TILE = None if not CI_ENV else (64, 64)
 CCCV_DEVICE = DEFAULT_DEVICE if not CI_ENV else torch.device("cpu")
 
 
-def load_image() -> np.ndarray:
-    img = cv2.imdecode(np.fromfile(str(TEST_IMG_PATH), dtype=np.uint8), cv2.IMREAD_COLOR)
+# load normal test image
+def load_image(img_path: Path = TEST_IMG_PATH) -> np.ndarray:
+    img = cv2.imdecode(np.fromfile(str(img_path), dtype=np.uint8), cv2.IMREAD_COLOR)
     return img
+
+
+# load vfi test images
+def load_images() -> List[np.ndarray]:
+    return [load_image(k) for k in [TEST_IMG_PATH_0, TEST_IMG_PATH_1, TEST_IMG_PATH_2]]
+
+
+def load_eval_images() -> List[np.ndarray]:
+    return [
+        load_image(k)
+        for k in [
+            EVAL_IMG_PATH_DRBA_0,
+            EVAL_IMG_PATH_DRBA_1,
+            EVAL_IMG_PATH_DRBA_2,
+            EVAL_IMG_PATH_DRBA_3,
+            EVAL_IMG_PATH_DRBA_4,
+        ]
+    ]
+
+
+def load_eval_image() -> np.ndarray:
+    return load_image(EVAL_IMG_PATH_RIFE)
 
 
 def calculate_image_similarity(image1: np.ndarray, image2: np.ndarray, similarity: float = 0.85) -> bool:

@@ -11,7 +11,7 @@ def inference_vsr(
     inference: Callable[[torch.Tensor], torch.Tensor],
     clip: vs.VideoNode,
     scale: Union[float, int, Any],
-    length: int,
+    num_frame: int,
     device: torch.device,
     one_frame_out: bool = False,
 ) -> vs.VideoNode:
@@ -21,7 +21,7 @@ def inference_vsr(
     :param inference: The inference function
     :param clip: vs.VideoNode
     :param scale: The scale factor
-    :param length: The length of the input frames
+    :param num_frame: Number of input frames
     :param device: The device
     :param one_frame_out: Whether the model is one frame output model
     :return:
@@ -29,23 +29,22 @@ def inference_vsr(
     if clip.format.id not in [vs.RGBH, vs.RGBS]:
         raise vs.Error("[CCCV] Only vs.RGBH and vs.RGBS formats are supported")
 
-    if length > clip.num_frames:
-        raise ValueError("[CCCV] The length of the input frames should be less than the number of frames in the clip")
-
-    if length < 2:
-        raise ValueError("[CCCV] The length of the input frames should be greater than 1")
+    if num_frame > clip.num_frames:
+        raise ValueError("[CCCV] Input frames should be less than the number of frames in the clip")
+    elif num_frame <= 1:
+        raise ValueError("[CCCV] Input frames should be greater than 1")
 
     if not one_frame_out:
-        return inference_vsr_multi_frame_out(inference, clip, scale, length, device)
+        return inference_vsr_multi_frame_out(inference, clip, scale, num_frame, device)
     else:
-        return inference_vsr_one_frame_out(inference, clip, scale, length, device)
+        return inference_vsr_one_frame_out(inference, clip, scale, num_frame, device)
 
 
 def inference_vsr_multi_frame_out(
     inference: Callable[[torch.Tensor], torch.Tensor],
     clip: vs.VideoNode,
     scale: Union[float, int, Any],
-    length: int,
+    num_frame: int,
     device: torch.device,
 ) -> vs.VideoNode:
     """
@@ -59,7 +58,7 @@ def inference_vsr_multi_frame_out(
     :param inference: The inference function
     :param clip: vs.VideoNode
     :param scale: The scale factor
-    :param length: The length of the input frames
+    :param num_frame: Number of input frames
     :param device: The device
     :return:
     """
@@ -74,7 +73,7 @@ def inference_vsr_multi_frame_out(
                 cache.clear()
 
                 img = []
-                for i in range(length):
+                for i in range(num_frame):
                     index = n + i
                     if index >= clip.num_frames:
                         img.append(frame_to_tensor(clip.get_frame(clip.num_frames - 1), device=device).unsqueeze(0))
@@ -101,7 +100,7 @@ def inference_vsr_one_frame_out(
     inference: Callable[[torch.Tensor], torch.Tensor],
     clip: vs.VideoNode,
     scale: Union[float, int, Any],
-    length: int,
+    num_frame: int,
     device: torch.device,
 ) -> vs.VideoNode:
     """
@@ -115,12 +114,12 @@ def inference_vsr_one_frame_out(
     :param inference: The inference function
     :param clip: vs.VideoNode
     :param scale: The scale factor
-    :param length: The length of the input frames, should be odd
+    :param num_frame: Number of input frames, should be odd
     :param device: The device
     :return:
     """
 
-    if length % 2 == 0:
+    if num_frame % 2 == 0:
         raise ValueError("[CCCV] The length of the input frames should be odd")
 
     lock = Lock()
@@ -128,8 +127,8 @@ def inference_vsr_one_frame_out(
     def _inference(n: int, f: list[vs.VideoFrame]) -> vs.VideoFrame:
         with lock:
             img = []
-            for i in range(length):
-                index = i - length // 2 + n
+            for i in range(num_frame):
+                index = i - num_frame // 2 + n
                 if index < 0:
                     img.append(frame_to_tensor(clip.get_frame(0), device=device).unsqueeze(0))
 

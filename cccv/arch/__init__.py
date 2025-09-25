@@ -23,3 +23,7 @@ from cccv.arch.sr.hat_arch import HAT
 
 from cccv.arch.vsr.edvr_arch import EDVR
 from cccv.arch.vsr.msrswvsr_arch import MSRSWVSR
+
+# Video Frame Interpolation
+from cccv.arch.vfi.ifnet_arch import IFNet
+from cccv.arch.vfi.drba_arch import DRBA

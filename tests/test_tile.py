@@ -39,7 +39,7 @@ def test_tile_sr() -> None:
 
 def test_auto_model() -> None:
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
-    model: SRBaseModel = AutoModel.from_pretrained(pretrained_model_name=k, fp16=False, device=CCCV_DEVICE)
+    model: SRBaseModel = AutoModel.from_pretrained(k, fp16=False, device=CCCV_DEVICE)
     assert model.tile == (128, 128)
     assert model.tile_pad == 8
     assert model.pad_img is None
@@ -47,5 +47,5 @@ def test_auto_model() -> None:
 
 def test_auto_model_no_tile() -> None:
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
-    model: SRBaseModel = AutoModel.from_pretrained(pretrained_model_name=k, fp16=False, device=CCCV_DEVICE, tile=None)
+    model: SRBaseModel = AutoModel.from_pretrained(k, fp16=False, device=CCCV_DEVICE, tile=None)
     assert model.tile is None

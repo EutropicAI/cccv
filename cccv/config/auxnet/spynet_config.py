@@ -1,10 +1,11 @@
 from typing import Union
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY
+from cccv.config.base_config import AuxiliaryBaseConfig
 from cccv.type import ArchType, ConfigType, ModelType
 
 
-class SpyNetConfig(BaseConfig):
+class SpyNetConfig(AuxiliaryBaseConfig):
     arch: Union[ArchType, str] = ArchType.SPYNET
     model: Union[ModelType, str] = ModelType.SpyNet
 
