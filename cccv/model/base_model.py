@@ -46,7 +46,6 @@ class CCBaseModel(BaseModelInterface):
 
         # load_state_dict
         self.load_state_dict_strict: bool = True
-        self.load_state_dict_assign: bool = False
 
         # ---
         self.config = config
@@ -165,7 +164,7 @@ class CCBaseModel(BaseModelInterface):
         # print(f"[CCCV] net_kw: {net_kw}")
         model = net(**net_kw)
 
-        model.load_state_dict(state_dict, strict=self.load_state_dict_strict, assign=self.load_state_dict_assign)
+        model.load_state_dict(state_dict, strict=self.load_state_dict_strict)
         model.eval().to(self.device)
         return model
 
