@@ -108,3 +108,11 @@ class ConfigType(str, Enum):
     # AnimeSR
     AnimeSR_v1_PaperModel_4x = "AnimeSR_v1_PaperModel_4x.pth"
     AnimeSR_v2_4x = "AnimeSR_v2_4x.pth"
+
+    # ------------------------------------- Video Frame Interpolation --------------------------------------------------
+
+    # RIFE
+    RIFE_IFNet_v426_heavy = "RIFE_IFNet_v426_heavy.pkl"
+
+    # DRBA
+    DRBA_IFNet = "DRBA_IFNet.pkl"

@@ -23,3 +23,8 @@ class ArchType(str, Enum):
 
     EDVR = "EDVR"
     MSRSWVSR = "MSRSWVSR"
+
+    # ------------------------------------- Video Frame Interpolation --------------------------------------------------
+
+    IFNET = "IFNET"
+    DRBA = "DRBA"

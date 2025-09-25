@@ -25,3 +25,7 @@ class SRBaseConfig(BaseConfig):
 
 class VSRBaseConfig(SRBaseConfig):
     num_frame: int
+
+
+class VFIBaseConfig(BaseConfig):
+    num_frame: int
