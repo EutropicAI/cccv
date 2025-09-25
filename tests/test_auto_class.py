@@ -1,6 +1,6 @@
 from typing import Any
 
-from cccv import ArchType, AutoConfig, AutoModel
+from cccv import CONFIG_REGISTRY, MODEL_REGISTRY, ArchType, AutoModel
 from cccv.config import RealESRGANConfig
 from cccv.model import SRBaseModel
 
@@ -17,9 +17,9 @@ def test_auto_class_register() -> None:
         scale=2,
     )
 
-    AutoConfig.register(cfg)
+    CONFIG_REGISTRY.register(cfg)
 
-    @AutoModel.register(name=model_name)
+    @MODEL_REGISTRY.register(name=model_name)
     class TESTMODEL(SRBaseModel):
         def get_cfg(self) -> Any:
             return self.config
