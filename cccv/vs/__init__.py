@@ -33,5 +33,5 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from cccv.vs.sr import inference_sr  # noqa
-from cccv.vs.vsr import inference_vsr  # noqa
+from cccv.vs.sr import inference_sr
+from cccv.vs.vsr import inference_vsr
