@@ -6,7 +6,6 @@ import torch
 from torch import Tensor
 from torchvision import transforms
 
-from cccv.arch import DRBA
 from cccv.model import MODEL_REGISTRY
 from cccv.model.vfi_base_model import VFIBaseModel
 from cccv.type import ModelType
@@ -15,27 +14,14 @@ from cccv.util.misc import de_resize, resize
 
 @MODEL_REGISTRY.register(name=ModelType.DRBA)
 class DRBAModel(VFIBaseModel):
-    def load_model(self) -> Any:
-        # cfg: DRBAConfig = self.config
-        state_dict = self.get_state_dict()
+    def post_init_hook(self) -> None:
+        self.load_state_dict_strict = False
 
-        HAS_CUDA = True
-        try:
-            import cupy
-
-            if cupy.cuda.get_cuda_path() is None:
-                HAS_CUDA = False
-        except Exception:
-            HAS_CUDA = False
-
-        model = DRBA(support_cupy=HAS_CUDA)
-
+    def transform_state_dict(self, state_dict: Any) -> Any:
         def _convert(param: Any) -> Any:
             return {k.replace("module.", ""): v for k, v in param.items() if "module." in k}
 
-        model.load_state_dict(_convert(state_dict), strict=False)
-        model.eval().to(self.device)
-        return model
+        return _convert(state_dict)
 
     @torch.inference_mode()  # type: ignore
     def inference(

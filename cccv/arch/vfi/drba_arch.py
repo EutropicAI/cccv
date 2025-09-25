@@ -12,10 +12,7 @@ from cccv.util.misc import distance_calculator
 
 @ARCH_REGISTRY.register(name=ArchType.DRBA)
 class DRBA(nn.Module):
-    def __init__(
-        self,
-        support_cupy=False,
-    ):
+    def __init__(self):
         super(DRBA, self).__init__()
         self.block0 = IFBlock(7 + 32, c=192)
         self.block1 = IFBlock(8 + 4 + 8 + 32, c=128)
@@ -23,6 +20,15 @@ class DRBA(nn.Module):
         self.block3 = IFBlock(8 + 4 + 8 + 32, c=64)
         self.block4 = IFBlock(8 + 4 + 8 + 32, c=32)
         self.encode = Head()
+
+        support_cupy = True
+        try:
+            import cupy
+
+            if cupy.cuda.get_cuda_path() is None:
+                support_cupy = False
+        except Exception:
+            support_cupy = False
 
         if support_cupy:
             from cccv.arch.vfi.vfi_utils.softsplat import softsplat as fwarp

@@ -44,6 +44,10 @@ class CCBaseModel(BaseModelInterface):
         # extra config
         self.one_frame_out: bool = False  # for vsr model type
 
+        # load_state_dict
+        self.load_state_dict_strict: bool = True
+        self.load_state_dict_assign: bool = False
+
         # ---
         self.config = config
         self.device: Optional[torch.device] = device
@@ -139,6 +143,12 @@ class CCBaseModel(BaseModelInterface):
         """
         Auto load the model from config
 
+        These params in nn.Module.load_state_dict can be overridden in post_init_hook if needed:
+
+        - self.load_state_dict_strict -> strict
+
+        - self.load_state_dict_assign -> assign
+
         :return: The initialized model with weights loaded
         """
         cfg: BaseConfig = self.config
@@ -155,7 +165,7 @@ class CCBaseModel(BaseModelInterface):
         # print(f"[CCCV] net_kw: {net_kw}")
         model = net(**net_kw)
 
-        model.load_state_dict(state_dict)
+        model.load_state_dict(state_dict, strict=self.load_state_dict_strict, assign=self.load_state_dict_assign)
         model.eval().to(self.device)
         return model
 

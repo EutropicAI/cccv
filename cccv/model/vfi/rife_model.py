@@ -5,7 +5,6 @@ import numpy as np
 import torch
 from torchvision import transforms
 
-from cccv.arch import IFNet
 from cccv.model import MODEL_REGISTRY
 from cccv.model.vfi_base_model import VFIBaseModel
 from cccv.type import ModelType
@@ -14,17 +13,14 @@ from cccv.util.misc import de_resize, resize
 
 @MODEL_REGISTRY.register(name=ModelType.RIFE)
 class RIFEModel(VFIBaseModel):
-    def load_model(self) -> Any:
-        state_dict = self.get_state_dict()
+    def post_init_hook(self) -> None:
+        self.load_state_dict_strict = False
 
-        model = IFNet()
-
+    def transform_state_dict(self, state_dict: Any) -> Any:
         def _convert(param: Any) -> Any:
             return {k.replace("module.", ""): v for k, v in param.items() if "module." in k}
 
-        model.load_state_dict(_convert(state_dict), strict=False)
-        model.eval().to(self.device)
-        return model
+        return _convert(state_dict)
 
     @torch.inference_mode()  # type: ignore
     def inference(self, imgs: torch.Tensor, timestep: float, scale: float, *args: Any, **kwargs: Any) -> torch.Tensor:
