@@ -53,8 +53,8 @@ def inference_vfi(
         raise ValueError("[CCCV] The scale should be greater than 0 and is power of two")
 
     vfi_methods = {
-        2: inference_vsr_two_frame_in,
-        3: inference_vsr_three_frame_in,
+        2: inference_vfi_two_frame_in,
+        3: inference_vfi_three_frame_in,
     }
 
     if num_frame not in vfi_methods:
@@ -65,7 +65,7 @@ def inference_vfi(
     return vfi_methods[num_frame](inference, clip, mapper, scale, scdet, scdet_threshold, device)
 
 
-def inference_vsr_two_frame_in(
+def inference_vfi_two_frame_in(
     inference: Callable,
     clip: vs.VideoNode,
     mapper: TMapper,
@@ -157,7 +157,7 @@ def inference_vsr_two_frame_in(
     return new_clip.std.ModifyFrame([new_clip, new_clip], _inference)
 
 
-def inference_vsr_three_frame_in(
+def inference_vfi_three_frame_in(
     inference: Callable,
     clip: vs.VideoNode,
     mapper: TMapper,
