@@ -6,7 +6,10 @@ from cccv.type import ConfigType
 
 class AutoConfig:
     @staticmethod
-    def from_pretrained(pretrained_model_name: Union[ConfigType, str]) -> Any:
+    def from_pretrained(
+        pretrained_model_name: Union[ConfigType, str],
+        **kwargs: Any,
+    ) -> Any:
         """
         Get a config instance of a pretrained model configuration.
 

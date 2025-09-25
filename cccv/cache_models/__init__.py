@@ -2,7 +2,7 @@ import hashlib
 import os
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from tenacity import retry, stop_after_attempt, stop_after_delay, wait_random
 from torch.hub import download_url_to_file
@@ -38,6 +38,7 @@ def load_file_from_url(
     progress: bool = True,
     model_dir: Optional[str] = None,
     gh_proxy: Optional[str] = None,
+    **kwargs: Any,
 ) -> str:
     """
     Load file form http url, will download models if necessary.

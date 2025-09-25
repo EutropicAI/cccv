@@ -20,6 +20,7 @@ class AutoModel:
         pad_img: Optional[Tuple[int, int]] = None,
         model_dir: Optional[str] = None,
         gh_proxy: Optional[str] = None,
+        **kwargs: Any,
     ) -> Any:
         """
         Get a model instance from a pretrained model name.
@@ -49,6 +50,7 @@ class AutoModel:
             pad_img=pad_img,
             model_dir=model_dir,
             gh_proxy=gh_proxy,
+            **kwargs,
         )
 
     @staticmethod
@@ -63,6 +65,7 @@ class AutoModel:
         pad_img: Optional[Tuple[int, int]] = None,
         model_dir: Optional[str] = None,
         gh_proxy: Optional[str] = None,
+        **kwargs: Any,
     ) -> Any:
         """
         Get a model instance from a config.
@@ -92,6 +95,7 @@ class AutoModel:
             pad_img=pad_img,
             model_dir=model_dir,
             gh_proxy=gh_proxy,
+            **kwargs,
         )
 
         return model

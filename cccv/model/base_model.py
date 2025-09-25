@@ -1,5 +1,4 @@
 import sys
-from abc import abstractmethod
 from inspect import signature
 from typing import Any, Optional, Tuple
 
@@ -40,6 +39,7 @@ class CCBaseModel(BaseModelInterface):
         pad_img: Optional[Tuple[int, int]] = None,
         model_dir: Optional[str] = None,
         gh_proxy: Optional[str] = None,
+        **kwargs: Any,
     ) -> None:
         # extra config
         self.one_frame_out: bool = False  # for vsr model type
@@ -159,7 +159,6 @@ class CCBaseModel(BaseModelInterface):
         model.eval().to(self.device)
         return model
 
-    @abstractmethod
     def inference(self, *args: Any, **kwargs: Any) -> Any:
         """
         Inference the model with the inputs
