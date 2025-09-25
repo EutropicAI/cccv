@@ -8,4 +8,4 @@ from cccv.type import ModelType
 @MODEL_REGISTRY.register(name=ModelType.AuxiliaryBaseModel)
 class AuxiliaryBaseModel(CCBaseModel):
     def inference(self, *args: Any, **kwargs: Any) -> Any:
-        raise NotImplementedError("Auxiliary model should use self.model to load in the main model")
+        raise NotImplementedError("[CCCV] Auxiliary model should use self.model to load in the main model")

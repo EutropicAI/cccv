@@ -70,7 +70,7 @@ class VSRBaseModel(CCBaseModel):
 
             return [img]
         else:
-            raise ValueError(f"Unexpected output shape: {out.shape}")
+            raise ValueError(f"[CCCV] Unexpected output shape: {out.shape}")
 
     @torch.inference_mode()  # type: ignore
     def inference_video(self, clip: Any, *args: Any, **kwargs: Any) -> Any:

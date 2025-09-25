@@ -53,19 +53,24 @@ def load_file_from_url(
     :return:
     """
 
+    CCCV_REMOTE_MODEL_ZOO = os.environ.get(
+        "CCCV_REMOTE_MODEL_ZOO", "https://github.com/EutropicAI/cccv/releases/download/model_zoo/"
+    )
+    CCCV_CACHE_MODEL_DIR = os.environ.get("CCCV_CACHE_MODEL_DIR", str(CACHE_PATH))
+
     if model_dir is None:
-        model_dir = str(CACHE_PATH)
+        model_dir = str(CCCV_CACHE_MODEL_DIR)
+        print(
+            f"[CCCV] Using default cache model path {model_dir}, override it by setting environment variable CCCV_CACHE_MODEL_DIR"
+        )
 
     cached_file_path = os.path.abspath(os.path.join(model_dir, config.name))
 
     if config.url is not None:
         _url: str = str(config.url)
     else:
-        CCCV_REMOTE_MODEL_ZOO = os.environ.get(
-            "CCCV_REMOTE_MODEL_ZOO", "https://github.com/EutropicAI/cccv/releases/download/model_zoo/"
-        )
         print(
-            f"Fetch models from {CCCV_REMOTE_MODEL_ZOO}, override it by setting environment variable CCCV_REMOTE_MODEL_ZOO"
+            f"[CCCV] Fetching models from {CCCV_REMOTE_MODEL_ZOO}, override it by setting environment variable CCCV_REMOTE_MODEL_ZOO"
         )
         if not CCCV_REMOTE_MODEL_ZOO.endswith("/"):
             CCCV_REMOTE_MODEL_ZOO += "/"
@@ -79,15 +84,15 @@ def load_file_from_url(
 
     if not os.path.exists(cached_file_path) or force_download:
         if _gh_proxy is not None:
-            print(f"Using github proxy: {_gh_proxy}")
-        print(f"Downloading: {_url} to {cached_file_path}\n")
+            print(f"[CCCV] Using github proxy: {_gh_proxy}")
+        print(f"[CCCV] Downloading: {_url} to {cached_file_path}\n")
 
         @retry(wait=wait_random(min=3, max=5), stop=stop_after_delay(10) | stop_after_attempt(30))
         def _download() -> None:
             try:
                 download_url_to_file(url=_url, dst=cached_file_path, hash_prefix=None, progress=progress)
             except Exception as e:
-                print(f"Download failed: {e}, retrying...")
+                print(f"[CCCV] Download failed: {e}, retrying...")
                 raise e
 
         _download()
@@ -96,7 +101,7 @@ def load_file_from_url(
         get_hash = get_file_sha256(cached_file_path)
         if get_hash != config.hash:
             raise ValueError(
-                f"File {cached_file_path} hash mismatched with config hash {config.hash}, compare with {get_hash}"
+                f"[CCCV] File {cached_file_path} hash mismatched with config hash {config.hash}, compare with {get_hash}"
             )
 
     return cached_file_path
@@ -110,4 +115,4 @@ if __name__ == "__main__":
                 continue
             file_path = os.path.join(root, file)
             name = os.path.basename(file_path)
-            print(f"{name}: {get_file_sha256(file_path)}")
+            print(f"[CCCV] {name}: {get_file_sha256(file_path)}")
