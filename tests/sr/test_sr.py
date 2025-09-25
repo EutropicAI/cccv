@@ -23,9 +23,7 @@ def test_inference() -> None:
 
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
 
-    model: SRBaseModel = AutoModel.from_pretrained(
-        pretrained_model_name=k, device=CCCV_DEVICE, fp16=False, tile=CCCV_TILE
-    )
+    model: SRBaseModel = AutoModel.from_pretrained(k, device=CCCV_DEVICE, fp16=False, tile=CCCV_TILE)
 
     t2 = model(tensor1)
     t3 = model.inference(tensor1)
@@ -55,9 +53,7 @@ def test_sr_compile() -> None:
     img1 = load_image()
     k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
 
-    model: SRBaseModel = AutoModel.from_pretrained(
-        pretrained_model_name=k, device=CCCV_DEVICE, fp16=CCCV_FP16, compile=True, tile=CCCV_TILE
-    )
+    model: SRBaseModel = AutoModel.from_pretrained(k, device=CCCV_DEVICE, fp16=CCCV_FP16, compile=True, tile=CCCV_TILE)
 
     img2 = model.inference_image(img1)
 
