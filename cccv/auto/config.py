@@ -20,7 +20,7 @@ class AutoConfig:
         """
         Get a config instance of a pretrained model configuration, can be a registered config name or a local path or a git url.
 
-        :param pretrained_model_name_or_path: The name or path of the pretrained model configuration
+        :param pretrained_model_name_or_path:
         :param model_dir: The path to cache the downloaded model configuration. Should be a full path. If None, use default cache path.
         :return:
         """

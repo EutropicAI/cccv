@@ -26,9 +26,9 @@ class AutoModel:
         **kwargs: Any,
     ) -> Any:
         """
-        Get a model instance from a pretrained model name or path.
+        Get a model instance from a registered config name or a local path or a git url.
 
-        :param pretrained_model_name_or_path: The name or path of the pretrained model. It should be registered in CONFIG_REGISTRY.
+        :param pretrained_model_name_or_path:
         :param device: inference device
         :param fp16: use fp16 precision or not
         :param compile: use torch.compile or not
@@ -74,7 +74,7 @@ class AutoModel:
         """
         Get a model instance from a config.
 
-        :param config: The config object. It should be registered in CONFIG_REGISTRY.
+        :param config: The config object. We suggest use cccv.BaseConfig or its subclass.
         :param device: inference device
         :param fp16: use fp16 precision or not
         :param compile: use torch.compile or not
