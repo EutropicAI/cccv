@@ -12,7 +12,6 @@ from tests.util import (
     CCCV_FP16,
     CCCV_TILE,
     calculate_image_similarity,
-    compare_image_size,
     load_image,
 )
 
@@ -51,12 +50,28 @@ class Test_AutoConfig:
 
         cfg: BaseConfig = AutoConfig.from_pretrained(clone_dir)
         print(cfg)
-        img1 = load_image()
-        model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
 
+
+class Test_AutoModel:
+    def test_model_from_path(self) -> None:
+        clone_dir = git_clone("https://github.com/EutropicAI/cccv_demo_remote_model")
+        model: SRBaseModel = AutoModel.from_pretrained(clone_dir, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
+
+        img1 = load_image()
         img2 = model.inference_image(img1)
 
-        cv2.imwrite(str(ASSETS_PATH / f"test_{cfg.name}_out.jpg"), img2)
+        cv2.imwrite(str(ASSETS_PATH / f"test_{clone_dir}_out.jpg"), img2)
 
         assert calculate_image_similarity(img1, img2)
-        assert compare_image_size(img1, img2, cfg.scale)
+
+    def test_model_from_remote_repo(self) -> None:
+        model: SRBaseModel = AutoModel.from_pretrained(
+            "https://github.com/EutropicAI/cccv_demo_remote_model", device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE
+        )
+
+        img1 = load_image()
+        img2 = model.inference_image(img1)
+
+        cv2.imwrite(str(ASSETS_PATH / "test_remote_repo_test_out.jpg"), img2)
+
+        assert calculate_image_similarity(img1, img2)

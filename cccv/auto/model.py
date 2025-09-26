@@ -40,12 +40,6 @@ class AutoModel:
         :param gh_proxy: The proxy for downloading from github release. Example: https://github.abskoop.workers.dev/
         :return:
         """
-        if "pretrained_model_name" in kwargs:
-            print(
-                "[CCCV] warning: 'pretrained_model_name' is deprecated, please use 'pretrained_model_name_or_path' instead."
-            )
-            pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
-
         config = AutoConfig.from_pretrained(pretrained_model_name_or_path, **kwargs)
 
         return AutoModel.from_config(

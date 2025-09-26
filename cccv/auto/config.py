@@ -1,22 +1,25 @@
 import importlib.util
 import json
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 from cccv.config import CONFIG_REGISTRY, AutoBaseConfig
 from cccv.type import ConfigType
+from cccv.util.remote import git_clone
 
 
 class AutoConfig:
     @staticmethod
     def from_pretrained(
         pretrained_model_name_or_path: Union[ConfigType, str, Path],
+        model_dir: Optional[Union[Path, str]] = None,
         **kwargs: Any,
     ) -> Any:
         """
-        Get a config instance of a pretrained model configuration.
+        Get a config instance of a pretrained model configuration, can be a registered config name or a local path or a git url.
 
         :param pretrained_model_name_or_path: The name or path of the pretrained model configuration
+        :param model_dir: The path to cache the downloaded model configuration. Should be a full path. If None, use default cache path.
         :return:
         """
         if "pretrained_model_name" in kwargs:
@@ -25,13 +28,21 @@ class AutoConfig:
             )
             pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
 
-        # 1. check if it's a registered config name
+        # 1. check if it's a registered config name, early return if found
         if isinstance(pretrained_model_name_or_path, ConfigType):
             pretrained_model_name_or_path = pretrained_model_name_or_path.value
         if str(pretrained_model_name_or_path) in CONFIG_REGISTRY:
             return CONFIG_REGISTRY.get(str(pretrained_model_name_or_path))
 
-        # 2. check if it's a real path
+        # 2. check is a url or not, if it's a url, git clone it to model_dir then replace pretrained_model_name_or_path with the local path (Path)
+        if str(pretrained_model_name_or_path).startswith("http"):
+            pretrained_model_name_or_path = git_clone(
+                git_url=str(pretrained_model_name_or_path),
+                model_dir=model_dir,
+                **kwargs,
+            )
+
+        # 3. check if it's a real path
         dir_path = Path(str(pretrained_model_name_or_path))
 
         if not dir_path.exists() or not dir_path.is_dir():
