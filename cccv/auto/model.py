@@ -21,7 +21,7 @@ class AutoModel:
         tile: Optional[Tuple[int, int]] = (128, 128),
         tile_pad: int = 8,
         pad_img: Optional[Tuple[int, int]] = None,
-        model_dir: Optional[str] = None,
+        model_dir: Optional[Union[Path, str]] = None,
         gh_proxy: Optional[str] = None,
         **kwargs: Any,
     ) -> Any:
@@ -73,7 +73,7 @@ class AutoModel:
         tile: Optional[Tuple[int, int]] = (128, 128),
         tile_pad: int = 8,
         pad_img: Optional[Tuple[int, int]] = None,
-        model_dir: Optional[str] = None,
+        model_dir: Optional[Union[Path, str]] = None,
         gh_proxy: Optional[str] = None,
         **kwargs: Any,
     ) -> Any:

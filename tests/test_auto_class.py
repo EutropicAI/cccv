@@ -46,9 +46,7 @@ class Test_AutoConfig:
         assert cfg.name == ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
 
     def test_config_from_path(self) -> None:
-        cfg: BaseConfig = AutoConfig.from_pretrained(
-            r"C:\Users\haiqu\Desktop\cccv\cccv\cache_models\cccv_demo_remote_model"
-        )
+        cfg: BaseConfig = AutoConfig.from_pretrained(r"C:\Users\haiqu\Desktop\cccv\cccv_demo_remote_model")
         print(cfg)
         img1 = load_image()
         model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)

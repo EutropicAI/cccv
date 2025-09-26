@@ -1,14 +1,15 @@
 import sys
 from inspect import signature
-from typing import Any, Optional, Tuple
+from pathlib import Path
+from typing import Any, Optional, Tuple, Union
 
 import torch
 
 from cccv.arch import ARCH_REGISTRY
-from cccv.cache_models import load_file_from_url
 from cccv.config import BaseConfig
 from cccv.type import BaseModelInterface
 from cccv.util.device import DEFAULT_DEVICE
+from cccv.util.remote import load_file_from_url
 
 
 class CCBaseModel(BaseModelInterface):
@@ -37,7 +38,7 @@ class CCBaseModel(BaseModelInterface):
         tile: Optional[Tuple[int, int]] = (128, 128),
         tile_pad: int = 8,
         pad_img: Optional[Tuple[int, int]] = None,
-        model_dir: Optional[str] = None,
+        model_dir: Optional[Union[Path, str]] = None,
         gh_proxy: Optional[str] = None,
         **kwargs: Any,
     ) -> None:
@@ -56,7 +57,7 @@ class CCBaseModel(BaseModelInterface):
         self.tile: Optional[Tuple[int, int]] = tile
         self.tile_pad: int = tile_pad
         self.pad_img: Optional[Tuple[int, int]] = pad_img
-        self.model_dir: Optional[str] = model_dir
+        self.model_dir: Optional[Union[Path, str]] = model_dir
         self.gh_proxy: Optional[str] = gh_proxy
 
         # post-hook: edit parameters here if needed

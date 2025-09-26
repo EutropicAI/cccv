@@ -2,7 +2,7 @@ import hashlib
 import os
 import sys
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 from tenacity import retry, stop_after_attempt, stop_after_delay, wait_random
 from torch.hub import download_url_to_file
@@ -13,12 +13,28 @@ if getattr(sys, "frozen", False):
     # frozen
     _IS_FROZEN_ = True
     CACHE_PATH = Path(sys.executable).parent.absolute() / "cache_models"
-    if not CACHE_PATH.exists():
-        os.makedirs(CACHE_PATH)
 else:
     # unfrozen
     _IS_FROZEN_ = False
-    CACHE_PATH = Path(__file__).resolve().parent.absolute()
+    CACHE_PATH = Path(__file__).resolve().parent.parent.absolute() / "cache_models"
+
+
+CCCV_CACHE_MODEL_DIR = os.environ.get("CCCV_CACHE_MODEL_DIR", str(CACHE_PATH))
+
+CCCV_REMOTE_MODEL_ZOO = os.environ.get(
+    "CCCV_REMOTE_MODEL_ZOO", "https://github.com/EutropicAI/cccv/releases/download/model_zoo/"
+)
+
+
+def get_cache_dir(model_dir: Optional[Union[Path, str]] = None) -> Path:
+    if model_dir is None or str(model_dir) == "":
+        model_dir = str(CCCV_CACHE_MODEL_DIR)
+        print(
+            f"[CCCV] Using default cache model path {model_dir}, override it by setting environment variable CCCV_CACHE_MODEL_DIR"
+        )
+    if not os.path.exists(model_dir):
+        os.makedirs(model_dir)
+    return Path(model_dir)
 
 
 def get_file_sha256(file_path: str, blocksize: int = 1 << 20) -> str:
@@ -36,7 +52,7 @@ def load_file_from_url(
     config: BaseConfig,
     force_download: bool = False,
     progress: bool = True,
-    model_dir: Optional[str] = None,
+    model_dir: Optional[Union[Path, str]] = None,
     gh_proxy: Optional[str] = None,
     **kwargs: Any,
 ) -> str:
@@ -52,29 +68,19 @@ def load_file_from_url(
     :param gh_proxy: The proxy for downloading from github release. Example: https://github.abskoop.workers.dev/
     :return:
     """
-
-    CCCV_REMOTE_MODEL_ZOO = os.environ.get(
-        "CCCV_REMOTE_MODEL_ZOO", "https://github.com/EutropicAI/cccv/releases/download/model_zoo/"
-    )
-    CCCV_CACHE_MODEL_DIR = os.environ.get("CCCV_CACHE_MODEL_DIR", str(CACHE_PATH))
-
-    if model_dir is None:
-        model_dir = str(CCCV_CACHE_MODEL_DIR)
-        print(
-            f"[CCCV] Using default cache model path {model_dir}, override it by setting environment variable CCCV_CACHE_MODEL_DIR"
-        )
-
-    cached_file_path = os.path.abspath(os.path.join(model_dir, config.name))
+    model_dir = get_cache_dir(model_dir)
+    cached_file_path = str(model_dir / config.name)
 
     if config.url is not None:
         _url: str = str(config.url)
     else:
+        remote_zoo = CCCV_REMOTE_MODEL_ZOO
         print(
-            f"[CCCV] Fetching models from {CCCV_REMOTE_MODEL_ZOO}, override it by setting environment variable CCCV_REMOTE_MODEL_ZOO"
+            f"[CCCV] Fetching models from {remote_zoo}, override it by setting environment variable CCCV_REMOTE_MODEL_ZOO"
         )
-        if not CCCV_REMOTE_MODEL_ZOO.endswith("/"):
-            CCCV_REMOTE_MODEL_ZOO += "/"
-        _url = CCCV_REMOTE_MODEL_ZOO + config.name
+        if not remote_zoo.endswith("/"):
+            remote_zoo += "/"
+        _url = remote_zoo + config.name
 
     _gh_proxy = gh_proxy
     if _gh_proxy is not None and _url.startswith("https://github.com"):
@@ -109,7 +115,7 @@ def load_file_from_url(
 
 if __name__ == "__main__":
     # get all model files sha256
-    for root, _, files in os.walk(CACHE_PATH):
+    for root, _, files in os.walk(get_cache_dir()):
         for file in files:
             if not file.endswith(".pth") and not file.endswith(".pt"):
                 continue
