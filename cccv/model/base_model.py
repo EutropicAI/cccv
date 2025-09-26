@@ -114,7 +114,7 @@ class CCBaseModel(BaseModelInterface):
                     config=cfg, force_download=False, model_dir=self.model_dir, gh_proxy=self.gh_proxy
                 )
             except Exception as e:
-                print(f"[CCCV] Error: {e}, try force download the model...")
+                warnings.warn(f"[CCCV] Error: {e}, try force download the model...", stacklevel=2)
                 state_dict_path = load_file_from_url(
                     config=cfg, force_download=True, model_dir=self.model_dir, gh_proxy=self.gh_proxy
                 )

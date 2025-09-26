@@ -376,7 +376,7 @@ class UpCunet2x(nn.Module):
             t2 = tile_mode * 2
             crop_size = (((h0 - 1) // t2 * t2 + t2) // tile_mode, ((w0 - 1) // t2 * t2 + t2) // tile_mode)
         else:
-            print("tile_mode config error")
+            print("[CCCV] tile_mode config error")
             os._exit(233)
 
         ph = ((h0 - 1) // crop_size[0] + 1) * crop_size[0]
@@ -526,7 +526,7 @@ class UpCunet2x(nn.Module):
             t2 = tile_mode * 2
             crop_size = (((h0 - 1) // t2 * t2 + t2) // tile_mode, ((w0 - 1) // t2 * t2 + t2) // tile_mode)
         else:
-            print("tile_mode config error")
+            print("[CCCV] tile_mode config error")
             os._exit(233)
         ph = ((h0 - 1) // crop_size[0] + 1) * crop_size[0]
         pw = ((w0 - 1) // crop_size[1] + 1) * crop_size[1]
@@ -767,7 +767,7 @@ class UpCunet3x(nn.Module):
             t4 = tile_mode * 4
             crop_size = (((h0 - 1) // t4 * t4 + t4) // tile_mode, ((w0 - 1) // t4 * t4 + t4) // tile_mode)
         else:
-            print("tile_mode config error")
+            print("[CCCV] tile_mode config error")
             os._exit(233)
         ph = ((h0 - 1) // crop_size[0] + 1) * crop_size[0]
         pw = ((w0 - 1) // crop_size[1] + 1) * crop_size[1]
@@ -916,7 +916,7 @@ class UpCunet3x(nn.Module):
             t4 = tile_mode * 4
             crop_size = (((h0 - 1) // t4 * t4 + t4) // tile_mode, ((w0 - 1) // t4 * t4 + t4) // tile_mode)
         else:
-            print("tile_mode config error")
+            print("[CCCV] tile_mode config error")
             os._exit(233)
         ph = ((h0 - 1) // crop_size[0] + 1) * crop_size[0]
         pw = ((w0 - 1) // crop_size[1] + 1) * crop_size[1]
@@ -1162,7 +1162,7 @@ class UpCunet4x(nn.Module):
             t2 = tile_mode * 2
             crop_size = (((h0 - 1) // t2 * t2 + t2) // tile_mode, ((w0 - 1) // t2 * t2 + t2) // tile_mode)
         else:
-            print("tile_mode config error")
+            print("[CCCV] tile_mode config error")
             os._exit(233)
         ph = ((h0 - 1) // crop_size[0] + 1) * crop_size[0]
         pw = ((w0 - 1) // crop_size[1] + 1) * crop_size[1]
@@ -1323,7 +1323,7 @@ class UpCunet4x(nn.Module):
             t2 = tile_mode * 2
             crop_size = (((h0 - 1) // t2 * t2 + t2) // tile_mode, ((w0 - 1) // t2 * t2 + t2) // tile_mode)  # 5.6G
         else:
-            print("tile_mode config error")
+            print("[CCCV] tile_mode config error")
             os._exit(233)
         ph = ((h0 - 1) // crop_size[0] + 1) * crop_size[0]
         pw = ((w0 - 1) // crop_size[1] + 1) * crop_size[1]

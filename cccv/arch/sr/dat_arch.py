@@ -365,7 +365,7 @@ class Spatial_Attention(nn.Module):
         elif idx == 1:
             W_sp, H_sp = self.split_size[0], self.split_size[1]
         else:
-            print("ERROR MODE", idx)
+            print("[CCCV] ERROR MODE", idx)
             exit(0)
         self.H_sp = H_sp
         self.W_sp = W_sp

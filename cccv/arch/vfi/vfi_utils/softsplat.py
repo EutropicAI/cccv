@@ -61,7 +61,7 @@ def cuda_kernel(strFunction: str, strKernel: str, objVariables: typing.Dict):
             strKey += str(objValue.stride())
 
         elif True:
-            print(strVariable, type(objValue))
+            print(f"[CCCV] {strVariable}, {type(objValue)}")
 
         # end
     # end
@@ -106,10 +106,10 @@ def cuda_kernel(strFunction: str, strKernel: str, objVariables: typing.Dict):
                 strKernel = strKernel.replace("{{type}}", "long")
 
             elif isinstance(objValue, torch.Tensor):
-                print(strVariable, objValue.dtype)
+                print(f"[CCCV] {strVariable}, {objValue.dtype}")
 
             elif True:
-                print(strVariable, type(objValue))
+                print(f"[CCCV] {strVariable}, {type(objValue)}")
 
             # end
         # end
