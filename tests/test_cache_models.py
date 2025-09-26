@@ -1,5 +1,5 @@
 from cccv import CONFIG_REGISTRY, ConfigType
-from cccv.cache_models import load_file_from_url
+from cccv.util.remote import load_file_from_url
 
 
 def test_cache_models() -> None:
