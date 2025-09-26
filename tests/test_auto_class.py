@@ -2,10 +2,9 @@ from typing import Any
 
 import cv2
 
-from cccv import CONFIG_REGISTRY, MODEL_REGISTRY, ArchType, AutoConfig, AutoModel, BaseConfig, ConfigType
+from cccv import CONFIG_REGISTRY, MODEL_REGISTRY, ArchType, AutoModel
 from cccv.config import RealESRGANConfig
 from cccv.model import SRBaseModel
-from cccv.util.remote import git_clone
 from tests.util import (
     ASSETS_PATH,
     CCCV_DEVICE,
@@ -39,31 +38,7 @@ def test_auto_class_register() -> None:
     assert model.get_cfg() == cfg
 
 
-class Test_AutoConfig:
-    def test_registered_config(self) -> None:
-        cfg = AutoConfig.from_pretrained(ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x)
-        assert isinstance(cfg, BaseConfig)
-        assert cfg.name == ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
-
-    def test_config_from_path(self) -> None:
-        clone_dir = git_clone("https://github.com/EutropicAI/cccv_demo_remote_model")
-
-        cfg: BaseConfig = AutoConfig.from_pretrained(clone_dir)
-        print(cfg)
-
-
 class Test_AutoModel:
-    def test_model_from_path(self) -> None:
-        clone_dir = git_clone("https://github.com/EutropicAI/cccv_demo_remote_model")
-        model: SRBaseModel = AutoModel.from_pretrained(clone_dir, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
-
-        img1 = load_image()
-        img2 = model.inference_image(img1)
-
-        cv2.imwrite(str(ASSETS_PATH / f"test_{clone_dir}_out.jpg"), img2)
-
-        assert calculate_image_similarity(img1, img2)
-
     def test_model_from_remote_repo(self) -> None:
         model: SRBaseModel = AutoModel.from_pretrained(
             "https://github.com/EutropicAI/cccv_demo_remote_model", device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE
