@@ -71,7 +71,7 @@ class AutoConfig:
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
 
-        if "path" not in config_dict or config_dict["path"] is None:
+        if "path" not in config_dict or config_dict["path"] is None or config_dict["path"] == "":
             # add the path to the config_dict
             config_dict["path"] = str(dir_path / config_dict["name"])
 
