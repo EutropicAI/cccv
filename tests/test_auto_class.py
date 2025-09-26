@@ -48,6 +48,7 @@ class Test_AutoConfig:
 
     def test_config_from_path(self) -> None:
         clone_dir = git_clone("https://github.com/EutropicAI/cccv_demo_remote_model")
+
         cfg: BaseConfig = AutoConfig.from_pretrained(clone_dir)
         print(cfg)
         img1 = load_image()
