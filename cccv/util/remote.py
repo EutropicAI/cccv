@@ -101,7 +101,7 @@ def load_file_from_url(
             try:
                 download_url_to_file(url=_url, dst=str(cached_file_path), hash_prefix=None, progress=progress)
             except Exception as e:
-                print(f"[CCCV] Download failed: {e}, retrying...")
+                warnings.warn(f"[CCCV] Download failed: {e}, retrying...", stacklevel=2)
                 raise e
 
         _download()

@@ -1,4 +1,6 @@
 # type: ignore
+import warnings
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -43,7 +45,7 @@ class IFNet(nn.Module):
                     torch.cat((img0[:, :3], img1[:, :3], f0, f1, timestep), 1), None, scale=scale_list[i]
                 )
                 if ensemble:
-                    print("warning: ensemble is not supported since RIFEv4.21")
+                    warnings.warn("[CCCV] ensemble is not supported since RIFEv4.21", stacklevel=2)
             else:
                 wf0 = warp(f0, flow[:, :2])
                 wf1 = warp(f1, flow[:, 2:4])
@@ -53,7 +55,7 @@ class IFNet(nn.Module):
                     scale=scale_list[i],
                 )
                 if ensemble:
-                    print("warning: ensemble is not supported since RIFEv4.21")
+                    warnings.warn("[CCCV] ensemble is not supported since RIFEv4.21", stacklevel=2)
                 else:
                     mask = m0
                 flow = flow + fd
@@ -65,7 +67,7 @@ class IFNet(nn.Module):
         mask = torch.sigmoid(mask)
         merged[4] = warped_img0 * mask + warped_img1 * (1 - mask)
         if not fastmode:
-            print("contextnet is removed")
+            warnings.warn("[CCCV] contextnet is removed", stacklevel=2)
             """
             c0 = self.contextnet(img0, flow[:, :2])
             c1 = self.contextnet(img1, flow[:, 2:4])
