@@ -15,7 +15,7 @@ build:
 
 .PHONY: vs
 vs:
-	rm -f encoded.mkv
+	rm -f encoded.mp4
 	vspipe -c y4m example/sr_vs.py - | ffmpeg -i - -vcodec libx264 encoded.mp4
 
 .PHONY: dev
