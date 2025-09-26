@@ -68,12 +68,15 @@ class AutoConfig:
                 )
 
         # auto import all .py files in the directory to register the arch, model and config
-        for py_file in dir_path.glob("*.py"):
-            spec = importlib.util.spec_from_file_location(py_file.stem, py_file)
-            if spec is None or spec.loader is None:
-                continue
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
+        try:
+            for py_file in dir_path.glob("*.py"):
+                spec = importlib.util.spec_from_file_location(py_file.stem, py_file)
+                if spec is None or spec.loader is None:
+                    continue
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+        except Exception as e:
+            raise ImportError(f"[CCCV] failed register model from {dir_path}, error: {e}, please check your .py files")
 
         if "path" not in config_dict or config_dict["path"] is None or config_dict["path"] == "":
             # add the path to the config_dict
