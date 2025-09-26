@@ -86,7 +86,6 @@ class AutoModel:
         :param gh_proxy: The proxy for downloading from github release. Example: https://github.abskoop.workers.dev/
         :return:
         """
-
         model = MODEL_REGISTRY.get(config.model)
         model = model(
             config=config,
