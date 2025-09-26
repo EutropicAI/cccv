@@ -39,7 +39,7 @@ cv2.imwrite("test_out.jpg", img)
 
 #### Load a custom model from remote repository or local path
 
-a simple example to use [remote repository](https://github.com/EutropicAI/cccv_demo_remote_model), auto register then load
+a simple example to use [remote repository](https://github.com/EutropicAI/cccv_demo_remote_model) or local path, auto register the model then load
 
 ```python
 import cv2
