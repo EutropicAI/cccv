@@ -12,6 +12,7 @@ class AutoConfig:
     @staticmethod
     def from_pretrained(
         pretrained_model_name_or_path: Union[ConfigType, str, Path],
+        *,
         model_dir: Optional[Union[Path, str]] = None,
         **kwargs: Any,
     ) -> Any:

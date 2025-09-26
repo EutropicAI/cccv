@@ -40,7 +40,7 @@ class AutoModel:
         :param gh_proxy: The proxy for downloading from github release. Example: https://github.abskoop.workers.dev/
         :return:
         """
-        config = AutoConfig.from_pretrained(pretrained_model_name_or_path, **kwargs)
+        config = AutoConfig.from_pretrained(pretrained_model_name_or_path, model_dir=model_dir, **kwargs)
 
         return AutoModel.from_config(
             config=config,
