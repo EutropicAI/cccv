@@ -1,4 +1,5 @@
 import sys
+import warnings
 from inspect import signature
 from pathlib import Path
 from typing import Any, Optional, Tuple, Union
@@ -73,7 +74,7 @@ class CCBaseModel(BaseModelInterface):
             try:
                 self.model = self.model.half()
             except Exception as e:
-                print(f"[CCCV] Warning: {e}. \nfp16 is not supported on this model, fallback to fp32.")
+                warnings.warn(f"[CCCV] {e}. fp16 is not supported on this model, fallback to fp32.", stacklevel=2)
                 self.fp16 = False
                 self.model = self.load_model()
 
@@ -87,7 +88,7 @@ class CCBaseModel(BaseModelInterface):
                         self.compile_backend = "inductor"
                 self.model = torch.compile(self.model, backend=self.compile_backend)
             except Exception as e:
-                print(f"[CCCV] Error: {e}, compile is not supported on this model.")
+                warnings.warn(f"[CCCV] {e}, compile is not supported on this model.", stacklevel=2)
 
     def post_init_hook(self) -> None:
         """
