@@ -1,5 +1,6 @@
 import hashlib
 import os
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any, Optional, Union
@@ -37,7 +38,7 @@ def get_cache_dir(model_dir: Optional[Union[Path, str]] = None) -> Path:
     return Path(model_dir)
 
 
-def get_file_sha256(file_path: str, blocksize: int = 1 << 20) -> str:
+def get_file_sha256(file_path: Union[Path, str], blocksize: int = 1 << 20) -> str:
     sha256 = hashlib.sha256()
     with open(file_path, "rb") as f:
         while True:
@@ -55,7 +56,7 @@ def load_file_from_url(
     model_dir: Optional[Union[Path, str]] = None,
     gh_proxy: Optional[str] = None,
     **kwargs: Any,
-) -> str:
+) -> Path:
     """
     Load file form http url, will download models if necessary.
 
@@ -69,7 +70,7 @@ def load_file_from_url(
     :return:
     """
     model_dir = get_cache_dir(model_dir)
-    cached_file_path = str(model_dir / config.name)
+    cached_file_path = model_dir / config.name
 
     if config.url is not None:
         _url: str = str(config.url)
@@ -88,7 +89,7 @@ def load_file_from_url(
             _gh_proxy += "/"
         _url = _gh_proxy + _url
 
-    if not os.path.exists(cached_file_path) or force_download:
+    if not cached_file_path.exists() or force_download:
         if _gh_proxy is not None:
             print(f"[CCCV] Using github proxy: {_gh_proxy}")
         print(f"[CCCV] Downloading: {_url} to {cached_file_path}\n")
@@ -96,7 +97,7 @@ def load_file_from_url(
         @retry(wait=wait_random(min=3, max=5), stop=stop_after_delay(10) | stop_after_attempt(30))
         def _download() -> None:
             try:
-                download_url_to_file(url=_url, dst=cached_file_path, hash_prefix=None, progress=progress)
+                download_url_to_file(url=_url, dst=str(cached_file_path), hash_prefix=None, progress=progress)
             except Exception as e:
                 print(f"[CCCV] Download failed: {e}, retrying...")
                 raise e
@@ -111,6 +112,45 @@ def load_file_from_url(
             )
 
     return cached_file_path
+
+
+def git_clone(git_url: str, model_dir: Optional[Union[Path, str]] = None, **kwargs: Any) -> Path:
+    """
+    Clone or update a git repository. We suggest use HuggingFace repo instead of GitHub repo for larger models.
+
+    :param git_url: GitHub repository URL
+    :param model_dir: Directory to clone into
+    :param **kwargs: Additional git options (branch, commit_hash, etc.)
+    :return: Path to the cloned repository
+    """
+    model_dir = get_cache_dir(model_dir)
+    # get repo name from url
+    repo_name = git_url.split("/")[-1].replace(".git", "")
+    clone_dir = model_dir / repo_name
+
+    if clone_dir.exists() and (clone_dir / ".git").exists():
+        print(f"[CCCV] Repository exists, updating: {clone_dir}")
+        subprocess.run(["git", "-C", str(clone_dir), "pull"], check=True)
+
+        # if branch or commit_hash is specified, checkout to that
+        if "branch" in kwargs:
+            subprocess.run(["git", "-C", str(clone_dir), "checkout", kwargs["branch"]], check=True)
+        if "commit_hash" in kwargs:
+            subprocess.run(["git", "-C", str(clone_dir), "reset", "--hard", kwargs["commit_hash"]], check=True)
+    else:
+        # clone the repo if not exists
+        print(f"[CCCV] Cloning repository: {git_url} -> {clone_dir}")
+        command = ["git", "clone", git_url, str(clone_dir)]
+
+        if "branch" in kwargs:
+            command.extend(["--branch", kwargs["branch"]])
+
+        subprocess.run(command, check=True)
+
+        if "commit_hash" in kwargs:
+            subprocess.run(["git", "-C", str(clone_dir), "reset", "--hard", kwargs["commit_hash"]], check=True)
+
+    return clone_dir
 
 
 if __name__ == "__main__":

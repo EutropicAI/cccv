@@ -1,5 +1,5 @@
 from cccv import CONFIG_REGISTRY, ConfigType
-from cccv.util.remote import load_file_from_url
+from cccv.util.remote import get_cache_dir, git_clone, load_file_from_url
 
 
 def test_cache_models() -> None:
@@ -17,3 +17,8 @@ def test_cache_models_with_gh_proxy() -> None:
         force_download=True,
         gh_proxy="https://github.abskoop.workers.dev",
     )
+
+
+def test_git_clone() -> None:
+    clone_dir = git_clone("https://github.com/EutropicAI/cccv_demo_remote_model")
+    assert clone_dir == get_cache_dir() / "cccv_demo_remote_model"

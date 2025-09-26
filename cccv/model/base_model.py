@@ -106,7 +106,7 @@ class CCBaseModel(BaseModelInterface):
         cfg: BaseConfig = self.config
 
         if cfg.path is not None:
-            state_dict_path = str(cfg.path)
+            state_dict_path = cfg.path
         else:
             try:
                 state_dict_path = load_file_from_url(

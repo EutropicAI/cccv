@@ -5,6 +5,7 @@ import cv2
 from cccv import CONFIG_REGISTRY, MODEL_REGISTRY, ArchType, AutoConfig, AutoModel, BaseConfig, ConfigType
 from cccv.config import RealESRGANConfig
 from cccv.model import SRBaseModel
+from cccv.util.remote import git_clone
 from tests.util import (
     ASSETS_PATH,
     CCCV_DEVICE,
@@ -46,7 +47,8 @@ class Test_AutoConfig:
         assert cfg.name == ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
 
     def test_config_from_path(self) -> None:
-        cfg: BaseConfig = AutoConfig.from_pretrained(r"C:\Users\haiqu\Desktop\cccv\cccv_demo_remote_model")
+        clone_dir = git_clone("https://github.com/EutropicAI/cccv_demo_remote_model")
+        cfg: BaseConfig = AutoConfig.from_pretrained(clone_dir)
         print(cfg)
         img1 = load_image()
         model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=CCCV_FP16, tile=CCCV_TILE)
