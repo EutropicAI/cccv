@@ -1,7 +1,5 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
-
-# pyre-strict
-# pyre-ignore-all-errors[2,3]
+import warnings
 from typing import Any, Dict, Iterable, Iterator, Optional, Tuple
 
 
@@ -41,7 +39,11 @@ class Registry(Iterable[Tuple[str, Any]]):
 
     def _do_register(self, name: str, obj: Any) -> None:
         if name in self._obj_map:
-            raise KeyError(f"[CCCV] An object named '{name}' was already registered in '{self._name}' registry!")
+            warnings.warn(
+                f"[CCCV] An object named '{name}' was already registered in '{self._name}' registry! We will NOT overwrite the existing one.",
+                UserWarning,
+                stacklevel=2,
+            )
         else:
             self._obj_map[name] = obj
 
