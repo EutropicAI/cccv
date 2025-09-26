@@ -1,11 +1,15 @@
+import pytest
+
 from cccv import CONFIG_REGISTRY, ConfigType
 from cccv.util.remote import get_cache_dir, git_clone, load_file_from_url
+from tests.util import CI_ENV
 
 
 def test_cache_models() -> None:
     load_file_from_url(CONFIG_REGISTRY.get(ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x))
 
 
+@pytest.mark.skipif(CI_ENV, reason="Skip test on CI environment to save the provider's bandwidth")
 def test_cache_models_with_gh_proxy() -> None:
     load_file_from_url(
         config=CONFIG_REGISTRY.get(ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x),
