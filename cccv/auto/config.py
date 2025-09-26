@@ -60,7 +60,9 @@ class AutoConfig:
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
 
-        config_dict["path"] = str(dir_path / config_dict["name"])
+        if "path" not in config_dict or config_dict["path"] is None:
+            # add the path to the config_dict
+            config_dict["path"] = str(dir_path / config_dict["name"])
 
         # convert config_dict to pydantic model
         cfg = AutoBaseConfig.model_validate(config_dict)
