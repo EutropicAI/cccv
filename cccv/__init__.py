@@ -26,6 +26,6 @@ __version__ = "0.0.2"
 
 from cccv.arch import ARCH_REGISTRY
 from cccv.auto import AutoConfig, AutoModel
-from cccv.config import CONFIG_REGISTRY, BaseConfig, SRBaseConfig, VFIBaseConfig, VSRBaseConfig
+from cccv.config import CONFIG_REGISTRY, AutoBaseConfig, BaseConfig, SRBaseConfig, VFIBaseConfig, VSRBaseConfig
 from cccv.model import MODEL_REGISTRY, AuxiliaryBaseModel, CCBaseModel, SRBaseModel, VFIBaseModel, VSRBaseModel
 from cccv.type import ArchType, BaseModelInterface, ConfigType, ModelType

@@ -1,14 +1,16 @@
 import sys
+import warnings
 from inspect import signature
-from typing import Any, Optional, Tuple
+from pathlib import Path
+from typing import Any, Optional, Tuple, Union
 
 import torch
 
 from cccv.arch import ARCH_REGISTRY
-from cccv.cache_models import load_file_from_url
 from cccv.config import BaseConfig
 from cccv.type import BaseModelInterface
 from cccv.util.device import DEFAULT_DEVICE
+from cccv.util.remote import load_file_from_url
 
 
 class CCBaseModel(BaseModelInterface):
@@ -37,7 +39,7 @@ class CCBaseModel(BaseModelInterface):
         tile: Optional[Tuple[int, int]] = (128, 128),
         tile_pad: int = 8,
         pad_img: Optional[Tuple[int, int]] = None,
-        model_dir: Optional[str] = None,
+        model_dir: Optional[Union[Path, str]] = None,
         gh_proxy: Optional[str] = None,
         **kwargs: Any,
     ) -> None:
@@ -56,7 +58,7 @@ class CCBaseModel(BaseModelInterface):
         self.tile: Optional[Tuple[int, int]] = tile
         self.tile_pad: int = tile_pad
         self.pad_img: Optional[Tuple[int, int]] = pad_img
-        self.model_dir: Optional[str] = model_dir
+        self.model_dir: Optional[Union[Path, str]] = model_dir
         self.gh_proxy: Optional[str] = gh_proxy
 
         # post-hook: edit parameters here if needed
@@ -72,7 +74,7 @@ class CCBaseModel(BaseModelInterface):
             try:
                 self.model = self.model.half()
             except Exception as e:
-                print(f"[CCCV] Warning: {e}. \nfp16 is not supported on this model, fallback to fp32.")
+                warnings.warn(f"[CCCV] {e}. fp16 is not supported on this model, fallback to fp32.", stacklevel=2)
                 self.fp16 = False
                 self.model = self.load_model()
 
@@ -86,7 +88,7 @@ class CCBaseModel(BaseModelInterface):
                         self.compile_backend = "inductor"
                 self.model = torch.compile(self.model, backend=self.compile_backend)
             except Exception as e:
-                print(f"[CCCV] Error: {e}, compile is not supported on this model.")
+                warnings.warn(f"[CCCV] {e}, compile is not supported on this model.", stacklevel=2)
 
     def post_init_hook(self) -> None:
         """
@@ -105,14 +107,14 @@ class CCBaseModel(BaseModelInterface):
         cfg: BaseConfig = self.config
 
         if cfg.path is not None:
-            state_dict_path = str(cfg.path)
+            state_dict_path = cfg.path
         else:
             try:
                 state_dict_path = load_file_from_url(
                     config=cfg, force_download=False, model_dir=self.model_dir, gh_proxy=self.gh_proxy
                 )
             except Exception as e:
-                print(f"[CCCV] Error: {e}, try force download the model...")
+                warnings.warn(f"[CCCV] Error: {e}, try force download the model...", stacklevel=2)
                 state_dict_path = load_file_from_url(
                     config=cfg, force_download=True, model_dir=self.model_dir, gh_proxy=self.gh_proxy
                 )

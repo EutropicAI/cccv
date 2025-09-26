@@ -1,8 +1,10 @@
+from pathlib import Path
 from typing import Any, Optional, Tuple, Union
 
 import torch
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.auto.config import AutoConfig
+from cccv.config import BaseConfig
 from cccv.model import MODEL_REGISTRY
 from cccv.type import ConfigType
 
@@ -10,7 +12,8 @@ from cccv.type import ConfigType
 class AutoModel:
     @staticmethod
     def from_pretrained(
-        pretrained_model_name: Union[ConfigType, str],
+        pretrained_model_name_or_path: Union[ConfigType, str, Path],
+        *,
         device: Optional[torch.device] = None,
         fp16: bool = True,
         compile: bool = False,
@@ -18,14 +21,14 @@ class AutoModel:
         tile: Optional[Tuple[int, int]] = (128, 128),
         tile_pad: int = 8,
         pad_img: Optional[Tuple[int, int]] = None,
-        model_dir: Optional[str] = None,
+        model_dir: Optional[Union[Path, str]] = None,
         gh_proxy: Optional[str] = None,
         **kwargs: Any,
     ) -> Any:
         """
-        Get a model instance from a pretrained model name.
+        Get a model instance from a registered config name or a local path or a git url.
 
-        :param pretrained_model_name: The name of the pretrained model. It should be registered in CONFIG_REGISTRY.
+        :param pretrained_model_name_or_path:
         :param device: inference device
         :param fp16: use fp16 precision or not
         :param compile: use torch.compile or not
@@ -37,8 +40,8 @@ class AutoModel:
         :param gh_proxy: The proxy for downloading from github release. Example: https://github.abskoop.workers.dev/
         :return:
         """
+        config = AutoConfig.from_pretrained(pretrained_model_name_or_path, model_dir=model_dir, **kwargs)
 
-        config = CONFIG_REGISTRY.get(pretrained_model_name)
         return AutoModel.from_config(
             config=config,
             device=device,
@@ -56,6 +59,7 @@ class AutoModel:
     @staticmethod
     def from_config(
         config: Union[BaseConfig, Any],
+        *,
         device: Optional[torch.device] = None,
         fp16: bool = True,
         compile: bool = False,
@@ -63,14 +67,14 @@ class AutoModel:
         tile: Optional[Tuple[int, int]] = (128, 128),
         tile_pad: int = 8,
         pad_img: Optional[Tuple[int, int]] = None,
-        model_dir: Optional[str] = None,
+        model_dir: Optional[Union[Path, str]] = None,
         gh_proxy: Optional[str] = None,
         **kwargs: Any,
     ) -> Any:
         """
         Get a model instance from a config.
 
-        :param config: The config object. It should be registered in CONFIG_REGISTRY.
+        :param config: The config object. We suggest use cccv.BaseConfig or its subclass.
         :param device: inference device
         :param fp16: use fp16 precision or not
         :param compile: use torch.compile or not
@@ -99,29 +103,3 @@ class AutoModel:
         )
 
         return model
-
-    @staticmethod
-    def register(obj: Optional[Any] = None, name: Optional[str] = None) -> Any:
-        """
-        Register the given object under the name `obj.__name__` or the given name.
-        Can be used as either a decorator or not. See docstring of this class for usage.
-
-        :param obj: The object to register. If None, this is being used as a decorator.
-        :param name: The name to register the object under. If None, use `obj.__name__`.
-        :return:
-        """
-        if obj is None:
-            # used as a decorator
-            def deco(func_or_class: Any) -> Any:
-                _name = name
-                if _name is None:
-                    _name = func_or_class.__name__
-                MODEL_REGISTRY.register(obj=func_or_class, name=_name)
-                return func_or_class
-
-            return deco
-
-        # used as a function call
-        if name is None:
-            name = obj.__name__
-        MODEL_REGISTRY.register(obj=obj, name=name)

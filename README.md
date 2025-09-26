@@ -20,7 +20,7 @@ pip install cccv
 
 ### Start
 
-#### cv2
+#### Load a registered model in cccv
 
 a simple example to use the SISR (Single Image Super-Resolution) model to process an image
 
@@ -35,6 +35,22 @@ model: SRBaseModel = AutoModel.from_pretrained(ConfigType.RealESRGAN_AnimeJaNai_
 img = cv2.imdecode(np.fromfile("test.jpg", dtype=np.uint8), cv2.IMREAD_COLOR)
 img = model.inference_image(img)
 cv2.imwrite("test_out.jpg", img)
+```
+
+#### Load a custom model from remote repository or local path
+
+a simple example to use [remote repository](https://github.com/EutropicAI/cccv_demo_remote_model) or local path, auto register the model then load
+
+```python
+import cv2
+import numpy as np
+
+from cccv import AutoModel, SRBaseModel
+
+# remote repo
+model: SRBaseModel = AutoModel.from_pretrained("https://github.com/EutropicAI/cccv_demo_remote_model")
+# local path
+model: SRBaseModel = AutoModel.from_pretrained("/path/to/cccv_demo_model")
 ```
 
 #### VapourSynth

@@ -1,6 +1,6 @@
 from typing import Optional, Union
 
-from pydantic import BaseModel, FilePath, HttpUrl
+from pydantic import BaseModel, ConfigDict, FilePath, HttpUrl
 
 from cccv.type.arch import ArchType
 from cccv.type.model import ModelType
@@ -13,6 +13,10 @@ class BaseConfig(BaseModel):
     hash: Optional[str] = None
     arch: Union[ArchType, str]
     model: Union[ModelType, str]
+
+
+class AutoBaseConfig(BaseConfig):
+    model_config = ConfigDict(extra="allow")
 
 
 class AuxiliaryBaseConfig(BaseConfig):
