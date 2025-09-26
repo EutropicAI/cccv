@@ -3,7 +3,7 @@ from cccv.util.registry import RegistryConfigInstance
 
 CONFIG_REGISTRY: RegistryConfigInstance = RegistryConfigInstance("CONFIG")
 
-from cccv.config.base_config import BaseConfig, SRBaseConfig, VSRBaseConfig, VFIBaseConfig
+from cccv.config.base_config import BaseConfig, SRBaseConfig, VSRBaseConfig, VFIBaseConfig, AutoBaseConfig
 
 # Auxiliary Network
 

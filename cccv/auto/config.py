@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from typing import Any, Union
 
-from cccv.config import CONFIG_REGISTRY, BaseConfig
+from cccv.config import CONFIG_REGISTRY, AutoBaseConfig
 from cccv.type import ConfigType
 
 
@@ -63,5 +63,5 @@ class AutoConfig:
         config_dict["path"] = str(dir_path / config_dict["name"])
 
         # convert config_dict to pydantic model
-        cfg = BaseConfig.model_validate(config_dict)
+        cfg = AutoBaseConfig.model_validate(config_dict)
         return cfg

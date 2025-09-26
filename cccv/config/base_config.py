@@ -7,14 +7,16 @@ from cccv.type.model import ModelType
 
 
 class BaseConfig(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
     name: str
     url: Optional[HttpUrl] = None
     path: Optional[FilePath] = None
     hash: Optional[str] = None
     arch: Union[ArchType, str]
     model: Union[ModelType, str]
+
+
+class AutoBaseConfig(BaseConfig):
+    model_config = ConfigDict(extra="allow")
 
 
 class AuxiliaryBaseConfig(BaseConfig):
