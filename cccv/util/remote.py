@@ -1,7 +1,9 @@
 import hashlib
 import os
+import shutil
 import subprocess
 import sys
+import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
@@ -123,6 +125,13 @@ def git_clone(git_url: str, model_dir: Optional[Union[Path, str]] = None, **kwar
     :param **kwargs: Additional git options (branch, commit_hash, etc.)
     :return: Path to the cloned repository
     """
+    if not shutil.which("git"):
+        warnings.warn(
+            "[CCCV] git is not installed or not in the system's PATH. "
+            "Please install git to use models from remote git repositories.",
+            stacklevel=2,
+        )
+
     model_dir = get_cache_dir(model_dir)
     # get repo name from url
     repo_name = git_url.split("/")[-1].replace(".git", "")

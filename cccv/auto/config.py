@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
@@ -24,8 +25,10 @@ class AutoConfig:
         :return:
         """
         if "pretrained_model_name" in kwargs:
-            print(
-                "[CCCV] warning: 'pretrained_model_name' is deprecated, please use 'pretrained_model_name_or_path' instead."
+            warnings.warn(
+                "[CCCV] 'pretrained_model_name' is deprecated, please use 'pretrained_model_name_or_path' instead.",
+                DeprecationWarning,
+                stacklevel=2,
             )
             pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
 
