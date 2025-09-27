@@ -1,6 +1,5 @@
 import importlib.util
 import json
-import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
@@ -24,14 +23,6 @@ class AutoConfig:
         :param model_dir: The path to cache the downloaded model configuration. Should be a full path. If None, use default cache path.
         :return:
         """
-        if "pretrained_model_name" in kwargs:
-            warnings.warn(
-                "[CCCV] 'pretrained_model_name' is deprecated, please use 'pretrained_model_name_or_path' instead.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-            pretrained_model_name_or_path = kwargs.pop("pretrained_model_name")
-
         # 1. check if it's a registered config name, early return if found
         if isinstance(pretrained_model_name_or_path, ConfigType):
             pretrained_model_name_or_path = pretrained_model_name_or_path.value
