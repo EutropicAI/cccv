@@ -11,6 +11,7 @@ from tests.util import (
     CCCV_DEVICE,
     CCCV_FP16,
     CCCV_TILE,
+    CI_ENV,
     calculate_image_similarity,
     compare_image_size,
     load_image,
@@ -41,6 +42,22 @@ def test_sr_fp16() -> None:
     img2 = model.inference_image(img1)
 
     cv2.imwrite(str(ASSETS_PATH / f"test_fp16_{k}_out.jpg"), img2)
+
+    assert calculate_image_similarity(img1, img2)
+    assert compare_image_size(img1, img2, cfg.scale)
+
+
+@pytest.mark.skipif(not CI_ENV, reason="Skip bf16 inference test outside CI")
+def test_sr_bf16() -> None:
+    img1 = load_image()
+    k = ConfigType.RealESRGAN_AnimeJaNai_HD_V3_Compact_2x
+
+    cfg: BaseConfig = AutoConfig.from_pretrained(k)
+    model: SRBaseModel = AutoModel.from_config(config=cfg, device=CCCV_DEVICE, fp16=False, bf16=True, tile=CCCV_TILE)
+
+    img2 = model.inference_image(img1)
+
+    cv2.imwrite(str(ASSETS_PATH / f"test_bf16_{k}_out.jpg"), img2)
 
     assert calculate_image_similarity(img1, img2)
     assert compare_image_size(img1, img2, cfg.scale)

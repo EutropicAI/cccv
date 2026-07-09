@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any, Dict, List, Optional, Tuple
 
 import cv2
 import numpy as np
@@ -16,6 +16,11 @@ from cccv.util.misc import de_resize, resize
 class DRBAModel(VFIBaseModel):
     def post_init_hook(self) -> None:
         self.load_state_dict_strict = False
+
+    def get_bf16_preflight_inputs(self) -> Optional[Tuple[Tuple[Any, ...], Dict[str, Any]]]:
+        height, width = self._get_bf16_preflight_image_size(multiple=32)
+        imgs = torch.zeros((1, 3, 3, height, width), device=self.device, dtype=self.half_dtype)
+        return (imgs, [-1, -0.5], [0], [0.5, 1], False, False, 1.0, None), {}
 
     def transform_state_dict(self, state_dict: Any) -> Any:
         def _convert(param: Any) -> Any:
@@ -86,15 +91,15 @@ class DRBAModel(VFIBaseModel):
 
         # b, n, c, h, w
         img_tensor_stack = torch.stack(new_img_list, dim=1)
-        if self.fp16:
-            img_tensor_stack = img_tensor_stack.half()
+        if self.fp16 or self.bf16:
+            img_tensor_stack = img_tensor_stack.to(self.half_dtype)
 
         results, _ = self.inference(img_tensor_stack, [-1, -0.5], [0], [0.5, 1], False, False, 1.0, None)
 
         results_list = []
         for i in range(results.shape[1]):
             img = results[0, i, :, :, :]
-            img = img.permute(1, 2, 0).cpu().numpy()
+            img = self._tensor_to_numpy(img.permute(1, 2, 0))
             img = (img * 255).clip(0, 255).astype("uint8")
             img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
             results_list.append(img)

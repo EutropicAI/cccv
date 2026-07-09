@@ -95,11 +95,13 @@ def test_create_window_3d() -> None:
 
 
 def test_ssim_matlab() -> None:
-    img1 = torch.randn(1, 3, 64, 64)
-    img2 = torch.randn(1, 3, 64, 64)
-    ssim_value = ssim_matlab(img1, img2)
-    assert isinstance(ssim_value, torch.Tensor)
-    assert 0.0 <= ssim_value.item() <= 1.0
+    img1 = torch.rand(1, 3, 64, 64)
+    identical_ssim = ssim_matlab(img1, img1.clone())
+    similar_ssim = ssim_matlab(img1, (img1 * 0.9 + 0.05).clamp(0, 1))
+
+    assert isinstance(identical_ssim, torch.Tensor)
+    assert bool(torch.isclose(identical_ssim, torch.tensor(1.0), atol=1e-4).item())
+    assert 0.0 <= similar_ssim.item() <= 1.0
 
 
 class Test_Check_Scene:

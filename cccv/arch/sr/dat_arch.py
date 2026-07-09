@@ -425,14 +425,14 @@ class Spatial_Attention(nn.Module):
                 self.H_sp * self.W_sp, self.H_sp * self.W_sp, -1
             )
             relative_position_bias = relative_position_bias.permute(2, 0, 1).contiguous()
-            attn = attn + relative_position_bias.unsqueeze(0)
+            attn = attn + relative_position_bias.unsqueeze(0).to(attn.dtype)
 
         N = attn.shape[3]
 
         # use mask for shift window
         if mask is not None:
             nW = mask.shape[0]
-            attn = attn.view(B, nW, self.num_heads, N, N) + mask.unsqueeze(1).unsqueeze(0)
+            attn = attn.view(B, nW, self.num_heads, N, N) + mask.unsqueeze(1).unsqueeze(0).to(attn.dtype)
             attn = attn.view(-1, self.num_heads, N, N)
 
         attn = nn.functional.softmax(attn, dim=-1, dtype=attn.dtype)
