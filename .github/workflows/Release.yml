@@ -12,7 +12,6 @@ permissions:
 
 jobs:
   pypi:
-    environment: pypi
     strategy:
       matrix:
         python-version: ["3.9"]
