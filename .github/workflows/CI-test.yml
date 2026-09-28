@@ -18,6 +18,10 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   CI:
     strategy:
@@ -67,8 +71,25 @@ jobs:
           make lint
           make test
 
-      - name: Codecov
+      - name: Save coverage report
         if: matrix.os-version == 'ubuntu-latest' && matrix.python-version == '3.9' && matrix.pytorch-version == '2.7.1'
-        uses: codecov/codecov-action@v5
+        uses: actions/upload-artifact@v4
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          name: coverage
+          path: coverage.xml
+          if-no-files-found: error
+
+  coverage:
+    needs: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage
+      - uses: codecov/codecov-action@v5
+        with:
+          use_oidc: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+          files: coverage.xml
